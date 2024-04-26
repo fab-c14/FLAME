@@ -3,13 +3,9 @@ import { useState } from 'react'
 // import viteLogo from '/vite.svg'
 // import './App.css'
 import 'tachyons';
+
 import ParticlesBg from 'particles-bg';
 function App() {
-  
-
-
-
-
 
   return (
     <>
@@ -26,8 +22,9 @@ function App() {
         <ParticlesBg bg={true} type={'fountain'} zIndex={'-1'} num={3}   />
 
         {/*  make sure put your components here for better experienced particles js */}
-        <h1 className='tc f-headline lh-solid  shadow-3 br4'>
+        <h1 className='tc f-headline lh-solid  shadow-3 br4 animated fadeIn a4 d2 reverse'>
           Foundation for Learning Assistance and Mangement Environment</h1>
+          
       </div>
 
       {/* <NavigationComponent/> */}
