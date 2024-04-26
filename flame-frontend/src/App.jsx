@@ -5,32 +5,9 @@ import { useState } from 'react'
 import 'tachyons';
 import ParticlesBg from 'particles-bg';
 function App() {
-  const particlesConfig = {
-    num: 5,
-    color: ["#ff0000", "#ff6600", "#ff9933"],
-    shape: "circle",
-    opacity: 0.8,
-    size: 100,
-    speed: 2,
-    zIndex: -1,
-    position: "none",
-    direction: "none",
-    random: true,
-    // straight: false,
-    outMode: "out",
-    bounce: false,
-    attract: { enable: true },
-    pauseOnBlur: true,
-    density: 20, // Increase or decrease the density of particles
-    lineLinked: { enable: true }, // Connect particles with lines
-    collisions: { enable: true }, // Enable particle collisions
-    move: { enable: true, gravity: { enable: true } }, // Particle movement settings
-    sizeAnimation: { enable: true, speed: 20, sync: false }, // Particle size animation
+  
 
-    polygon: { nb_sides: 5 }, // Number of sides for polygon shape
-    detectRetina: true, // Detect retina displays for high DPI
 
-};
 
 
 
@@ -46,10 +23,11 @@ function App() {
           zIndex: -1,
         }}
       >
-        <ParticlesBg bg={true} type={'custom'} zIndex={'-1'} num={20} config={particlesConfig}  />
+        <ParticlesBg bg={true} type={'fountain'} zIndex={'-1'} num={3}   />
 
         {/*  make sure put your components here for better experienced particles js */}
-        <h1 className='tc'>SKIbiid</h1>
+        <h1 className='tc f-headline lh-solid  shadow-3 br4'>
+          Foundation for Learning Assistance and Mangement Environment</h1>
       </div>
 
       {/* <NavigationComponent/> */}
