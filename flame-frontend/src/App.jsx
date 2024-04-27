@@ -6,6 +6,7 @@ import 'tachyons';
 
 import ParticlesBg from 'particles-bg';
 import Navbar from './components/Navbar/Navbar';
+import Login from './components/Login/Login/Login';
 function App() {
 
   return (
@@ -26,6 +27,7 @@ function App() {
       
           
           <Navbar/>
+          <Login/>
       </div>
 
       {/* <NavigationComponent/> */}

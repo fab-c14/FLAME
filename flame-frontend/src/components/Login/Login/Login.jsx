@@ -1,8 +1,8 @@
 import React from 'react'
-
+import './Login.css';
 const Login = () => {
   return (
-    <div>
+    <article className='card shadow-2'>
         <main class="pa4 black-80">
         <form class="measure center">
             <fieldset id="sign_up" class="ba b--transparent ph0 mh0">
@@ -26,7 +26,7 @@ const Login = () => {
             </div>
         </form>
         </main>
-    </div>
+    </article>
   )
 }
 
