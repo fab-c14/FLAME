@@ -19,7 +19,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1024,
     height: 1024,
-    title: "Chat desktop app demo"
+    title: "Flame 🔥"
   });
   mainWindow.loadURL(isDev ? 'https://5173-fabc14-flame-abd6lqo9nxj.ws-us110.gitpod.io/' : `file://${join(__dirname, '../build/index.html')}`);
   mainWindow.on('closed', function () {
