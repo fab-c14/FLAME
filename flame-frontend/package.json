@@ -12,7 +12,6 @@
     "preview": "vite preview",
     "electron-dev": "concurrently \"cross-env BROWSER=none npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
     "electron-pack": "electron-builder -c.extraMetadata.main=public/electron.js",
-
     "preelectron-pack": "vite build"
   },
   "dependencies": {

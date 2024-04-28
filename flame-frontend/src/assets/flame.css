@@ -1,0 +1,154 @@
+
+ @-webkit-keyframes animate-svg-stroke-1 {
+    0% {
+      stroke-dashoffset: 121.85978698730469px;
+      stroke-dasharray: 121.85978698730469px;
+    }
+  
+    100% {
+      stroke-dashoffset: 0;
+      stroke-dasharray: 121.85978698730469px;
+    }
+  }
+  
+  @keyframes animate-svg-stroke-1 {
+    0% {
+      stroke-dashoffset: 121.85978698730469px;
+      stroke-dasharray: 121.85978698730469px;
+    }
+  
+    100% {
+      stroke-dashoffset: 0;
+      stroke-dasharray: 121.85978698730469px;
+    }
+  }
+  
+  @-webkit-keyframes animate-svg-fill-1 {
+    0% {
+      fill: transparent;
+    }
+  
+    100% {
+      fill: rgb(126, 208, 236);
+    }
+  }
+  
+  @keyframes animate-svg-fill-1 {
+    0% {
+      fill: transparent;
+    }
+  
+    100% {
+      fill: rgb(126, 208, 236);
+    }
+  }
+  
+  .svg-elem-1 {
+    -webkit-animation: animate-svg-stroke-1 1s cubic-bezier(0.47, 0, 0.745, 0.715) 0s both,
+                         animate-svg-fill-1 0.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.8s both;
+            animation: animate-svg-stroke-1 1s cubic-bezier(0.47, 0, 0.745, 0.715) 0s both,
+                 animate-svg-fill-1 0.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.8s both;
+  }
+  
+  @-webkit-keyframes animate-svg-stroke-2 {
+    0% {
+      stroke-dashoffset: 170.06436157226562px;
+      stroke-dasharray: 170.06436157226562px;
+    }
+  
+    100% {
+      stroke-dashoffset: 0;
+      stroke-dasharray: 170.06436157226562px;
+    }
+  }
+  
+  @keyframes animate-svg-stroke-2 {
+    0% {
+      stroke-dashoffset: 170.06436157226562px;
+      stroke-dasharray: 170.06436157226562px;
+    }
+  
+    100% {
+      stroke-dashoffset: 0;
+      stroke-dasharray: 170.06436157226562px;
+    }
+  }
+  
+  @-webkit-keyframes animate-svg-fill-2 {
+    0% {
+      fill: transparent;
+    }
+  
+    100% {
+      fill: rgb(194, 67, 36);
+    }
+  }
+  
+  @keyframes animate-svg-fill-2 {
+    0% {
+      fill: transparent;
+    }
+  
+    100% {
+      fill: rgb(194, 67, 36);
+    }
+  }
+  
+  .svg-elem-2 {
+    -webkit-animation: animate-svg-stroke-2 1s cubic-bezier(0.47, 0, 0.745, 0.715) 0.12s both,
+                         animate-svg-fill-2 0.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.9s both;
+            animation: animate-svg-stroke-2 1s cubic-bezier(0.47, 0, 0.745, 0.715) 0.12s both,
+                 animate-svg-fill-2 0.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.9s both;
+  }
+  
+  @-webkit-keyframes animate-svg-stroke-3 {
+    0% {
+      stroke-dashoffset: 170.06436157226562px;
+      stroke-dasharray: 170.06436157226562px;
+    }
+  
+    100% {
+      stroke-dashoffset: 0;
+      stroke-dasharray: 170.06436157226562px;
+    }
+  }
+  
+  @keyframes animate-svg-stroke-3 {
+    0% {
+      stroke-dashoffset: 170.06436157226562px;
+      stroke-dasharray: 170.06436157226562px;
+    }
+  
+    100% {
+      stroke-dashoffset: 0;
+      stroke-dasharray: 170.06436157226562px;
+    }
+  }
+  
+  @-webkit-keyframes animate-svg-fill-3 {
+    0% {
+      fill: transparent;
+    }
+  
+    100% {
+      fill: rgb(194, 67, 36);
+    }
+  }
+  
+  @keyframes animate-svg-fill-3 {
+    0% {
+      fill: transparent;
+    }
+  
+    100% {
+      fill: rgb(194, 67, 36);
+    }
+  }
+  
+  .svg-elem-3 {
+    -webkit-animation: animate-svg-stroke-3 1s cubic-bezier(0.47, 0, 0.745, 0.715) 0.24s both,
+                         animate-svg-fill-3 0.7s cubic-bezier(0.47, 0, 0.745, 0.715) 1s both;
+            animation: animate-svg-stroke-3 1s cubic-bezier(0.47, 0, 0.745, 0.715) 0.24s both,
+                 animate-svg-fill-3 0.7s cubic-bezier(0.47, 0, 0.745, 0.715) 1s both;
+  }
+  

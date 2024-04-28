@@ -7,6 +7,8 @@ import 'tachyons';
 import ParticlesBg from 'particles-bg';
 import Navbar from './components/Navbar/Navbar';
 import Login from './components/Login/Login/Login';
+import Header from './components/Header/Header';
+import cursorAnimation from './assets/cursorAnimation';
 function App() {
 
   return (
@@ -24,10 +26,11 @@ function App() {
         <ParticlesBg bg={true} type={'fountain'} zIndex={'-1'} num={3}   />
 
         {/*  make sure put your components here for better experienced particles js */}
-      
-          
+                
           <Navbar/>
-          <Login/>
+          <Header />
+          <cursorAnimation />
+          
       </div>
 
       {/* <NavigationComponent/> */}
