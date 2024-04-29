@@ -1,0 +1,17 @@
+{
+  "name": "desktop",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "author": "fab-c",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^30.0.1",
+    "electron-is-dev": "^3.0.1"
+  }
+}
