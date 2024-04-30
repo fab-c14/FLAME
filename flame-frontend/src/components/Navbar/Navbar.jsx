@@ -2,11 +2,11 @@ import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 
 import logo from '../../assets/logo.svg';
-import { Flame } from '../../assets/Flame';
+
 
 const CustomNavbar = () => {
     return (
-        <Navbar  expand="lg"  className="py-3 black shadow-3 ma3 br2 bw3 b pa2">
+        <Navbar  expand="lg"  className="py-3 black shadow-3 ma3 br2 bw1 b pa2 ba b--white-80">
             <Navbar.Brand href="#" className="mr-auto ml4 ma2">
                 <div>
                     <img src={logo} alt="Logo" height="45"  className="d-inline-block align-top  br2 b--black" />

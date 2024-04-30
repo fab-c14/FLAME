@@ -4,7 +4,8 @@ import 'tachyons';
 import ParticlesBg from 'particles-bg';
 import Navbar from './components/Navbar/Navbar';
 import Header from './components/Header/Header';
-
+import About from './components/About/About';
+import './App.css'
 function App() {
 
   return (
@@ -19,12 +20,13 @@ function App() {
           zIndex: -1,
         }}
       >
-        <ParticlesBg bg={true} type={'fountain'} zIndex={'-1'} num={3}   />
+        <ParticlesBg bg={true} type={'fountain'} zIndex={'-1'} num={3} speed={0.1}  />
 
         {/*  make sure put your components here for better experienced particles js */}
                 
           <Navbar/>
           <Header />
+          <About />
           
          
           
