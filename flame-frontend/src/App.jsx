@@ -6,6 +6,7 @@ import Navbar from './components/Navbar/Navbar';
 import Header from './components/Header/Header';
 import About from './components/About/About';
 import './App.css'
+import Features from './components/Features/Features';
 function App() {
 
   return (
@@ -22,13 +23,15 @@ function App() {
 
         {/*  make sure put your components here for better experienced particles js */}
       </div>
-      <Navbar/>
+        <Navbar/>
           <Header />
           <About />
-           {/* <NavigationComponent/> */}
-      {/* <HomeComponent /> */}
-      {/* <FeturesComponent /> */}
-      {/* <FooterComponent /> */}
+          <Features />
+      {/* <NavigationComponent/> :✅ */} 
+      {/* <HomeComponent /> : ✅ */} 
+      {/* <FeturesComponent /> :✅ */} 
+      {/* <FooterComponent /> :✅*/}   
+      {/* Set up routes with react router and ... */}
 
       {/* Add On */}
 

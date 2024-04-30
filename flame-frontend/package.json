@@ -9,15 +9,16 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
-   
   },
   "dependencies": {
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "bootstrap": "^5.3.3",
     "electron-is-dev": "^3.0.1",
     "particles-bg": "^2.5.5",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
+    "react-icons": "^5.1.0",
     "react-toastify": "^10.0.5",
     "tachyons": "^4.12.0"
   },
