@@ -9,30 +9,23 @@ import './App.css'
 function App() {
 
   return (
-    <>
-
+    <div>
     <div
         style={{
           width: '100%',
           height: '100%',
-          position: 'fixed',
+          position:"fixed",
           backgroundSize: 'cover',
           zIndex: -1,
         }}
-      >
-        <ParticlesBg bg={true} type={'fountain'} zIndex={'-1'} num={3} speed={0.1}  />
+      ><ParticlesBg bg={true} type={'fountain'} zIndex={'-1'} num={3} speed={0.1}  />
 
         {/*  make sure put your components here for better experienced particles js */}
-                
-          <Navbar/>
+      </div>
+      <Navbar/>
           <Header />
           <About />
-          
-         
-          
-      </div>
-
-      {/* <NavigationComponent/> */}
+           {/* <NavigationComponent/> */}
       {/* <HomeComponent /> */}
       {/* <FeturesComponent /> */}
       {/* <FooterComponent /> */}
@@ -43,8 +36,13 @@ function App() {
        For now we need these components so to get started, let's start building these components 
       
       */}
+
+
+      </div>
+
+
    
-    </>
+
   )
 }
 

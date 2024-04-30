@@ -1,4 +1,4 @@
-/* 
+
  @-webkit-keyframes animate-svg-stroke-1 {
     0% {
       stroke-dashoffset: 121.85978698730469px;
@@ -151,4 +151,4 @@
             animation: animate-svg-stroke-3 1s cubic-bezier(0.47, 0, 0.745, 0.715) 0.24s both,
                  animate-svg-fill-3 0.7s cubic-bezier(0.47, 0, 0.745, 0.715) 1s both;
   }
-   */
+   
