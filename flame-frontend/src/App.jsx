@@ -1,14 +1,10 @@
 import { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-
 import 'tachyons';
-
 import ParticlesBg from 'particles-bg';
 import Navbar from './components/Navbar/Navbar';
-import Login from './components/Login/Login/Login';
 import Header from './components/Header/Header';
-import cursorAnimation from './assets/cursorAnimation';
+
 function App() {
 
   return (
@@ -29,7 +25,8 @@ function App() {
                 
           <Navbar/>
           <Header />
-          <cursorAnimation />
+          
+         
           
       </div>
 
