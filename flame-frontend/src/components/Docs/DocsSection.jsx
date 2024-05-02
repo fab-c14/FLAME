@@ -4,7 +4,7 @@ import { FaBook } from 'react-icons/fa'; // Importing the book icon from React I
 
 const Docs = () => {
     return (
-        <section className="py-5 shadow-4 br2 ma2 pa2">
+        <section className="py-5 shadow-2 br3 ma3 pa2 b--black bw2 ba ">
             <Container>
                 <h2 className="text-center mb-4">Documentation</h2>
                 <p className="text-center mb-4">
