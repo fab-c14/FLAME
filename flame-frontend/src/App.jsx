@@ -7,6 +7,8 @@ import Header from './components/Header/Header';
 import About from './components/About/About';
 import './App.css'
 import Features from './components/Features/Features';
+import Docs from './components/Docs/DocsSection';
+import Footer from './components/Footer/Footer';
 function App() {
 
   return (
@@ -26,7 +28,9 @@ function App() {
         <Navbar/>
           <Header />
           <About />
+          <Docs />
           <Features />
+          <Footer />
       {/* <NavigationComponent/> :✅ */} 
       {/* <HomeComponent /> : ✅ */} 
       {/* <FeturesComponent /> :✅ */} 
