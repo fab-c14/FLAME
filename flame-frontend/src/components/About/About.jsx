@@ -1,14 +1,14 @@
 import React from 'react';
 import { FaBook, FaCode, FaUsers } from 'react-icons/fa'; // Importing icons from React Icons
 import { Container, Row, Col } from 'react-bootstrap';
-import gifImage from '../../assets/flame.gif'; // Importing the GIF
 
+import './About.css'
 const About = () => {
     return (
-        <Container className="shadow-4 pa2 ma3 ba b--pink center br4 bw2" >
+        <section  className="shadow-5 py-5 ma3 br2  b--dark-pink about-background">
+        <Container >
             <Row>
-               
-                <Col md={12} className=" black " style={{zIndex:1}}>
+                <Col className=" black " >
                     <h2 className="f2 mb3">About FLAME</h2>
                     <p className="f4">
                         Welcome to FLAME (Foundation for Learning Assistance and Management Environment), your platform for interactive learning. Our mission is to empower students with the tools and resources they need to excel in their academic journey.
@@ -20,6 +20,7 @@ const About = () => {
                 </Col>
             </Row>
         </Container>
+        </section>
     );
 }
 

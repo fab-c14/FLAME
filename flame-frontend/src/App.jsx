@@ -21,7 +21,7 @@ function App() {
           backgroundSize: 'cover',
           zIndex: -1,
         }}
-      ><ParticlesBg bg={true} type={'fountain'} zIndex={'-1'} num={3} speed={0.1}  />
+      ><ParticlesBg bg={true} type={'cobweb'} zIndex={'-1'} num={30} speed={0.1} color='red'  />
 
         {/*  make sure put your components here for better experienced particles js */}
       </div>
