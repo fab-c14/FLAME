@@ -1,8 +1,8 @@
 // main.js
 
 // Modules to control application life and create native browser window
-import { app, BrowserWindow } from 'electron'
-import { join } from 'node:path'
+import { app, BrowserWindow,Menu } from 'electron'
+import {isDev} from 'electron-is-dev';
 
 const createWindow = () => {
   // Create the browser window.
@@ -14,11 +14,15 @@ const createWindow = () => {
     }
   })
 
- 
-  mainWindow.loadFile('https://5173-fabc14-flame-gysdlrmgbjj.ws-us110.gitpod.io/')
+ if(isDev){
+   mainWindow.loadURL('https://5173-fabc14-flame-gysdlrmgbjj.ws-us110.gitpod.io/');
+  }else{
+    mainWindow.loadFile('/dist/index.html');
+  }
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
+  Menu.setApplicationMenu(null);
 }
 
 // This method will be called when Electron has finished
