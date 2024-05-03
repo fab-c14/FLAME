@@ -10,6 +10,7 @@ import Header from './components/Header/Header';
 import Features from './components/Features/Features';
 import Docs from './components/Docs/DocsSection';
 import Documentation from './components/Docs/Documentation';
+import Registration from './components/SignUp/Register/Register';
 const Routes = () => {
   return (
    
@@ -25,6 +26,7 @@ const Routes = () => {
         
         
         <Route path="/Docs" element={<Documentation />} /> 
+        <Route path="/Login" element={<Registration />} /> 
       </Rs>
     </BrowserRouter>
     

@@ -5,7 +5,7 @@ const About = () => {
     const flameLogoUrl = 'https://tse1.mm.bing.net/th?id=OIP.lNXQHdQHsQzfUXxwcsyLiQHaJ1&pid=Api';
 
     return (
-        <section className="shadow-2 py-5 ma3 br2 b--dark-pink about-background">
+        <section className="shadow-2 py-5 ma3 br2 bw1 bt bb b--dark-pink about-background">
             <Container>
                 <Row>
                     <Col md={6} className="black">
