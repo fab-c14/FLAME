@@ -1,5 +1,5 @@
 import { Container, Row, Col, Button } from 'react-bootstrap';
-
+import './About.css';
 const About = () => {
     // Placeholder URL for the flame logo image
     const flameLogoUrl = 'https://tse1.mm.bing.net/th?id=OIP.lNXQHdQHsQzfUXxwcsyLiQHaJ1&pid=Api';
@@ -23,10 +23,10 @@ const About = () => {
 
                         {/* Login and Register Buttons */}
                         <div className="d-flex">
-                            <Button className="mr-2" variant="primary" style={{ width: '100px', height: '50px' }}>
+                            <Button className="mr-2 hover-about b" variant="primary" style={{ width: '100px', height: '50px' }}>
                                 Login
                             </Button> &nbsp;&nbsp;
-                            <Button variant="primary" style={{ width: '100px', height: '50px' }}>
+                            <Button variant="primary hover-about b" style={{ width: '100px', height: '50px' }}>
                                 Register
                             </Button>
                         </div>
