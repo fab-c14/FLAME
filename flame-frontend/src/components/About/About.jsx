@@ -23,10 +23,10 @@ const About = () => {
 
                         {/* Login and Register Buttons */}
                         <div className="d-flex">
-                            <Button className="mr-2 hover-about b" variant="primary" style={{ width: '100px', height: '50px' }}>
+                            <Button className="mr-2 hover-about b dib grow" variant="warning" style={{ width: '100px', height: '50px' }}>
                                 Login
                             </Button> &nbsp;&nbsp;
-                            <Button variant="primary hover-about b" style={{ width: '100px', height: '50px' }}>
+                            <Button variant="info" className='hover-about b dib grow' style={{ width: '100px', height: '50px' }}>
                                 Register
                             </Button>
                         </div>
