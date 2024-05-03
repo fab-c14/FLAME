@@ -14,7 +14,7 @@ const createWindow = () => {
     }
   })
 
-  // and load the index.html of the app.
+ 
   mainWindow.loadFile('https://5173-fabc14-flame-gysdlrmgbjj.ws-us110.gitpod.io/')
 
   // Open the DevTools.

@@ -9,6 +9,14 @@ import './App.css'
 import Features from './components/Features/Features';
 import Docs from './components/Docs/DocsSection';
 import Footer from './components/Footer/Footer';
+// import Routes from './Routes';
+import {
+  BrowserRouter,
+  Routes as Rs,
+  Route,
+  Link,
+} from "react-router-dom";
+import Routes from './Routes';
 function App() {
 
   return (
@@ -19,18 +27,19 @@ function App() {
           height: '100%',
           position:"fixed",
           backgroundSize: 'cover',
+          color:'#ffaa00',
           zIndex: -1,
         }}
-      ><ParticlesBg bg={true} type={'cobweb'} zIndex={'-1'} num={30} speed={0.1} color='red'  />
+      ><ParticlesBg bg={true} type={'cobweb'} zIndex={'-1'} num={30} speed={0.1} color={['red','green']}  />
 
         {/*  make sure put your components here for better experienced particles js */}
       </div>
         <Navbar/>
-          <Header />
-          <About />
-          <Docs />
-          <Features />
-          <Footer />
+
+
+        <Routes />
+    
+        <Footer />
       {/* <NavigationComponent/> :✅ */} 
       {/* <HomeComponent /> : ✅ */} 
       {/* <FeturesComponent /> :✅ */} 
@@ -41,6 +50,8 @@ function App() {
 
       {/* <Login /><Register /> 
        For now we need these components so to get started, let's start building these components 
+
+       // Seperating this to routes 
       
       */}
 

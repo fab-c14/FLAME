@@ -3,7 +3,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 const Documentation = () => {
     return (
-        <Container className="shadow-2 pa2 ma3 bb b--pink-45">
+        <article className="shadow-2 pa2 ma3 bb b--pink-45">
+        <Container >
             <h2 className="f2 mb3">Original Documentation</h2>
             <Row>
                 <Col md={12}>
@@ -36,6 +37,7 @@ const Documentation = () => {
                 </Col>
             </Row>
         </Container>
+        </article>
     );
 }
 
