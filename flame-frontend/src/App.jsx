@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'tachyons';
 import ParticlesBg from 'particles-bg';
 import Navbar from './components/Navbar/Navbar';
-
+import Footer from './components/Footer/Footer';
 import './App.css'
 import Routes from './Routes';
 function App() {

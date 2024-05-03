@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, Container } from 'react-bootstrap';
+import { Button, Container,Col} from 'react-bootstrap';
 import { FaBook } from 'react-icons/fa'; // Importing the book icon from React Icons
-
+import './Docs.css';
 const Docs = () => {
     return (
         <section className="py-5 shadow-2 br3 ma3 pa2 b--black bw2 ba ">
@@ -10,11 +10,13 @@ const Docs = () => {
                 <p className="text-center mb-4">
                     Explore our documentation to learn more about FLAME.
                 </p>
-                <div className="text-center">
-                    <Button variant="primary" size="lg" href="link_to_original_documentation_page">
-                        <FaBook className="mr-2" /> View Documentation
-                    </Button>
-                </div>
+                <Col md={3} sm={4} className='center'>
+                    <div className="center">
+                            <Button variant="warning" size="lg" href="/Docs" className='hover-button md3'>
+                                <FaBook className="mr-2 " /> View Documentation
+                            </Button>
+                    </div>
+                </Col>
             </Container>
         </section>
     );

@@ -1,0 +1,12 @@
+
+.hover-button {
+    transition: background-image 0.3s ease-in-out;
+}
+
+.hover-button:hover {
+    background-image: url('../../assets/buttons.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* border: 2px solid rgb(255, 98, 0); */
+    /* border-radius: 5px; */
+}
