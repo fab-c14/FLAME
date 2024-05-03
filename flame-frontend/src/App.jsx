@@ -3,19 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'tachyons';
 import ParticlesBg from 'particles-bg';
 import Navbar from './components/Navbar/Navbar';
-import Header from './components/Header/Header';
-import About from './components/About/About';
+
 import './App.css'
-import Features from './components/Features/Features';
-import Docs from './components/Docs/DocsSection';
-import Footer from './components/Footer/Footer';
-// import Routes from './Routes';
-import {
-  BrowserRouter,
-  Routes as Rs,
-  Route,
-  Link,
-} from "react-router-dom";
 import Routes from './Routes';
 function App() {
 
@@ -35,11 +24,9 @@ function App() {
         {/*  make sure put your components here for better experienced particles js */}
       </div>
         <Navbar/>
-
-
         <Routes />
-    
         <Footer />
+      
       {/* <NavigationComponent/> :✅ */} 
       {/* <HomeComponent /> : ✅ */} 
       {/* <FeturesComponent /> :✅ */} 
@@ -52,9 +39,7 @@ function App() {
        For now we need these components so to get started, let's start building these components 
 
        // Seperating this to routes 
-      
       */}
-
 
       </div>
 
