@@ -6,6 +6,7 @@ import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import './App.css'
 import Routes from './Routes';
+
 function App() {
 
   return (
@@ -26,6 +27,7 @@ function App() {
         <Navbar/>
         <Routes />
         <Footer />
+       
       
       {/* <NavigationComponent/> :✅ */} 
       {/* <HomeComponent /> : ✅ */} 

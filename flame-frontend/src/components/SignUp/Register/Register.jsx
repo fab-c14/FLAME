@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import './Register.css';
+
 import { Link } from 'react-router-dom';
 const Registration = () => {
     const [userType, setUserType] = useState('student');
@@ -17,7 +17,7 @@ const Registration = () => {
     return (
       <section className='ma3 pa2 py-3 b br4 b--white gradient-background'>
         <Container className='card '>
-            <Row className="justify-content-center morphism">
+            <Row className="justify-content-center">
                 <Col md={6}>
                     <h2 className="text-center ma-2">Registration</h2>
                     <Form onSubmit={handleSubmit}>
