@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
+import React,{useState} from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import './Register.css';
 import { Link } from 'react-router-dom';
-const Registration = () => {
+const Login = () => {
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // Handle form submission
+    };
+
     const [userType, setUserType] = useState('student');
 
     const handleUserTypeChange = (type) => {
         setUserType(type);
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Handle form submission
-    };
-
     return (
       <section className='ma3 pa2 py-3 b br4 b--white gradient-background'>
-        <Container className='card '>
+        <Container className='card mb-3'>
             <Row className="justify-content-center morphism">
                 <Col md={6}>
-                    <h2 className="text-center ma-2">Registration</h2>
+                    <h2 className="text-center mb-4">Login</h2>
+                   
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group controlId="formUserType">
+                    <Form.Group controlId="formUserType">
                             <Form.Label>User Type</Form.Label>
                             <Form.Control
                                 as="select"
@@ -30,8 +30,8 @@ const Registration = () => {
                             >
                                 <option value="student">Student</option>
                                 <option value="teacher">Teacher</option>
-                            </Form.Control>
-                        </Form.Group>
+                     </Form.Control>
+                     </Form.Group>
                         <Form.Group controlId="formEmail">
                             <Form.Label>Email</Form.Label>
                             <Form.Control type="email" placeholder="Enter email" className="mb-3" />
@@ -41,10 +41,10 @@ const Registration = () => {
                             <Form.Control type="password" placeholder="Password" className="mb-3" />
                         </Form.Group>
                         <Button variant="primary" type="submit" className="w-100 mb-4">
-                            Register
+                            Login
                         </Button>
-                        <Link to="/login">
-                            <Button variant='warning' className='w-100 mb-3'>Login</Button>
+                        <Link to="/register">
+                            <Button  variant='warning' className='w-100 mb-3'>Register</Button>
                         </Link>
                     </Form>
                 </Col>
@@ -54,4 +54,4 @@ const Registration = () => {
     );
 };
 
-export default Registration;
+export default Login;
