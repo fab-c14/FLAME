@@ -11,10 +11,10 @@ const Docs = () => {
                     Explore our documentation to learn more about FLAME.
                 </p>
                 <Col md={3} sm={4} className='center'>
-                    <div className="center">
-                            <Button variant="warning" size="lg" href="/Docs" className='hover-button md3'>
-                                <FaBook className="mr-2 " /> View Documentation
-                            </Button>
+                    <div className="text-center">
+                        <Button variant="warning" size="lg" href="/Docs" className='hover-button md3 '>
+                            <FaBook className="mr-2 " /> View Documentation
+                        </Button>
                     </div>
                 </Col>
             </Container>

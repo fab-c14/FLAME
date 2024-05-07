@@ -8,15 +8,7 @@ const About = () => {
         <section className="shadow-2 py-5 ma3 br2 bw1 bt bb b--dark-pink about-background">
             <Container>
                 <Row>
-                    <Col md={6} className="black">
-                        <h2 className="f2 mb3" id="about">About FLAME</h2>
-                        <p className="f4">
-                            Welcome to FLAME (Foundation for Learning Assistance and Management Environment), your platform for interactive learning. Our mission is to empower students with the tools and resources they need to excel in their academic journey.
-                        </p>
-                        <p className="f4">
-                            At FLAME, we believe in the power of hands-on learning. Our platform provides a rich environment for students to practice coding, experiment with different programming languages, and collaborate with peers on exciting projects.
-                        </p>
-                    </Col>
+                   
                     <Col md={6} className="d-flex flex-column align-items-center justify-content-center">
                         {/* Flame Logo */}
                         <img src={flameLogoUrl} alt="Flame Logo" className="mb-3" style={{ width: '200px', height: 'auto' }} />
@@ -30,6 +22,15 @@ const About = () => {
                                 Register
                             </Button>
                         </div>
+                    </Col>
+                    <Col md={6} className="black">
+                        <h2 className="f2 mb3" id="about">About FLAME</h2>
+                        <p className="f4">
+                            Welcome to FLAME (Foundation for Learning Assistance and Management Environment), your platform for interactive learning. Our mission is to empower students with the tools and resources they need to excel in their academic journey.
+                        </p>
+                        <p className="f4">
+                            At FLAME, we believe in the power of hands-on learning. Our platform provides a rich environment for students to practice coding, experiment with different programming languages, and collaborate with peers on exciting projects.
+                        </p>
                     </Col>
                 </Row>
             </Container>
