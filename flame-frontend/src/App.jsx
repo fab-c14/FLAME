@@ -6,6 +6,7 @@ import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import './App.css'
 import Routes from './Routes';
+import { Editor } from './components/Editor/Editor';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
         {/*  make sure put your components here for better experienced particles js */}
       </div>
         <Navbar/>
+        <Editor />
         <Routes />
         <Footer />
        
