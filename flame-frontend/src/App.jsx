@@ -37,10 +37,14 @@ function App() {
 
       {/* Add On */}
 
-      {/* <Login /><Register /> 
+      {/* <Login /><Register /> :✅ 
        For now we need these components so to get started, let's start building these components 
 
        // Seperating this to routes 
+      */}
+
+      {/* 
+      Integrating an online ide interface :✅ 
       */}
 
       </div>
