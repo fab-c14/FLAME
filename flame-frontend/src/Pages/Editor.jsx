@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-python';
@@ -12,6 +12,23 @@ const Editor = () => {
   const [activeFile, setActiveFile] = useState('untitled.js'); // Default to untitled.js
   const [language, setLanguage] = useState('javascript');
   const [code, setCode] = useState('');
+  const editorRef = useRef(null);
+
+  useEffect(() => {
+    // Example custom command for saving the file
+    const saveFileCommand = {
+      name: 'saveFile',
+      bindKey: { win: 'Ctrl-S', mac: 'Cmd-S' },
+      exec: () => {
+        saveFile();
+      }
+    };
+
+    // Register custom commands
+    if (editorRef.current) {
+      editorRef.current.editor.commands.addCommand(saveFileCommand);
+    }
+  }, []);
 
   const handleLanguageChange = (selectedLanguage) => {
     setLanguage(selectedLanguage);
@@ -33,6 +50,11 @@ const Editor = () => {
     }
   };
 
+  const saveFile = () => {
+    // Save file logic here
+    console.log('Saving file...');
+  };
+
   return (
     <div className='editor-container'>
       <div className='toolbar'>
@@ -51,8 +73,10 @@ const Editor = () => {
       </div>
 
       <AceEditor
+        ref={editorRef}
         placeholder="Write Your Code Here"
         mode={language}
+        name=''
         theme="terminal"
         fontSize={14}
         lineHeight={32}
@@ -62,10 +86,12 @@ const Editor = () => {
         value={code}
         onChange={setCode}
         setOptions={{
-          enableBasicAutocompletion: true,
+          // enableBasicAutocompletion: true,
           enableLiveAutocompletion: true,
           enableSnippets: true,
           showLineNumbers: true,
+          enableEmmet:true,
+          enableMultiselect:true,
           tabSize: 4,
         }}
         style={{ width: '100%', height: 'calc(100vh - 50px)' }} // Adjust height based on toolbar height
