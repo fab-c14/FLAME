@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import AceEditor from 'react-ace';
-
-// Import necessary language modes and themes from ace-builds
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/mode-html';
-// Import the desired theme
-import 'ace-builds/src-noconflict/theme-monokai';
+import 'ace-builds/src-noconflict/mode-java';
+import 'ace-builds/src-noconflict/mode-c_cpp';
+import 'ace-builds/src-noconflict/theme-terminal';
+import 'ace-builds/src-noconflict/ext-language_tools';
 
-const CodeEditor = () => {
+const Editor = () => {
   const [activeFile, setActiveFile] = useState('untitled.js'); // Default to untitled.js
   const [language, setLanguage] = useState('javascript');
   const [code, setCode] = useState('');
@@ -18,39 +18,60 @@ const CodeEditor = () => {
   };
 
   const handleNewFile = () => {
-    // Logic to create a new file
-    // For example, you could add a new tab in a tabbed interface
     setActiveFile(`untitled-${Math.random().toString(36).substring(7)}.js`); // Generate a random file name
   };
 
+  const handleRunCode = () => {
+    // Run code logic here
+    console.log('Running code...');
+  };
+
+  const handleRenameFile = () => {
+    const newFileName = prompt('Enter new file name:', activeFile);
+    if (newFileName) {
+      setActiveFile(newFileName);
+    }
+  };
+
   return (
-    <div>
-      {/* File management controls */}
-      <button onClick={handleNewFile}>New File</button>
-      
-      {/* Display the currently active file */}
-      <div>Active File: {activeFile}</div>
-      
-      {/* Language selection dropdown */}
-      <select value={language} onChange={(e) => handleLanguageChange(e.target.value)}>
-        <option value="javascript">JavaScript</option>
-        <option value="python">Python</option>
-        <option value="html">HTML</option>
-      </select>
-      
-      {/* Code editor */}
+    <div className='editor-container'>
+      <div className='toolbar'>
+        <div>Active File: {activeFile}</div>
+        <button onClick={handleNewFile}>New File</button>
+        <button onClick={handleRunCode}>Run</button>
+        <button onClick={handleRenameFile}>Rename File</button>
+        <select value={language} onChange={(e) => handleLanguageChange(e.target.value)}>
+          <option value="javascript">JavaScript</option>
+          <option value="python">Python</option>
+          <option value="html">HTML</option>
+          <option value="java">Java</option>
+          <option value="c">C</option>
+          <option value="c++">C++</option>
+        </select>
+      </div>
+
       <AceEditor
+        placeholder="Write Your Code Here"
         mode={language}
-        theme="monokai"
-        onChange={(newCode) => setCode(newCode)}
+        theme="terminal"
+        fontSize={14}
+        lineHeight={32}
+        showPrintMargin={true}
+        showGutter={true}
+        highlightActiveLine={true}
         value={code}
-        name="code-editor"
-        editorProps={{ $blockScrolling: true }}
-        width="100%"
-        height="500px"
+        onChange={setCode}
+        setOptions={{
+          enableBasicAutocompletion: true,
+          enableLiveAutocompletion: true,
+          enableSnippets: true,
+          showLineNumbers: true,
+          tabSize: 4,
+        }}
+        style={{ width: '100%', height: 'calc(100vh - 50px)' }} // Adjust height based on toolbar height
       />
     </div>
   );
 };
 
-export default CodeEditor;
+export default Editor;

@@ -12,16 +12,23 @@ import Docs from './components/Docs/DocsSection';
 import Documentation from './components/Docs/Documentation';
 import Registration from './components/SignUp/Register/Register';
 import Login from './components/SignUp/Login/Login';
+import Editor from './Pages/Editor';
+import Navbar from './components/Navbar/Navbar';
+import Footer from './components/Footer/Footer';
+
+
 const Routes = () => {
   return (
    
     <BrowserRouter>
       <Rs>
         <Route path="/" element={<React.Fragment >
+            <Navbar />
             <Header />
             <About />
             <Docs /> 
             <Features />
+            <Footer/>
             </React.Fragment>} 
         />
         
@@ -29,6 +36,7 @@ const Routes = () => {
         <Route path="/docs" element={<Documentation />} /> 
         <Route path="/register" element={<Registration />} /> 
         <Route path="/login" element={<Login />} />
+        <Route path="/editor" element={<Editor />} />
       </Rs>
     </BrowserRouter>
     
