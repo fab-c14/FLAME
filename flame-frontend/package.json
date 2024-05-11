@@ -12,10 +12,12 @@
   },
   "dependencies": {
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "ace-builds": "^1.33.1",
     "bootstrap": "^5.3.3",
     "electron-is-dev": "^3.0.1",
     "particles-bg": "^2.5.5",
     "react": "^18.2.0",
+    "react-ace": "^11.0.1",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
     "react-fireworks": "^1.0.4",
