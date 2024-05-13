@@ -1,20 +1,15 @@
 import React, { useState } from 'react';
-import AceEditor from 'react-ace';
-import 'ace-builds/src-noconflict/mode-javascript';
-import 'ace-builds/src-noconflict/mode-python';
-import 'ace-builds/src-noconflict/mode-html';
-import 'ace-builds/src-noconflict/mode-java';
-import 'ace-builds/src-noconflict/mode-c_cpp';
-import 'ace-builds/src-noconflict/theme-terminal';
-import 'ace-builds/src-noconflict/ext-language_tools';
-import { Form, Container, Row, Col, ListGroup } from 'react-bootstrap';
-import { FiFilePlus, FiPlay, FiEdit2, FiDownload } from 'react-icons/fi'; 
+import { Form, Container, Row, Col } from 'react-bootstrap';
+import { FiFilePlus, FiPlay, FiEdit2, FiDownload, FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import CodeEditor from './CodeEditor';
+import FileList from './FileList';
 
 const Editor = () => {
   const [activeFile, setActiveFile] = useState('untitled');
   const [language, setLanguage] = useState('javascript');
   const [code, setCode] = useState('');
-  const [files, setFiles] = useState(['untitled']); // List of opened files
+  const [files, setFiles] = useState(['untitled']);
+  const [fileListVisible, setFileListVisible] = useState(true);
 
   const handleLanguageChange = (selectedLanguage) => {
     setLanguage(selectedLanguage);
@@ -23,7 +18,7 @@ const Editor = () => {
   const handleNewFile = () => {
     const newFileName = `untitled-${Math.random().toString(36).substring(7)}.js`;
     setActiveFile(newFileName);
-    setFiles([...files, newFileName]); // Add new file to files list
+    setFiles([...files, newFileName]);
   };
 
   const handleFileClick = (fileName) => {
@@ -45,28 +40,26 @@ const Editor = () => {
     console.log('Saving file...');
   };
 
+  const toggleFileList = () => {
+    setFileListVisible(!fileListVisible);
+  };
+
   return (
     <Container fluid>
       <Row>
         <Col xs={12} md={8}>
           <div className="editor-container mb-4">
             <div className="toolbar pa2 mb2 d-flex justify-content-between align-items-center shadow-2">
-                <FiDownload onClick={saveFile} style={{ cursor: 'pointer', fontSize: '1.5rem', marginRight: '1rem' }} />
-                <div className="d-flex align-items-center">
-                    <div className="file-list mb-4">
-                  {files.map((fileName, index) => (
-                    <div key={index} className="file-item">
-                      <ListGroup.Item
-                        action
-                        active={fileName === activeFile}
-                        onClick={() => handleFileClick(fileName)}
-                      >
-                        {fileName}
-                      </ListGroup.Item>
-                    </div>
-                  ))}
-                </div>
-                <div className="active-file">{activeFile}</div>
+              <FiDownload onClick={saveFile} style={{ cursor: 'pointer', fontSize: '1.5rem', marginRight: '1rem' }} />
+              <div className="active-file">{activeFile}</div>
+              <div className="d-flex center">
+                <FileList
+                  activeFile={activeFile}
+                  setActiveFile={setActiveFile}
+                  files={files}
+                  visible={fileListVisible}
+                  toggleVisible={toggleFileList}
+                />
               </div>
               <div>
                 <FiFilePlus onClick={handleNewFile} style={{ cursor: 'pointer', fontSize: '1.5rem', marginRight: '1rem' }} />
@@ -85,33 +78,10 @@ const Editor = () => {
               </div>
             </div>
 
-            <AceEditor
-              className='center'
-              placeholder="Write Your Code Here"
-              mode={language}
-              theme="terminal"
-              fontSize={14}
-              lineHeight={32}
-              showPrintMargin={true}
-              showGutter={true}
-              highlightActiveLine={true}
-              value={code}
-              onChange={setCode}
-              setOptions={{
-                enableLiveAutocompletion: true,
-                enableSnippets: true,
-                showLineNumbers: true,
-                enableEmmet: true,
-                enableMultiselect: true,
-                tabSize: 4,
-              }}
-              style={{ width: '100%', height: 'calc(100vh - 50px)', marginBottom: '20px' }}
-            />
+            <CodeEditor language={language} code={code} setCode={setCode} />
           </div>
         </Col>
-        <Col xs={12} md={4}>
-         
-        </Col>
+        <Col xs={12} md={4}></Col>
       </Row>
     </Container>
   );
