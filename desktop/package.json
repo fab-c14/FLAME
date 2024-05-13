@@ -11,7 +11,7 @@
   },
   "author": "fab-c",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "electron": "^30.0.1",
     "electron-builder": "^24.13.3",
     "electron-is-dev": "^3.0.1"

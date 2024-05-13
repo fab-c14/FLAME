@@ -1,5 +1,3 @@
-// main.js
-
 // Modules to control application life and create native browser window
 import { app, BrowserWindow,Menu } from 'electron'
 import {isDev} from 'electron-is-dev';
@@ -15,7 +13,7 @@ const createWindow = () => {
   })
 
  if(isDev){
-   mainWindow.loadURL('https://5173-fabc14-flame-gysdlrmgbjj.ws-us110.gitpod.io/');
+   mainWindow.loadURL('https://5173-fabc14-flame-p1gvze9a0m4.ws-us110.gitpod.io/');
   }else{
     mainWindow.loadFile('/dist/index.html');
   }
