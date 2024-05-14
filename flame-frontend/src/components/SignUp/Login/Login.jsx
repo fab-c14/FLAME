@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import './Login.css'
 const Login = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -14,9 +15,9 @@ const Login = () => {
     };
 
     return (
-      <section className='ma3 pa2 py-3 b br4 b--white gradient-background'>
+      <section className='ma3 pa2 py-3 b br4 center '>
         <Container className='card mb-3'>
-            <Row className="justify-content-center morphism">
+            <Row className="justify-content-center align-items-center">
                 <Col md={6}>
                     <h2 className="text-center mb-4">Login</h2>
                    
