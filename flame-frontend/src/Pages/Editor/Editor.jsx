@@ -3,6 +3,7 @@ import { Form, Container, Row, Col } from 'react-bootstrap';
 import { FiFilePlus, FiPlay, FiEdit2, FiDownload } from 'react-icons/fi';
 import CodeEditor from './CodeEditor';
 import FileList from './FileList';
+import axios from 'axios';
 
 const Editor = () => {
   const [activeFile, setActiveFile] = useState('untitled');
@@ -10,6 +11,7 @@ const Editor = () => {
   const [code, setCode] = useState('');
   const [files, setFiles] = useState(['untitled']);
   const [fileListVisible, setFileListVisible] = useState(false);
+  const [output,setOutput] = useState('Defautl Output');
 
   const handleLanguageChange = (selectedLanguage) => {
     setLanguage(selectedLanguage);
@@ -25,9 +27,6 @@ const Editor = () => {
     setActiveFile(fileName);
   };
 
-  const handleRunCode = () => {
-    console.log('...Running code...');
-  };
 
   const handleRenameFile = () => {
     const newFileName = prompt('Enter new file name:', activeFile);
@@ -42,6 +41,19 @@ const Editor = () => {
 
   const toggleFileList = () => {
     setFileListVisible(!fileListVisible);
+  };
+
+  const handleRunCode = () => {
+    axios
+      .post('/run', { code, language })
+      .then((response) => {
+        console.log(response.data.output)
+        setOutput(response.data.output);
+      })
+      .catch((error) => {
+        console.error(error);
+        setOutput('Error occurred while running code');
+      });
   };
 
   return (
@@ -81,7 +93,9 @@ const Editor = () => {
             <CodeEditor language={language} code={code} setCode={setCode} />
           </div>
         </Col>
-        <Col xs={12} md={4}></Col>
+        <Col xs={12} md={4}>
+          {output}
+        </Col>
       </Row>
     </Container>
   );
