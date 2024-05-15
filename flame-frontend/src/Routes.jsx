@@ -12,9 +12,10 @@ import Docs from './components/Docs/DocsSection';
 import Documentation from './components/Docs/Documentation';
 import Registration from './components/SignUp/Register/Register';
 import Login from './components/SignUp/Login/Login';
-import Editor from './Pages/Editor';
+import Editor from './Pages/Editor/Editor';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
+
 
 
 const Routes = () => {

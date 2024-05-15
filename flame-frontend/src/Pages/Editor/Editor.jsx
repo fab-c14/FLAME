@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Container, Row, Col } from 'react-bootstrap';
-import { FiFilePlus, FiPlay, FiEdit2, FiDownload, FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { FiFilePlus, FiPlay, FiEdit2, FiDownload } from 'react-icons/fi';
 import CodeEditor from './CodeEditor';
 import FileList from './FileList';
 
@@ -9,7 +9,7 @@ const Editor = () => {
   const [language, setLanguage] = useState('javascript');
   const [code, setCode] = useState('');
   const [files, setFiles] = useState(['untitled']);
-  const [fileListVisible, setFileListVisible] = useState(true);
+  const [fileListVisible, setFileListVisible] = useState(false);
 
   const handleLanguageChange = (selectedLanguage) => {
     setLanguage(selectedLanguage);
