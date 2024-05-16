@@ -1,10 +1,12 @@
 import express, { json } from 'express';
 import { exec } from 'child_process';
+import cors from 'cors';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(json());
+app.use(cors()); // Add CORS middleware
 
 app.post('/run', (req, res) => {
   console.log('started running your code');
