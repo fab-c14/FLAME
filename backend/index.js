@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 5000;
 app.use(json());
 
 app.post('/run', (req, res) => {
+  console.log('started running your code');
   const { code, language } = req.body;
 
   switch (language) {
