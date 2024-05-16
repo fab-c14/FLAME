@@ -17,6 +17,8 @@ app.post('/run', (req, res) => {
       // For JavaScript, we can simply execute the code using Node.js
       exec(`node -e "${code}"`, (error, stdout, stderr) => {
         if (error) {
+          console.log("there is error in compilter")
+          console.log(error)
           res.status(400).json({ error: stderr });
         } else {
           res.json({ output: stdout });
