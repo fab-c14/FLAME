@@ -1,6 +1,10 @@
 import express, { json } from 'express';
-import { exec } from 'child_process';
 import cors from 'cors';
+import { runJavaScript } from './runners/jsRunner.js';
+import { runPython } from './runners/pyRunner.js';
+import { runC } from './runners/cRunner.js';
+import { runCpp } from './runners/cppRunner.js';
+import { runJava } from './runners/javaRunner.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,26 +18,19 @@ app.post('/run', (req, res) => {
 
   switch (language) {
     case 'javascript':
-      // For JavaScript, we can simply execute the code using Node.js
-      exec(`node -e "${code}"`, (error, stdout, stderr) => {
-        if (error) {
-          console.log("there is error in compilter")
-          console.log(error)
-          res.status(400).json({ error: stderr });
-        } else {
-          res.json({ output: stdout });
-        }
-      });
+      runJavaScript(code, res);
       break;
     case 'python':
-      // For Python, we execute the code using Python interpreter
-      exec(`python -c "${code}"`, (error, stdout, stderr) => {
-        if (error) {
-          res.status(400).json({ error: stderr });
-        } else {
-          res.json({ output: stdout });
-        }
-      });
+      runPython(code, res);
+      break;
+    case 'c':
+      runC(code, res);
+      break;
+    case 'cpp':
+      runCpp(code, res);
+      break;
+    case 'java':
+      runJava(code, res);
       break;
     default:
       res.status(400).json({ error: 'Unsupported language' });
