@@ -1,8 +1,6 @@
 import { runCode } from './execUtils.js';
-import path from 'path';
 
 export const runJava = (code, res) => {
-  const filename = `temp.java`;
-  const command = `javac "${filename}" && java ${path.basename(filename, '.java')}`;
-  runCode(filename, code, command, res);
+  const command = `echo '${code.replace(/'/g, `'\\''`)}' > /tmp/Temp.java && javac /tmp/Temp.java && java -cp /tmp Temp`;
+  runCode(command, res);
 };

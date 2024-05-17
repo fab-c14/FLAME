@@ -1,11 +1,12 @@
 import { exec } from 'child_process';
 
 export const runJavaScript = (code, res) => {
-  exec(`node -e "${code.replace(/"/g, '\\"')}"`, (error, stdout, stderr) => {
+  const command = `node -e "${code.replace(/"/g, '\\"')}"`;
+  exec(command, { shell: '/bin/bash' }, (error, stdout, stderr) => {
     if (error) {
-      res.status(400).json({ error: stderr });
+      res.status(400).json({ error: stderr || error.message });
     } else {
-      res.json({ output: stdout });
+      res.json({ output: stdout, error: stderr });
     }
   });
 };

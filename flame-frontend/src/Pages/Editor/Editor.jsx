@@ -4,6 +4,8 @@ import { FiFilePlus, FiPlay, FiEdit2, FiDownload } from 'react-icons/fi';
 import CodeEditor from './CodeEditor';
 import FileList from './FileList';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Editor = () => {
   const [activeFile, setActiveFile] = useState('untitled');
@@ -11,7 +13,8 @@ const Editor = () => {
   const [code, setCode] = useState('');
   const [files, setFiles] = useState(['untitled']);
   const [fileListVisible, setFileListVisible] = useState(false);
-  const [output,setOutput] = useState('Defautl Output');
+  const [output, setOutput] = useState('Default Output');
+  const [error, setError] = useState('');
 
   const handleLanguageChange = (selectedLanguage) => {
     setLanguage(selectedLanguage);
@@ -21,43 +24,46 @@ const Editor = () => {
     const newFileName = `untitled-${Math.random().toString(36).substring(7)}.js`;
     setActiveFile(newFileName);
     setFiles([...files, newFileName]);
+    toast.info('New file created');
   };
 
   const handleFileClick = (fileName) => {
     setActiveFile(fileName);
   };
 
-
   const handleRenameFile = () => {
     const newFileName = prompt('Enter new file name:', activeFile);
     if (newFileName) {
       setActiveFile(newFileName);
+      toast.info('File renamed');
     }
   };
 
   const saveFile = () => {
     console.log('Saving file...');
+    toast.info('File saved');
   };
 
   const toggleFileList = () => {
     setFileListVisible(!fileListVisible);
   };
+
   const url = "https://5000-fabc14-flame-oncb12u905i.ws-us110.gitpod.io";
   const instance = axios.create({
     baseURL: url, 
   });
-  const handleRunCode = () => {
 
-    instance
-      .post('/run', { code, language })
-      .then((response) => {
-        console.log(response.data.output)
-        setOutput(response.data.output);
-      })
-      .catch((error) => {
-        console.error(error);
-        setOutput('Error occurred while running code');
-      });
+  const handleRunCode = async () => {
+    toast.info('Running code...');
+    try {
+      const response = await instance.post('/run', { code, language });
+      setOutput(response.data.output);
+      setError(response.data.error || '');
+    } catch (error) {
+      console.error(error);
+      setOutput('');
+      setError('Error occurred while running code');
+    }
   };
 
   return (
@@ -93,14 +99,23 @@ const Editor = () => {
                 </Form.Group>
               </div>
             </div>
-
             <CodeEditor language={language} code={code} setCode={setCode} />
           </div>
         </Col>
         <Col xs={12} md={4}>
-          {output}
+          <div>
+            <h5>Output:</h5>
+            <pre>{output}</pre>
+            {error && (
+              <>
+                <h5 style={{ color: 'red' }}>Error:</h5>
+                <pre style={{ color: 'red' }}>{error}</pre>
+              </>
+            )}
+          </div>
         </Col>
       </Row>
+      <ToastContainer />
     </Container>
   );
 };

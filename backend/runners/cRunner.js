@@ -1,7 +1,6 @@
 import { runCode } from './execUtils.js';
 
 export const runC = (code, res) => {
-  const filename = `temp.c`;
-  const command = `gcc "${filename}" -o temp.out && ./temp.out`;
-  runCode(filename, code, command, res);
+  const command = `echo '${code.replace(/'/g, `'\\''`)}' | gcc -x c -o /tmp/temp.out - && /tmp/temp.out`;
+  runCode(command, res);
 };

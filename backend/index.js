@@ -10,10 +10,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(json());
-app.use(cors()); // Add CORS middleware
+app.use(cors());
 
 app.post('/run', (req, res) => {
-  console.log('started running your code');
+  console.log('Started running your code');
   const { code, language } = req.body;
 
   switch (language) {
