@@ -1,12 +1,8 @@
-import { exec } from 'child_process';
+import runCode from './baseRunner.js';
 
-export const runJavaScript = (code, res) => {
-  const command = `node -e "${code.replace(/"/g, '\\"')}"`;
-  exec(command, { shell: '/bin/bash' }, (error, stdout, stderr) => {
-    if (error) {
-      res.status(400).json({ error: stderr || error.message });
-    } else {
-      res.json({ output: stdout, error: stderr });
-    }
-  });
+const runJavaScript = (code, res) => {
+  const command = `node -e "${code.replace(/"/g, '\\"').replace(/\n/g, '\\n')}"`;
+  runCode(command, res);
 };
+
+export default runJavaScript;

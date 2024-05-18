@@ -1,6 +1,10 @@
-import { runCode } from './execUtils.js';
+import { createTempFile } from './utils/fileUtils.js';
+import runCode from './baseRunner.js';
 
-export const runC = (code, res) => {
-  const command = `echo '${code.replace(/'/g, `'\\''`)}' | gcc -x c -o /tmp/temp.out - && /tmp/temp.out`;
+const runC = (code, res) => {
+  const tempFile = createTempFile('c', code);
+  const command = `gcc ${tempFile} -o temp.out && ./temp.out`;
   runCode(command, res);
 };
+
+export default runC;

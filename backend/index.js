@@ -1,20 +1,19 @@
-import express, { json } from 'express';
+import express from 'express';
 import cors from 'cors';
-import { runJavaScript } from './runners/jsRunner.js';
-import { runPython } from './runners/pyRunner.js';
-import { runC } from './runners/cRunner.js';
-import { runCpp } from './runners/cppRunner.js';
-import { runJava } from './runners/javaRunner.js';
+import runJavaScript from './runners/jsRunner.js';
+import runPython from './runners/pyRunner.js';
+import runC from './runners/cRunner.js';
+import runCPP from './runners/cppRunner.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(json());
 app.use(cors());
+app.use(express.json());
 
 app.post('/run', (req, res) => {
-  console.log('Started running your code');
   const { code, language } = req.body;
+  console.log(`running your code ${language}`);
 
   switch (language) {
     case 'javascript':
@@ -26,11 +25,8 @@ app.post('/run', (req, res) => {
     case 'c':
       runC(code, res);
       break;
-    case 'cpp':
-      runCpp(code, res);
-      break;
-    case 'java':
-      runJava(code, res);
+    case 'c++':
+      runCPP(code, res);
       break;
     default:
       res.status(400).json({ error: 'Unsupported language' });

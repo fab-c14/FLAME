@@ -1,6 +1,8 @@
-import { runCode } from './execUtils.js';
+import runCode from './baseRunner.js';
 
-export const runPython = (code, res) => {
-  const command = `python -c "${code.replace(/"/g, '\\"')}"`;
+const runPython = (code, res) => {
+  const command = `python -c "${code.replace(/"/g, '\\"').replace(/\n/g, '\\n')}"`;
   runCode(command, res);
 };
+
+export default runPython;
