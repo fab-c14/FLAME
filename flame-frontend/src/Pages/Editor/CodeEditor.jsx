@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-python';
@@ -9,19 +9,8 @@ import 'ace-builds/src-noconflict/theme-terminal';
 import 'ace-builds/src-noconflict/ext-language_tools';
 
 const CodeEditor = ({ language, code, setCode }) => {
-  const editorRef = useRef(null);
-
-  const handlePaste = (e) => {
-    const pastedText = e.clipboardData.getData('Text');
-    const editor = editorRef.current.editor;
-    const range = editor.getSelectionRange();
-    editor.session.insert(range.start, pastedText);
-    e.preventDefault();
-  };
-
   return (
     <AceEditor
-      ref={editorRef}
       className='center'
       placeholder="Write Your Code Here"
       mode={language}
@@ -33,7 +22,6 @@ const CodeEditor = ({ language, code, setCode }) => {
       highlightActiveLine={true}
       value={code}
       onChange={setCode}
-      onPaste={handlePaste} // Handle the paste event
       setOptions={{
         enableLiveAutocompletion: true,
         enableSnippets: true,
