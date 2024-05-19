@@ -48,7 +48,7 @@ const Editor = () => {
     setFileListVisible(!fileListVisible);
   };
 
-  const url = "https://5000-fabc14-flame-lfwgw44zban.ws-us110.gitpod.io";
+  const url = "https://5000-fabc14-flame-mfdehxe05c2.ws-us110.gitpod.io";
   const instance = axios.create({
     baseURL: url, 
   });

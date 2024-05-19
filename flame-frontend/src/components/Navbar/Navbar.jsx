@@ -1,24 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
-
+import { FiUser } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
-import './Navbar.css';
 
 const CustomNavbar = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    // Mock user authentication for demonstration
+    useEffect(() => {
+        // Simulate a login status check
+        const userLoggedIn = true; // Replace with real authentication logic
+        setIsLoggedIn(userLoggedIn);
+    }, []);
+
     return (
-        <Navbar  expand="lg"  className="py-3 black shadow-3 ma3 br2 bw1 b pa2 ba b--white-80 hover-navbar">
+        <Navbar expand="lg" className="py-3 black shadow-3 ma3 br2 bw1 b pa2 ba b--white-80 hover-navbar">
             <Navbar.Brand href="#" className="mr-auto ml4 ma2">
                 <div>
-                    <img src={logo} alt="Logo" height="45"  className="d-inline-block align-top  br2 b--black" />
+                    <img src={logo} alt="Logo" height="45" className="d-inline-block align-top br2 b--black" />
                 </div>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav pa2 ma2" />
             <Navbar.Collapse id="basic-navbar-nav ma2 pa2 py-3">
-                <Nav className="ml-auto ">
-                    <Nav.Link href="/" className=" hover-bg-light-red hover-b-light-blue ma2 pa2 br2">Home</Nav.Link>
-                    <Nav.Link href="#about" className=" hover-bg-light-red hover- ma2 pa2 br2">About</Nav.Link>
-                    <Nav.Link href="/Docs" className=" hover-bg-light-red hover- ma2 pa2 br2">Docs</Nav.Link>
-                    <Nav.Link href="/Login" className=" hover-bg-light-red hover- ma2 pa2 br2">Login</Nav.Link>
+                <Nav className="ml-auto">
+                    <Link to="/" className="nav-link hover-bg-light-red ma2 pa2 br2">Home</Link>
+                    <Link to="/about" className="nav-link hover-bg-light-red ma2 pa2 br2">About</Link>
+                    <Link to="/docs" className="nav-link hover-bg-light-red ma2 pa2 br2">Docs</Link>
+                    {isLoggedIn ? (
+                        <Link to="/profile" className="nav-link hover-bg-light-red ma2 pa2 br2 d-flex align-items-center">
+                            <FiUser className="mr2" /> Profile
+                        </Link>
+                    ) : (
+                        <Link to="/login" className="nav-link hover-bg-light-red ma2 pa2 br2">Login</Link>
+                    )}
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

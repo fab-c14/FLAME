@@ -15,10 +15,23 @@ import Login from './components/SignUp/Login/Login';
 import Editor from './Pages/Editor/Editor';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
-
+import Profile from './Pages/Profile/Profile';
 
 
 const Routes = () => {
+
+  const user = {
+    name: 'John Doe',
+    email: 'john.doe@example.com',
+    joined: '2022-01-15',
+    stats: {
+      totalRuns: 150,
+      successfulRuns: 120,
+      failedRuns: 30,
+      lastActive: '2024-05-18T14:48:00',
+    },
+  };
+
   return (
    
     <BrowserRouter>
@@ -38,6 +51,7 @@ const Routes = () => {
         <Route path="/register" element={<Registration />} /> 
         <Route path="/login" element={<Login />} />
         <Route path="/editor" element={<Editor />} />
+        <Route path="/profile" element={<Profile user={user} />} />
       </Rs>
     </BrowserRouter>
     
