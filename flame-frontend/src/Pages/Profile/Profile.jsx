@@ -1,58 +1,96 @@
-// src/Pages/Profile/Profile.jsx
-
 import React from 'react';
-import { Container, Row, Col, Card, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { FiLogOut } from 'react-icons/fi';
+import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { FiUser } from 'react-icons/fi';
 
-const Profile = ({ user }) => {
-  const navigate = useNavigate();
+// Register components
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-  const handleLogout = () => {
-    // Logic for logging out the user
-    // For now, we can simply navigate to the login page
-    navigate('/login');
-  };
+// Dummy data for the graph and statistics
+const data = {
+    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+    datasets: [
+        {
+            label: 'Assignments Completed',
+            data: [10, 15, 8, 12],
+            fill: false,
+            backgroundColor: 'rgb(75, 192, 192)',
+            borderColor: 'rgba(75, 192, 192, 0.2)',
+        },
+        {
+            label: 'Average Score',
+            data: [75, 82, 78, 85],
+            fill: false,
+            backgroundColor: 'rgb(153, 102, 255)',
+            borderColor: 'rgba(153, 102, 255, 0.2)',
+        },
+    ],
+};
 
-  return (
-    <Container className="pa4">
-      <Row>
-        <Col xs={12} md={4} className="mb4">
-          <Card className="br3 shadow-2">
-            <Card.Body>
-              <Card.Title className="f4">{user.name}</Card.Title>
-              <Card.Subtitle className="mb2 text-muted">{user.email}</Card.Subtitle>
-              <Card.Text>
-                <strong>Joined:</strong> {new Date(user.joined).toLocaleDateString()}
-              </Card.Text>
-              <Button onClick={handleLogout} variant="danger" className="flex items-center">
-                <FiLogOut className="mr2" /> Logout
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xs={12} md={8}>
-          <Card className="br3 shadow-2">
-            <Card.Header className="bg-light-gray">User Statistics</Card.Header>
-            <ListGroup variant="flush">
-              <ListGroupItem>
-                <strong>Total Codes Run:</strong> {user.stats.totalRuns}
-              </ListGroupItem>
-              <ListGroupItem>
-                <strong>Successful Runs:</strong> {user.stats.successfulRuns}
-              </ListGroupItem>
-              <ListGroupItem>
-                <strong>Failed Runs:</strong> {user.stats.failedRuns}
-              </ListGroupItem>
-              <ListGroupItem>
-                <strong>Last Active:</strong> {new Date(user.stats.lastActive).toLocaleString()}
-              </ListGroupItem>
-            </ListGroup>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
-  );
+const options = {
+    scales: {
+        y: {
+            beginAtZero: true,
+        },
+    },
+};
+
+const Profile = () => {
+    return (
+        <Container className="mt-4">
+            <Row className="mb-4">
+                <Col>
+                    <Card className="shadow-3">
+                        <Card.Body>
+                            <div className="tc">
+                                <FiUser size={64} className="mb-3" />
+                                <Card.Title>John Doe</Card.Title>
+                                <Card.Text>johndoe@example.com</Card.Text>
+                                <Card.Text>Student</Card.Text>
+                            </div>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+            <Row className="mb-4">
+                <Col md={4}>
+                    <Card className="shadow-3 mb-4">
+                        <Card.Body className="tc">
+                            <Card.Title>Total Assignments</Card.Title>
+                            <Card.Text>25</Card.Text>
+                        </Card.Body>
+                    </Card>
+                </Col>
+                <Col md={4}>
+                    <Card className="shadow-3 mb-4">
+                        <Card.Body className="tc">
+                            <Card.Title>Completed Assignments</Card.Title>
+                            <Card.Text>20</Card.Text>
+                        </Card.Body>
+                    </Card>
+                </Col>
+                <Col md={4}>
+                    <Card className="shadow-3 mb-4">
+                        <Card.Body className="tc">
+                            <Card.Title>Average Score</Card.Title>
+                            <Card.Text>80%</Card.Text>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Card className="shadow-3">
+                        <Card.Body>
+                            <Card.Title className="tc">Student Progress</Card.Title>
+                            <Line data={data} options={options} />
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
+    );
 };
 
 export default Profile;
