@@ -1,51 +1,43 @@
+// authRoutes.js
+
 import express from 'express';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from '../models/userModel.js';
+import User from '../models/User.js';
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
-// Register a new user
-router.post('/register', async (req, res) => {
-  const { name, email, password, role } = req.body;
-
-  try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: 'User already exists' });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 12);
-    const user = new User({ name, email, password: hashedPassword, role });
-    await user.save();
-
-    const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
-    res.status(201).json({ token, user });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
-  }
-});
-
-// Login a user
+// Route: POST /api/login
+// Description: Authenticate user and generate JWT token
+// Access: Public
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    // Check if user with the provided email exists
     const user = await User.findOne({ email });
+
     if (!user) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+    // Compare the provided password with the hashed password stored in the database
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
-    res.status(200).json({ token, user });
+    // If authentication is successful, generate JWT token
+    const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
+      expiresIn: '1h', // Token expires in 1 hour
+    });
+
+    // Send the token back to the client
+    res.json({ token });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    console.error('Error during login:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
