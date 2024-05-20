@@ -6,7 +6,7 @@ import axios from 'axios';
 const BatchManager = ({ user, setSelectedStudent }) => {
   const [showModal, setShowModal] = useState(false);
   const [batchName, setBatchName] = useState('');
-  const [batches, setBatches] = useState([]);
+  const [batches, setBatches] = useState(null);
 
   const fetchBatches = async () => {
     try {
@@ -35,6 +35,10 @@ const BatchManager = ({ user, setSelectedStudent }) => {
   useEffect(() => {
     fetchBatches();
   }, []);
+
+  if (!batches) {
+    return <div>Loading batches...</div>;
+  }
 
   return (
     <Card className="br3 shadow-2 mt4">
