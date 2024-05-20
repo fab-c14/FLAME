@@ -3,8 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import batchRoutes from './routes/batchRoutes.js';
-// import userRoutes from './routes/userRoutes.js'; // Uncomment when user routes are ready
-
+import userRoutes from './routes/userRoutes.js'; // Uncomment when user routes are ready
 import runJavaScript from './runners/jsRunner.js';
 import runPython from './runners/pyRunner.js';
 import runC from './runners/cRunner.js';
