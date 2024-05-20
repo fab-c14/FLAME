@@ -6,21 +6,28 @@ import axios from 'axios';
 const BatchManager = ({ user, setSelectedStudent }) => {
   const [showModal, setShowModal] = useState(false);
   const [batchName, setBatchName] = useState('');
-  const [batches, setBatches] = useState(null);
+  const [batches, setBatches] = useState(null); // Initialize as null initially
+
+  useEffect(() => {
+    fetchBatches(); // Fetch batches on component mount
+  }, []);
 
   const fetchBatches = async () => {
     try {
       const response = await axios.get('/api/batches');
-      setBatches(response.data);
+      console.log('Fetched batches:', response.data); // Add this line to log fetched data
+      setBatches(response.data); // Update batches state with fetched data
     } catch (error) {
       console.error('Error fetching batches:', error);
+      setBatches([]); // Set batches as an empty array in case of an error
     }
   };
+  
 
   const handleBatchCreation = async () => {
     try {
       const response = await axios.post('/api/batches', { name: batchName });
-      setBatches([...batches, response.data]);
+      setBatches([...batches, response.data]); // Add new batch to batches state
       setBatchName('');
       setShowModal(false);
     } catch (error) {
@@ -32,12 +39,8 @@ const BatchManager = ({ user, setSelectedStudent }) => {
     setSelectedStudent(student);
   };
 
-  useEffect(() => {
-    fetchBatches();
-  }, []);
-
   if (!batches) {
-    return <div>Loading batches...</div>;
+    return <div>Loading batches...</div>; // Render loading message while batches are being fetched
   }
 
   return (
