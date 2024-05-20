@@ -1,6 +1,4 @@
-// src/Pages/Profile/Profile.jsx
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, ListGroup, ListGroupItem, Button, Form, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
@@ -14,17 +12,41 @@ const Profile = ({ user }) => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [batchName, setBatchName] = useState('');
-  const [students, setStudents] = useState(['Student1', 'Student2']); // Replace with actual student data
+  const [batches, setBatches] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
+
+  useEffect(() => {
+    const fetchBatches = async () => {
+      try {
+        const response = await fetch('/api/batches');
+        const data = await response.json();
+        setBatches(data);
+      } catch (error) {
+        console.error('Error fetching batches:', error);
+      }
+    };
+    fetchBatches();
+  }, []);
 
   const handleLogout = () => {
     navigate('/login');
   };
 
-  const handleBatchCreation = () => {
-    // Logic for creating a batch
-    console.log(`Batch Created: ${batchName}`);
-    setShowModal(false);
+  const handleBatchCreation = async () => {
+    try {
+      const response = await fetch('/api/batches', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: batchName }),
+      });
+      const newBatch = await response.json();
+      setBatches([...batches, newBatch]);
+      setShowModal(false);
+    } catch (error) {
+      console.error('Error creating batch:', error);
+    }
   };
 
   const handleStudentClick = (student) => {
@@ -91,9 +113,9 @@ const Profile = ({ user }) => {
               </Button>
             </Card.Header>
             <ListGroup variant="flush">
-              {students.map((student, index) => (
-                <ListGroupItem key={index} onClick={() => handleStudentClick(student)}>
-                  <FaUser className="mr2" /> {student}
+              {batches.map((batch, index) => (
+                <ListGroupItem key={index} onClick={() => handleStudentClick(batch)}>
+                  <FaUser className="mr2" /> {batch.name}
                 </ListGroupItem>
               ))}
             </ListGroup>
@@ -121,18 +143,13 @@ const Profile = ({ user }) => {
           {selectedStudent && (
             <Card className="br3 shadow-2 mt4">
               <Card.Body>
-                <Card.Title className="tc">Progress of {selectedStudent}</Card.Title>
+                <Card.Title className="tc">Progress of {selectedStudent.name}</Card.Title>
                 <Line data={data} options={options} />
               </Card.Body>
             </Card>
           )}
           </Col>
-       
-          
-          
-
       </Row>
-
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Create a new batch</Modal.Title>
