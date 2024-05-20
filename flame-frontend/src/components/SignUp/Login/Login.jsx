@@ -1,18 +1,30 @@
 import React,{useState} from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import './Login.css'
 const Login = () => {
     const BACKEND_URL = "https://5000-fabc14-flame-vemxsjxiy69.ws-us114.gitpod.io";
-    const handleSubmit = (event) => {
-        event.preventDefault();
-       
-    };
 
     const [userType, setUserType] = useState('student');
 
-    const handleUserTypeChange = (type) => {
-        setUserType(type);
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const email = formData.get('email');
+        const password = formData.get('password');
+        const userType = formData.get('userType');
+    
+        try {
+            const response = await axios.post(`${BACKEND_URL}/api/auth/login`, {
+                email,
+                password,
+                userType
+            });
+            console.log(response.data); // Handle successful login response
+        } catch (error) {
+            console.error('Error logging in:', error); // Handle login error
+        }
     };
 
     return (
@@ -24,31 +36,32 @@ const Login = () => {
                    
                     <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formUserType">
-                            <Form.Label>User Type</Form.Label>
-                            <Form.Control
-                                as="select"
-                                value={userType}
-                                onChange={(e) => handleUserTypeChange(e.target.value)}
-                            >
-                                <option value="student">Student</option>
-                                <option value="teacher">Teacher</option>
-                     </Form.Control>
-                     </Form.Group>
-                        <Form.Group controlId="formEmail">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" className="mb-3" />
-                        </Form.Group>
-                        <Form.Group controlId="formPassword">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" className="mb-3" />
-                        </Form.Group>
-                        <Button variant="primary" type="submit" className="w-100 mb-4">
-                            Login
-                        </Button>
-                        <Link to="/register">
-                            <Button  variant='warning' className='w-100 mb-3'>Register</Button>
-                        </Link>
-                    </Form>
+                        <Form.Label>User Type</Form.Label>
+                        <Form.Control
+                            as="select"
+                            name="userType"
+                            onChange={(e) => handleUserTypeChange(e.target.value)}
+                        >
+                            <option value="student">Student</option>
+                            <option value="teacher">Teacher</option>
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group controlId="formEmail">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control type="email" name="email" placeholder="Enter email" className="mb-3" />
+                    </Form.Group>
+                    <Form.Group controlId="formPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control type="password" name="password" placeholder="Password" className="mb-3" />
+                    </Form.Group>
+                    <Button variant="primary" type="submit" className="w-100 mb-4">
+                        Login
+                    </Button>
+                    <Link to="/register">
+                        <Button variant='warning' className='w-100 mb-3'>Register</Button>
+                    </Link>
+                </Form>
+
                 </Col>
             </Row>
         </Container>
