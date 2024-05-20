@@ -26,12 +26,8 @@ function App() {
 
         {/*  make sure put your components here for better experienced particles js */}
       </div>
-      
-       
         <Routes />
-   
-       
-      
+  
       {/* <NavigationComponent/> :✅ */} 
       {/* <HomeComponent /> : ✅ */} 
       {/* <FeturesComponent /> :✅ */} 
@@ -51,10 +47,6 @@ function App() {
       */}
 
       </div>
-
-
-   
-
   )
 }
 

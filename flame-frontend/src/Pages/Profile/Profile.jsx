@@ -17,14 +17,14 @@ const Profile = ({ user }) => {
     <Container className="pa4">
       <Row>
         <Col xs={12} md={4} className="mb4">
-          <Card className="br3 shadow-2">
+          <Card className="br3 shadow-2 mb4">
             <Card.Body>
               <Card.Title className="f4">{user.name}</Card.Title>
               <Card.Subtitle className="mb2 text-muted">{user.email}</Card.Subtitle>
               <Card.Text>
                 <strong>Joined:</strong> {new Date(user.joined).toLocaleDateString()}
               </Card.Text>
-              <Button onClick={handleLogout} variant="danger" className="flex items-center">
+              <Button onClick={handleLogout} variant="danger" className="d-flex align-items-center">
                 <FiLogOut className="mr2" /> Logout
               </Button>
             </Card.Body>
@@ -49,6 +49,7 @@ const Profile = ({ user }) => {
               </ListGroupItem>
             </ListGroup>
           </Card>
+          {/* Chart should be displayed here */}
           {selectedStudent && <UserStatsChart selectedStudent={selectedStudent} />}
         </Col>
       </Row>

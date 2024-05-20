@@ -52,6 +52,7 @@ const Routes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/editor" element={<Editor />} />
         <Route path="/profile" element={<Profile user={user} />} />
+        
       </Rs>
     </BrowserRouter>
     
