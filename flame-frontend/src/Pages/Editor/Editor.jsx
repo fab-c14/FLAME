@@ -6,6 +6,7 @@ import FileList from './FileList';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CustomNavbar from '../../components/Navbar/Navbar';
 
 const Editor = () => {
   const [activeFile, setActiveFile] = useState('untitled');
@@ -48,7 +49,7 @@ const Editor = () => {
     setFileListVisible(!fileListVisible);
   };
 
-  const url = "https://5000-fabc14-flame-mfdehxe05c2.ws-us110.gitpod.io";
+  const url = "https://5000-fabc14-flame-i2zf3dg3ea7.ws-us110.gitpod.io";
   const instance = axios.create({
     baseURL: url, 
   });
@@ -67,6 +68,8 @@ const Editor = () => {
   };
 
   return (
+    <>
+    <CustomNavbar />
     <Container fluid>
       <Row>
         <Col xs={12} md={8}>
@@ -117,6 +120,7 @@ const Editor = () => {
       </Row>
       <ToastContainer />
     </Container>
+    </>
   );
 };
 
