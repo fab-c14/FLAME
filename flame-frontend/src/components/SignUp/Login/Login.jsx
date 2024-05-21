@@ -5,10 +5,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 import {jwtDecode} from 'jwt-decode';
 
-
+import { BACKEND_URL } from '../../../config';
 const Login = () => {
     const navigate = useNavigate();
-    const BACKEND_URL = "https://5000-fabc14-flame-wwrk1tz66i7.ws-us114.gitpod.io";
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.target);
