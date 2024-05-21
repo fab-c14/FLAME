@@ -20,6 +20,8 @@
     "chart.js": "^4.4.3",
     "dotenv": "^16.4.5",
     "electron-is-dev": "^3.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "particles-bg": "^2.5.5",
     "react": "^18.2.0",
     "react-ace": "^11.0.1",

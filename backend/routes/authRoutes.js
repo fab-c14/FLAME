@@ -21,13 +21,12 @@ router.post('/login', async (req, res) => {
       }
     };
 
-    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
+    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' }, (err, token) => {
       if (err) throw err;
       res.json({ token });
     });
   } else {
-    res.status(401);
-    throw new Error('Invalid email or password');
+    res.status(401).json("Invalid Username or Passowrd");
   }
 });
 
@@ -40,8 +39,7 @@ router.post('/register',async (req, res) => {
   const userExists = await User.findOne({ email });
 
   if (userExists) {
-    res.status(400);
-    throw new Error('User already exists');
+    res.status(400).json("User Already Exists");
   }
 
   const user = await User.create({
@@ -49,7 +47,7 @@ router.post('/register',async (req, res) => {
     email,
     password,
     role,
-  });
+  }); // if the database is ready
 
   if (user) {
     res.status(201).json({
@@ -59,8 +57,7 @@ router.post('/register',async (req, res) => {
       role: user.role,
     });
   } else {
-    res.status(400);
-    throw new Error('Invalid user data');
+    res.status(400).json('Invalid user data');
   }
 });
 

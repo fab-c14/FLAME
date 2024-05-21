@@ -1,12 +1,14 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
+import {jwtDecode} from 'jwt-decode';
 
-const BACKEND_URL = "https://5000-fabc14-flame-wwrk1tz66i7.ws-us114.gitpod.io";
 
 const Login = () => {
+    const navigate = useNavigate();
+    const BACKEND_URL = "https://5000-fabc14-flame-wwrk1tz66i7.ws-us114.gitpod.io";
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -20,7 +22,21 @@ const Login = () => {
                 password,
                 userType
             });
-            console.log(response.data); // Handle successful login response
+            // console.log(response.data); // Handle successful login response
+            // let's now handle the login
+            // Assume token is the JWT token received from the backend
+         try{
+             const token = response.data;
+             const tokenString = JSON.stringify(token); // Convert the token object to a string
+             const decoded = jwtDecode(tokenString);
+             
+             localStorage.setItem('user', JSON.stringify(decoded.user)); // Set user information in local storage
+             navigate('/');
+          }catch(error){
+             console.log("There is Something Wrong");
+          }
+
+            
         } catch (error) {
             console.error('Error logging in:', error); // Handle login error
         }
