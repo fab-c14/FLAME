@@ -15,7 +15,7 @@ const Login = () => {
         const userType = formData.get('userType');
 
         try {
-            const response = await axios.post(`${BACKEND_URL}/api/auth/login`, {
+            const response = await axios.post(`${BACKEND_URL}/api/users/login`, {
                 email,
                 password,
                 userType
