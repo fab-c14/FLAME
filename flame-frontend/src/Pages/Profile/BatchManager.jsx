@@ -9,7 +9,7 @@ const BatchManager = ({ user, setSelectedStudent }) => {
   const [batches, setBatches] = useState(null); // Initialize as null
   const [selectedBatch, setSelectedBatch] = useState(null);
 
-  const BACKEND_URL = "https://5000-fabc14-flame-vemxsjxiy69.ws-us114.gitpod.io";
+  const BACKEND_URL = "https://5000-fabc14-flame-wwrk1tz66i7.ws-us114.gitpod.io";
 
   useEffect(() => {
     const fetchBatches = async () => {

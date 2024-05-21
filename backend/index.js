@@ -3,7 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import batchRoutes from './routes/batchRoutes.js';
-import userRoutes from './routes/userRoutes.js'; // Uncomment when user routes are ready
+import authRoutes from './routes/authRoutes.js'; // Import authRoutes
+
 import runJavaScript from './runners/jsRunner.js';
 import runPython from './runners/pyRunner.js';
 import runC from './runners/cRunner.js';
@@ -42,7 +43,7 @@ app.post('/run', (req, res) => {
 });
 
 app.use('/api/batches', batchRoutes);
-// app.use('/api/users', userRoutes); // Uncomment when user routes are ready
+app.use('/api/auth', authRoutes); // Use authRoutes
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
