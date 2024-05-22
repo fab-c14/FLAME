@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
 import BatchManager from './BatchManager';
 import UserStatsChart from './UserStatsChart';
-
+import BatchJoin from './JoinBatch';
+import { BACKEND_URL } from '../../config';
+import axios from 'axios';
 const Profile = ({ user }) => {
   const navigate = useNavigate();
   const [selectedStudent, setSelectedStudent] = useState(null);
@@ -13,6 +15,21 @@ const Profile = ({ user }) => {
     localStorage.removeItem('user');
     navigate('/');
   };
+
+  const onJoinBatch = async (batchCode, studentId) => {
+    console.log(studentId,(batchCode))
+      try {
+      
+        // Make an API request to join the batch
+        const response = await axios.post(`${BACKEND_URL}/api/batches/${batchCode}`, {
+          studentId,
+        });
+      } catch (error) {
+        console.error('Error joining the batch:', error);
+
+      }
+    };
+  
 
 
   const isStudent = user.role === 'student'; // Check if the user is a student
@@ -34,7 +51,12 @@ const Profile = ({ user }) => {
             </Card.Body>
           </Card>
           {/* Render BatchManager only if the user is not a student */}
-          {!isStudent && <BatchManager user={user} setSelectedStudent={setSelectedStudent} />}
+          {
+          !isStudent ? 
+          <BatchManager user={user} setSelectedStudent={setSelectedStudent} /> 
+          : <BatchJoin onJoinBatch={onJoinBatch} user={user}/>
+      
+          }
         </Col>
         <Col xs={12} md={8}>
           <Card className="br3 shadow-2 mb4">

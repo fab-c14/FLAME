@@ -1,8 +1,10 @@
 import express from 'express';
 import Batch from '../models/Batch.js';
+import User from '../models/User.js'; // Make sure to import the User model
 
 const router = express.Router();
 
+// Create a new batch
 router.post('/', async (req, res) => {
   const { name } = req.body;
   try {
@@ -15,6 +17,7 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Get all batches (with students' names and emails)
 router.get('/', async (req, res) => {
   try {
     const batches = await Batch.find().populate('students', 'name email');
@@ -25,7 +28,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/:batchId/join', async (req, res) => {
+// Join a batch
+router.post('/:batchId', async (req, res) => {
   const { batchId } = req.params;
   const { studentId } = req.body;
   try {
@@ -43,7 +47,23 @@ router.post('/:batchId/join', async (req, res) => {
 
     res.json(batch);
   } catch (err) {
-    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+// for check if the batch exists or not , if not exists we'll throw an error
+router.get('/:batchId', async (req, res) => {
+  const { batchId } =req.params;
+
+  try {
+    const batch = await Batch.findById(batchId);
+    
+    if (!batch) {
+      return res.json({ exists: false }); // Batch does not exist
+    }
+
+    res.json({ exists: true }); // Batch exists
+  } catch (err) {
+
     res.status(500).send('Server Error');
   }
 });
