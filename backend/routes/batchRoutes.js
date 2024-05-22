@@ -20,13 +20,15 @@ router.post('/', async (req, res) => {
 // Get all batches (with students' names and emails)
 router.get('/', async (req, res) => {
   try {
-    const batches = await Batch.find().populate('students', 'name email');
+    const batches = await Batch.find().populate('students', 'name stats');
     res.json(batches);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
+
+
 
 // Join a batch
 router.post('/:batchId', async (req, res) => {
@@ -67,5 +69,7 @@ router.get('/:batchId', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+
 
 export default router;

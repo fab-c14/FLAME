@@ -9,7 +9,7 @@ import { BACKEND_URL } from '../../config';
 import axios from 'axios';
 const Profile = ({ user }) => {
   const navigate = useNavigate();
-  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [selectedStudent, setSelectedStudent] = useState('null');
 
   const handleLogout = () => {
     localStorage.removeItem('user');
@@ -76,8 +76,8 @@ const Profile = ({ user }) => {
               </ListGroupItem>
             </ListGroup>
           </Card>
-          {/* Chart should be displayed here */}
-          {selectedStudent && <UserStatsChart selectedStudent={selectedStudent} />}
+          
+          {selectedStudent && <UserStatsChart selectedStudent={selectedStudent}/>}
         </Col>
       </Row>
     </Container>
