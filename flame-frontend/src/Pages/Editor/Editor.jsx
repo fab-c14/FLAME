@@ -69,7 +69,7 @@ const Editor = () => {
 
   return (
     <>
-    <CustomNavbar />
+   
     <Container fluid>
       <Row>
         <Col xs={12} md={8}>

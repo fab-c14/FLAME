@@ -29,7 +29,7 @@ const Login = () => {
                 const tokenString = JSON.stringify(token); // Convert the token object to a string
                 const decoded = jwtDecode(tokenString);
                 
-                localStorage.setItem('user', JSON.stringify(decoded.user)); // Set user information in local storage
+                localStorage.setItem('user', JSON.stringify(decoded)); // Set user information in local storage
                 navigate('/');
             }catch(error){
                 console.log("There is Something Wrong");

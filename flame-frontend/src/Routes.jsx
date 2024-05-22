@@ -15,8 +15,10 @@ import Editor from './Pages/Editor/Editor';
 import Profile from './Pages/Profile/Profile';
 
 const Routes = ({ handleLogin }) => {
-  const user = localStorage.getItem('user');
+  const userString = localStorage.getItem('user'); // Retrieve the stored user information as a string
+  const user = JSON.parse(userString) || ''; 
 
+  
   return (
     
       <Rs>
@@ -31,7 +33,7 @@ const Routes = ({ handleLogin }) => {
         <Route path="/register" element={<Registration />} />
         <Route path="/login" element={<Login handleLogin={handleLogin} />} />
         <Route path="/editor" element={<Editor />} />
-        <Route path="/profile" element={<Profile user={user} />} />
+        <Route path="/profile" element={<Profile user={user.user} />} />
       </Rs>
     
   )

@@ -14,6 +14,7 @@ const Profile = ({ user }) => {
     navigate('/');
   };
 
+
   const isStudent = user.role === 'student'; // Check if the user is a student
 
   return (
