@@ -4,13 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
 import BatchManager from './BatchManager';
 import UserStatsChart from './UserStatsChart';
-import BatchJoin from './JoinBatch';
+import BatchJoin from './BatchJoin';
 import { BACKEND_URL } from '../../config';
 import axios from 'axios';
+import ShowBatches from './ShowBatches';
 const Profile = ({ user }) => {
   const navigate = useNavigate();
   const [selectedStudent, setSelectedStudent] = useState('null');
-
+  console.log("batches", user.batches);
   const handleLogout = () => {
     localStorage.removeItem('user');
     navigate('/');
@@ -50,7 +51,7 @@ const Profile = ({ user }) => {
               </Button>
             </Card.Body>
           </Card>
-          {/* Render BatchManager only if the user is not a student */}
+          
           {
           !isStudent ? 
           <BatchManager user={user} setSelectedStudent={setSelectedStudent} /> 
@@ -77,7 +78,7 @@ const Profile = ({ user }) => {
             </ListGroup>
           </Card>
           
-          {selectedStudent && <UserStatsChart selectedStudent={selectedStudent}/>}
+          {!isStudent ? <UserStatsChart selectedStudent={selectedStudent}/>:<ShowBatches joinedBatches={user.batches}/>}
         </Col>
       </Row>
     </Container>

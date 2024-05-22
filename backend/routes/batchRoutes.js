@@ -45,8 +45,12 @@ router.post('/:batchId', async (req, res) => {
     if (!batch.students.includes(studentId)) {
       batch.students.push(studentId);
       await batch.save();
-    }
+      student.batches.push(batchId);
+      await student.save();
+    // also need to update the student information in database when joining the 
 
+    }
+    
     res.json(batch);
   } catch (err) {
     res.status(500).send('Server Error');
