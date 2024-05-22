@@ -15,17 +15,7 @@ import Editor from './Pages/Editor/Editor';
 import Profile from './Pages/Profile/Profile';
 
 const Routes = ({ handleLogin }) => {
-  const user = {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    joined: '2022-01-15',
-    stats: {
-      totalRuns: 150,
-      successfulRuns: 120,
-      failedRuns: 30,
-      lastActive: '2024-05-18T14:48:00',
-    },
-  };
+  const user = localStorage.getItem('user');
 
   return (
     

@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Card, ListGroup, ListGroupItem, Button, Form, Modal } from 'react-bootstrap';
 import { FaPlus, FaUser } from 'react-icons/fa';
 import axios from 'axios';
+import { BACKEND_URL } from '../../config';
 
-const BatchManager = ({ user, setSelectedStudent }) => {
+const BatchManager = ({setSelectedStudent }) => {
   const [showModal, setShowModal] = useState(false);
   const [batchName, setBatchName] = useState('');
   const [batches, setBatches] = useState(null); // Initialize as null
   const [selectedBatch, setSelectedBatch] = useState(null);
-
-  const BACKEND_URL = "https://5000-fabc14-flame-wwrk1tz66i7.ws-us114.gitpod.io";
 
   useEffect(() => {
     const fetchBatches = async () => {
@@ -55,7 +54,7 @@ const BatchManager = ({ user, setSelectedStudent }) => {
         {batches && batches.length > 0 ? (
           batches.map((batch) => (
             <ListGroupItem key={batch._id} onClick={() => handleBatchClick(batch)}>
-              <FaUser className="mr2" /> {batch.name}
+              <FaUser className="mr2" /> {batch.name} ({batch._id})
             </ListGroupItem>
           ))
         ) : (
@@ -92,7 +91,7 @@ const BatchManager = ({ user, setSelectedStudent }) => {
           <ListGroup>
             {selectedBatch.students.map((student) => (
               <ListGroupItem key={student.id} onClick={() => handleStudentClick(student)}>
-                {student.name}
+                {student.name} ({student.id})
               </ListGroupItem>
             ))}
           </ListGroup>

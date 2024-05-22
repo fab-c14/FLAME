@@ -1,7 +1,8 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js'; 
+import bcrypt from 'bcryptjs'; // Import bcrypt
 
+import User from '../models/User.js'; 
 
 const router = express.Router();
 
@@ -11,53 +12,95 @@ const router = express.Router();
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
+  try {
+    const user = await User.findOne({ email });
 
-  if (user && (await user.matchPassword(password))) {
-    const payload = {
-      user: {
-        id: user._id,
-        role: user.role
-      }
-    };
+    if (user && (await user.matchPassword(password))) {
+      const payload = {
+        user: {
+          id: user._id,
+          role: user.role,
+        },
+      };
 
-    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' }, (err, token) => {
-      if (err) throw err;
-      res.json({ token });
-    });
-  } else {
-    res.status(401).json("Invalid Username or Passowrd");
+      jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' }, (err, token) => {
+        if (err) throw err;
+        // Send additional user data along with the token
+        res.json({
+          token,
+          user: {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            joinedDate: user.createdAt,
+            stats: user.stats,
+          },
+        });
+      });
+    } else {
+      res.status(401).json("Invalid Username or Password");
+    }
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json('Server error');
   }
 });
 
 // @desc    Register a new user
 // @route   POST /api/users/register
 // @access  Public
-router.post('/register',async (req, res) => {
+router.post('/register', async (req, res) => {
   const { name, email, password, role } = req.body;
 
-  const userExists = await User.findOne({ email });
+  try {
+    const userExists = await User.findOne({ email });
 
-  if (userExists) {
-    res.status(400).json("User Already Exists");
-  }
+    if (userExists) {
+      return res.status(400).json("User Already Exists");
+    }
 
-  const user = await User.create({
-    name,
-    email,
-    password,
-    role,
-  }); // if the database is ready
+    // Hash the password using bcrypt
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  if (user) {
-    res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPassword, // Save the hashed password
+      role,
     });
-  } else {
-    res.status(400).json('Invalid user data');
+
+    // Generate a token for the newly registered user
+    const payload = {
+      user: {
+        id: user._id,
+        role: user.role,
+      },
+    };
+
+    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' }, (err, token) => {
+      if (err) throw err;
+      // Send additional user data along with the token
+      res.status(201).json({
+        token,
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          joinedDate: user.createdAt,
+          stats: {
+            totalRuns: 0,
+            successfulRuns: 0,
+            failedRuns: 0,
+            lastActive: Date.now(),
+          },
+        },
+      });
+    });
+  } catch (error) {
+    console.error('Error during registration:', error);
+    res.status(500).json('Server error');
   }
 });
 

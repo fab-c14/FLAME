@@ -10,8 +10,11 @@ const Profile = ({ user }) => {
   const [selectedStudent, setSelectedStudent] = useState(null);
 
   const handleLogout = () => {
-    navigate('/login');
+    localStorage.removeItem('user');
+    navigate('/');
   };
+
+  const isStudent = user.role === 'student'; // Check if the user is a student
 
   return (
     <Container className="pa4">
@@ -29,7 +32,8 @@ const Profile = ({ user }) => {
               </Button>
             </Card.Body>
           </Card>
-          <BatchManager user={user} setSelectedStudent={setSelectedStudent} />
+          {/* Render BatchManager only if the user is not a student */}
+          {!isStudent && <BatchManager user={user} setSelectedStudent={setSelectedStudent} />}
         </Col>
         <Col xs={12} md={8}>
           <Card className="br3 shadow-2 mb4">

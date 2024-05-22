@@ -10,10 +10,10 @@ const CustomNavbar = () => {
     // Mock user authentication for demonstration
     useEffect(() => {
         // Simulate a login status check
-        const userLoggedIn = true; // Replace with real authentication logic
+        const userLoggedIn = localStorage.getItem('user') !== null; // Check if 'user' exists in local storage
         setIsLoggedIn(userLoggedIn);
     }, []);
-
+    
     return (
         <Navbar expand="lg" className="py-3 black shadow-3 ma3 br2 bw1 b pa2 ba b--white-80 hover-navbar">
             <Navbar.Brand href="#" className="mr-auto ml4 ma2">

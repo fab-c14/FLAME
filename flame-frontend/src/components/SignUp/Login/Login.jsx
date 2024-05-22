@@ -24,17 +24,16 @@ const Login = () => {
             // console.log(response.data); // Handle successful login response
             // let's now handle the login
             // Assume token is the JWT token received from the backend
-         try{
-             const token = response.data;
-             const tokenString = JSON.stringify(token); // Convert the token object to a string
-             const decoded = jwtDecode(tokenString);
-             
-             localStorage.setItem('user', JSON.stringify(decoded.user)); // Set user information in local storage
-             navigate('/');
-          }catch(error){
-             console.log("There is Something Wrong");
-          }
-
+            try{
+                const token = response.data;
+                const tokenString = JSON.stringify(token); // Convert the token object to a string
+                const decoded = jwtDecode(tokenString);
+                
+                localStorage.setItem('user', JSON.stringify(decoded.user)); // Set user information in local storage
+                navigate('/');
+            }catch(error){
+                console.log("There is Something Wrong");
+            }
             
         } catch (error) {
             console.error('Error logging in:', error); // Handle login error

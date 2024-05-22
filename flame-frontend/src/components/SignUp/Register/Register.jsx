@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-
-const BACKEND_URL = "https://5000-fabc14-flame-wwrk1tz66i7.ws-us114.gitpod.io";
+import { BACKEND_URL } from '../../../config';
 
 const Registration = () => {
     const [userType, setUserType] = useState('student');
