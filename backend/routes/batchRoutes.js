@@ -6,9 +6,10 @@ const router = express.Router();
 
 // Create a new batch
 router.post('/', async (req, res) => {
-  const { name } = req.body;
+  const { name , createdBy} = req.body;
+  console.log(createdBy);
   try {
-    const newBatch = new Batch({ name });
+    const newBatch = new Batch({ name , createdBy});
     await newBatch.save();
     res.json(newBatch);
   } catch (err) {

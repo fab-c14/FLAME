@@ -4,7 +4,7 @@ import { FaPlus, FaUser } from 'react-icons/fa';
 import axios from 'axios';
 import { BACKEND_URL } from '../../config';
 
-const BatchManager = ({ setSelectedStudent }) => {
+const BatchManager = ({ setSelectedStudent,createdBy }) => {
   const [showModal, setShowModal] = useState(false);
   const [batchName, setBatchName] = useState('');
   const [batches, setBatches] = useState([]); // Initialize as an empty array
@@ -24,7 +24,7 @@ const BatchManager = ({ setSelectedStudent }) => {
 
   const handleBatchCreation = async () => {
     try {
-      const response = await axios.post(`${BACKEND_URL}/api/batches`, { name: batchName });
+      const response = await axios.post(`${BACKEND_URL}/api/batches`, { name: batchName, createdBy:createdBy });
       setBatches([...batches, response.data]);
       setBatchName('');
       setShowModal(false);
@@ -35,7 +35,7 @@ const BatchManager = ({ setSelectedStudent }) => {
 
   const handleBatchClick = (batch) => {
     setSelectedBatch(batch);
-    setSelectedStudent(null); // Reset selected student when batch is clicked
+    // setSelectedStudent(null); // Reset selected student when batch is clicked // do not need to  this anymore as it is creating problems 
   };
 
   const handleStudentClick = (student) => {
@@ -77,7 +77,7 @@ const BatchManager = ({ setSelectedStudent }) => {
                 onChange={(e) => setBatchName(e.target.value)}
               />
             </Form.Group>
-            <Button variant="primary" onClick={handleBatchCreation}>
+            <Button variant="primary" className='mt-2' onClick={handleBatchCreation}>
               Create Batch
             </Button>
           </Form>

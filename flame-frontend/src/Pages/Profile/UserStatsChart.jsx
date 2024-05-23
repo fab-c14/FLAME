@@ -8,7 +8,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 const UserStatsChart = ({ selectedStudent }) => {
   // Replace the sample data with actual student progress data
   const studentProgress = selectedStudent; // Assuming you have this data
-
+  console.log(selectedStudent)
   const data = {
     labels: ['Total Runs', 'Successful Runs', 'Failed Runs'],
     datasets: [

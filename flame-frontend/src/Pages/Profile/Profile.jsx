@@ -54,7 +54,7 @@ const Profile = ({ user }) => {
           
           {
           !isStudent ? 
-          <BatchManager user={user} setSelectedStudent={setSelectedStudent} /> 
+          <BatchManager createdBy={user.name} setSelectedStudent={setSelectedStudent} /> 
           : <BatchJoin onJoinBatch={onJoinBatch} user={user}/>
       
           }
