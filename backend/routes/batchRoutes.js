@@ -1,7 +1,7 @@
 import express from 'express';
 import Batch from '../models/Batch.js';
 import User from '../models/User.js'; // Make sure to import the User model
-
+import mongoose from 'mongoose';
 const router = express.Router();
 
 // Create a new batch
@@ -35,6 +35,7 @@ router.get('/', async (req, res) => {
 router.post('/:batchId', async (req, res) => {
   const { batchId } = req.params;
   const { studentId } = req.body;
+
   try {
     const batch = await Batch.findById(batchId);
     const student = await User.findById(studentId);
@@ -42,18 +43,22 @@ router.post('/:batchId', async (req, res) => {
     if (!batch || !student) {
       return res.status(404).json({ msg: 'Batch or student not found' });
     }
-
     if (!batch.students.includes(studentId)) {
       batch.students.push(studentId);
       await batch.save();
+    }
+    if (!student.batches.includes(batchId)) {
       student.batches.push(batchId);
       await student.save();
-    // also need to update the student information in database when joining the 
-
     }
+
     
+
+    
+
     res.json(batch);
   } catch (err) {
+    console.error(err);
     res.status(500).send('Server Error');
   }
 });
