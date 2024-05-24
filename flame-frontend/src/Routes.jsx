@@ -14,11 +14,15 @@ import Login from './components/SignUp/Login/Login';
 import Editor from './Pages/Editor/Editor';
 import Profile from './Pages/Profile/Profile';
 import { jwtDecode } from 'jwt-decode';
-const Routes = ({ handleLogin }) => {
-  const userString = localStorage.getItem('token'); // Retrieve the stored user information as a string
-  const user = jwtDecode(userString);
-  console.log(user.user);
 
+const Routes = ({ handleLogin }) => {
+  if (localStorage.getItem('token')!==null){
+
+    const userString = localStorage.getItem('token'); // Retrieve the stored user information as a string
+    const user = jwtDecode(userString) || ''; 
+  }
+
+  
   return (
     
       <Rs>
@@ -33,7 +37,7 @@ const Routes = ({ handleLogin }) => {
         <Route path="/register" element={<Registration />} />
         <Route path="/login" element={<Login handleLogin={handleLogin} />} />
         <Route path="/editor" element={<Editor />} />
-        <Route path="/profile" element={<Profile user={user.user} />} />
+        <Route path="/profile" element={<Profile user={jwtDecode(userString)||null} />} />
       </Rs>
     
   )

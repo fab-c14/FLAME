@@ -2,36 +2,36 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Card, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
-import BatchManager from './BatchManager';
-import UserStatsChart from './UserStatsChart';
-import BatchJoin from './BatchJoin';
-import { BACKEND_URL } from '../../config';
+import { useDispatch, useSelector } from 'react-redux'; // Import useDispatch and useSelector
 import axios from 'axios';
-import ShowBatches from './ShowBatches';
-const Profile = ({ user }) => {
+import { logoutUser } from '../../actions/authActions'; // Import logoutUser action creator
+import ShowBatches from './ShowBatches.jsx'
+const Profile = ({user}) => {
   const navigate = useNavigate();
-  const [selectedStudent, setSelectedStudent] = useState('null');
-  console.log("batches", user.batches);
+  const dispatch = useDispatch(); // Initialize dispatch
+
+  const [selectedStudent, setSelectedStudent] = useState(null);
+
+
   const handleLogout = () => {
-    localStorage.removeItem('user');
+    // Dispatch the logoutUser action
+    dispatch(logoutUser());
+    // Clear localStorage and navigate
+    localStorage.removeItem('token'); // Remove the token from localStorage
     navigate('/');
   };
 
   const onJoinBatch = async (batchCode, studentId) => {
-    console.log(studentId,(batchCode))
-      try {
-      
-        // Make an API request to join the batch
-        const response = await axios.post(`${BACKEND_URL}/api/batches/${batchCode}`, {
-          studentId,
-        });
-      } catch (error) {
-        console.error('Error joining the batch:', error);
-
-      }
-    };
-  
-
+    console.log(studentId, batchCode);
+    try {
+      // Make an API request to join the batch
+      const response = await axios.post(`${BACKEND_URL}/api/batches/${batchCode}`, {
+        studentId,
+      });
+    } catch (error) {
+      console.error('Error joining the batch:', error);
+    }
+  };
 
   const isStudent = user.role === 'student'; // Check if the user is a student
 
@@ -51,13 +51,6 @@ const Profile = ({ user }) => {
               </Button>
             </Card.Body>
           </Card>
-          
-          {
-          !isStudent ? 
-          <BatchManager createdBy={user.name} setSelectedStudent={setSelectedStudent} /> 
-          : <BatchJoin onJoinBatch={onJoinBatch} user={user}/>
-      
-          }
         </Col>
         <Col xs={12} md={8}>
           <Card className="br3 shadow-2 mb4">
@@ -77,8 +70,11 @@ const Profile = ({ user }) => {
               </ListGroupItem>
             </ListGroup>
           </Card>
-          
-          {!isStudent ? <UserStatsChart selectedStudent={selectedStudent}/>:<ShowBatches joinedBatches={user.batches}/>}
+          {!isStudent ? (
+            <UserStatsChart selectedStudent={selectedStudent} />
+          ) : (
+            <ShowBatches joinedBatches={user.batches} />
+          )}
         </Col>
       </Row>
     </Container>
