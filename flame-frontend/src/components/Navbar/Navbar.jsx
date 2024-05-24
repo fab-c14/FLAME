@@ -10,7 +10,7 @@ const CustomNavbar = () => {
     // Mock user authentication for demonstration
     useEffect(() => {
         // Simulate a login status check
-        const userLoggedIn = localStorage.getItem('user') !== null; // Check if 'user' exists in local storage
+        const userLoggedIn = localStorage.getItem('token') !== null; // Check if 'user' exists in local storage
         setIsLoggedIn(userLoggedIn);
     }, []);
     

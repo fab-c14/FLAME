@@ -13,12 +13,12 @@ import Registration from './components/SignUp/Register/Register';
 import Login from './components/SignUp/Login/Login';
 import Editor from './Pages/Editor/Editor';
 import Profile from './Pages/Profile/Profile';
-
+import { jwtDecode } from 'jwt-decode';
 const Routes = ({ handleLogin }) => {
-  const userString = localStorage.getItem('user'); // Retrieve the stored user information as a string
-  const user = JSON.parse(userString) || ''; 
+  const userString = localStorage.getItem('token'); // Retrieve the stored user information as a string
+  const user = jwtDecode(userString);
+  console.log(user.user);
 
-  
   return (
     
       <Rs>
