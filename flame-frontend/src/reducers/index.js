@@ -1,9 +1,11 @@
+// src/reducers/index.js
 import { combineReducers } from 'redux';
-import authReducer from './authReducer';
+import batchReducer from './batchReducer';
+import authReducer from './authReducer'; // Adjust the import based on your authReducer location
 
 const rootReducer = combineReducers({
-  auth: authReducer,
-  
+    auth: authReducer,
+    batches: batchReducer,
 });
 
 export default rootReducer;

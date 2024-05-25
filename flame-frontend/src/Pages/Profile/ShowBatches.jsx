@@ -10,7 +10,7 @@ const ShowBatches = ({ joinedBatches }) => {
         {joinedBatches.length > 0 ? (
           <ul>
             {joinedBatches.map((batch) => (
-              <li key={batch}>{batch}</li>
+              <li key={batch._id}>{batch._id}</li>
             ))}
           </ul>
         ) : (
