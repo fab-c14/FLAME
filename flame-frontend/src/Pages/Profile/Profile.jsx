@@ -2,38 +2,35 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Card, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
-import { useDispatch, useSelector } from 'react-redux'; // Import useDispatch and useSelector
+import { useDispatch } from 'react-redux'; 
 import axios from 'axios';
-import { logoutUser } from '../../actions/authActions'; // Import logoutUser action creator
-import ShowBatches from './ShowBatches.jsx'
-const Profile = ({user}) => {
+import { logoutUser } from '../../actions/authActions'; 
+import ShowBatches from './ShowBatches';
+import UserStatsChart from './UserStatsChart';
+import { BACKEND_URL } from '../../config'; 
+
+const Profile = ({ user }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // Initialize dispatch
+  const dispatch = useDispatch(); 
 
   const [selectedStudent, setSelectedStudent] = useState(null);
 
-
   const handleLogout = () => {
-    // Dispatch the logoutUser action
     dispatch(logoutUser());
-    // Clear localStorage and navigate
-    localStorage.removeItem('token'); // Remove the token from localStorage
+    localStorage.removeItem('token');
     navigate('/');
   };
 
   const onJoinBatch = async (batchCode, studentId) => {
     console.log(studentId, batchCode);
     try {
-      // Make an API request to join the batch
-      const response = await axios.post(`${BACKEND_URL}/api/batches/${batchCode}`, {
-        studentId,
-      });
+      const response = await axios.post(`${BACKEND_URL}/api/batches/${batchCode}`, { studentId });
     } catch (error) {
       console.error('Error joining the batch:', error);
     }
   };
 
-  const isStudent = user.role === 'student'; // Check if the user is a student
+  const isStudent = user.role === 'student';
 
   return (
     <Container className="pa4">

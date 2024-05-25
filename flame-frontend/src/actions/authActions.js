@@ -7,11 +7,10 @@ export const loginUser = (email, password, userType) => async (dispatch) => {
   dispatch({ type: 'LOGIN_REQUEST' });
   try {
     const response = await axios.post(`${BACKEND_URL}/api/users/login`, { email, password, userType });
-    const { token } = response.data; // Extract token from response
-    localStorage.setItem('token', token); // Store the token in localStorage
-    const decoded = jwtDecode(token); // Decode the token
+    const { token } = response.data;
+    localStorage.setItem('token', token);
+    const decoded = jwtDecode(token);
     dispatch({ type: 'LOGIN_SUCCESS', payload: decoded });
-    dispatch({ type: 'LOAD_TOKEN', payload: decoded }); // Dispatch LOAD_TOKEN action
   } catch (error) {
     dispatch({ type: 'LOGIN_FAILURE', error: error.message });
   }
