@@ -13,7 +13,7 @@ const BatchManager = ({ setSelectedStudent, createdBy }) => {
   useEffect(() => {
     const fetchBatches = async () => {
       try {
-        const response = await axios.get(`${BACKEND_URL}/api/batches/create`);
+        const response = await axios.get(`${BACKEND_URL}/api/batches/`);
         setBatches(response.data);
       } catch (error) {
         console.error('Error fetching batches:', error);
@@ -24,7 +24,7 @@ const BatchManager = ({ setSelectedStudent, createdBy }) => {
 
   const handleBatchCreation = async () => {
     try {
-      const response = await axios.post(`${BACKEND_URL}/api/batches`, { name: batchName, createdBy });
+      const response = await axios.post(`${BACKEND_URL}/api/batches/create`, { name: batchName, createdBy });
       setBatches([...batches, response.data]);
       setBatchName('');
       setShowModal(false);
