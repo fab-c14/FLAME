@@ -1,4 +1,3 @@
-// src/actions/batchActions.js
 import axios from 'axios';
 import { BACKEND_URL } from '../config';
 
@@ -13,6 +12,7 @@ export const fetchBatches = () => async (dispatch) => {
   try {
     const response = await axios.get(`${BACKEND_URL}/api/batches`);
     dispatch({ type: FETCH_BATCHES_SUCCESS, payload: response.data });
+  
   } catch (error) {
     dispatch({ type: FETCH_BATCHES_FAILURE, error });
   }
@@ -27,13 +27,15 @@ export const createBatch = (batchName, createdBy) => async (dispatch) => {
   }
 };
 
-
 // Action creator for joining a batch
 export const joinBatch = (batchCode, studentId) => async (dispatch) => {
-    try {
-      const response = await axios.post(`${BACKEND_URL}/api/batches/${batchCode}/join`, { studentId });
-      dispatch({ type: JOIN_BATCH_SUCCESS, payload: response.data });
-    } catch (error) {
-      console.error('Error joining batch:', error);
-    }
-  };
+  try {
+    const response = await axios.post(`${BACKEND_URL}/api/batches/${batchCode}`, { studentId });
+    dispatch({ type: JOIN_BATCH_SUCCESS, payload: response.data });
+
+    // Store joined batches directly in localStorage
+    localStorage.setItem('joinedBatches', JSON.stringify(response.data));
+  } catch (error) {
+    console.error('Error joining batch:', error);
+  }
+};

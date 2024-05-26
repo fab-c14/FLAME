@@ -6,19 +6,26 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const UserStatsChart = ({ selectedStudent }) => {
-  // Replace the sample data with actual student progress data
-  const studentProgress = selectedStudent; // Assuming you have this data
-  console.log(selectedStudent)
+  if (!selectedStudent) {
+    return (
+      <Card className="br3 shadow-2 mt4">
+        <Card.Body>
+          <Card.Title className="tc">No Student Selected</Card.Title>
+        </Card.Body>
+      </Card>
+    );
+  }
+
+  const studentProgress = selectedStudent;
   const data = {
     labels: ['Total Runs', 'Successful Runs', 'Failed Runs'],
     datasets: [
       {
         label: 'Runs',
-        
         data: [
-          studentProgress.totalRuns || 45, 
-          studentProgress.successfulRuns || 24, 
-          studentProgress.failedRuns || 2
+          studentProgress.totalRuns || 20,
+          studentProgress.successfulRuns || 17.4,
+          studentProgress.failedRuns || 3.6
         ],
         backgroundColor: [
           'rgb(75, 192, 192)',
@@ -43,7 +50,7 @@ const UserStatsChart = ({ selectedStudent }) => {
   return (
     <Card className="br3 shadow-2 mt4">
       <Card.Body>
-        <Card.Title className="tc">Progress of {selectedStudent.name}</Card.Title>
+        <Card.Title className="tc">Progress of {studentProgress.name}</Card.Title>
         <Bar data={data} options={options} />
       </Card.Body>
     </Card>

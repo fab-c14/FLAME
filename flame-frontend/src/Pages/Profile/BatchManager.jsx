@@ -4,10 +4,10 @@ import { FaPlus, FaUser } from 'react-icons/fa';
 import axios from 'axios';
 import { BACKEND_URL } from '../../config';
 
-const BatchManager = ({ setSelectedStudent,createdBy }) => {
+const BatchManager = ({ setSelectedStudent, createdBy }) => {
   const [showModal, setShowModal] = useState(false);
   const [batchName, setBatchName] = useState('');
-  const [batches, setBatches] = useState([]); // Initialize as an empty array
+  const [batches, setBatches] = useState([]);
   const [selectedBatch, setSelectedBatch] = useState(null);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const BatchManager = ({ setSelectedStudent,createdBy }) => {
 
   const handleBatchCreation = async () => {
     try {
-      const response = await axios.post(`${BACKEND_URL}/api/batches`, { name: batchName, createdBy:createdBy });
+      const response = await axios.post(`${BACKEND_URL}/api/batches`, { name: batchName, createdBy });
       setBatches([...batches, response.data]);
       setBatchName('');
       setShowModal(false);
@@ -35,7 +35,6 @@ const BatchManager = ({ setSelectedStudent,createdBy }) => {
 
   const handleBatchClick = (batch) => {
     setSelectedBatch(batch);
-    // setSelectedStudent(null); // Reset selected student when batch is clicked // do not need to  this anymore as it is creating problems 
   };
 
   const handleStudentClick = (student) => {
@@ -77,7 +76,7 @@ const BatchManager = ({ setSelectedStudent,createdBy }) => {
                 onChange={(e) => setBatchName(e.target.value)}
               />
             </Form.Group>
-            <Button variant="primary" className='mt-2' onClick={handleBatchCreation}>
+            <Button variant="primary" className="mt-2" onClick={handleBatchCreation}>
               Create Batch
             </Button>
           </Form>
@@ -86,11 +85,11 @@ const BatchManager = ({ setSelectedStudent,createdBy }) => {
 
       {selectedBatch && (
         <Card.Body>
-          <h3 className='tc pa1 bg-moon-gray'>Batch: {selectedBatch.name}</h3>
-          <h4 className='tc ba b--blue'>Students in Batch:</h4>
+          <h3 className="tc pa1 bg-moon-gray">Batch: {selectedBatch.name}</h3>
+          <h4 className="tc ba b--blue">Students in Batch:</h4>
           <ListGroup>
             {selectedBatch.students.map((student) => (
-              <ListGroupItem className='blue tc ' key={student.id} onClick={() => handleStudentClick(student)}>
+              <ListGroupItem className="blue tc" key={student.id} onClick={() => handleStudentClick(student)}>
                 {student.name} (ID: {student._id})
               </ListGroupItem>
             ))}

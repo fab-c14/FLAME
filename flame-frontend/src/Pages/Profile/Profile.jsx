@@ -5,13 +5,15 @@ import { FiLogOut } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux'; // Import useDispatch and useSelector
 import axios from 'axios';
 import { logoutUser } from '../../actions/authActions'; // Import logoutUser action creator
-import ShowBatches from './ShowBatches.jsx'
-const Profile = ({user}) => {
+import ShowBatches from './ShowBatches.jsx';
+import UserStatsChart from './UserStatsChart.jsx';
+import BatchManager from './BatchManager.jsx'; // Import BatchManager
+
+const Profile = ({ user }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch(); // Initialize dispatch
 
   const [selectedStudent, setSelectedStudent] = useState(null);
-
 
   const handleLogout = () => {
     // Dispatch the logoutUser action
@@ -51,10 +53,11 @@ const Profile = ({user}) => {
               </Button>
             </Card.Body>
           </Card>
+          {!isStudent&&<BatchManager setSelectedStudent={setSelectedStudent} createdBy={user._id} />}
         </Col>
         <Col xs={12} md={8}>
           <Card className="br3 shadow-2 mb4">
-            <Card.Header className="bg-light-gray">User Statistics</Card.Header>
+            <Card.Header className="bg-light-gray">{user.name} Statistics</Card.Header>
             <ListGroup variant="flush">
               <ListGroupItem>
                 <strong>Total Codes Run:</strong> {user.stats.totalRuns}
@@ -71,7 +74,10 @@ const Profile = ({user}) => {
             </ListGroup>
           </Card>
           {!isStudent ? (
-            <UserStatsChart selectedStudent={selectedStudent} />
+            <>
+              <UserStatsChart selectedStudent={selectedStudent} />
+              
+            </>
           ) : (
             <ShowBatches joinedBatches={user.batches} />
           )}
