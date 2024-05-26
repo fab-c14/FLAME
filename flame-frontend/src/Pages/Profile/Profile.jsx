@@ -56,7 +56,7 @@ const Profile = ({ user }) => {
               </Button>
             </Card.Body>
           </Card>
-          {!isStudent ? <BatchManager setSelectedStudent={setSelectedStudent} createdBy={user._id} /> : <BatchJoin onJoinBatch={onJoinBatch} user={user} />}
+          {!isStudent ? <BatchManager setSelectedStudent={setSelectedStudent} createdBy={user.name} /> : <BatchJoin onJoinBatch={onJoinBatch} user={user} />}
         </Col>
         <Col xs={12} md={8}>
           <Card className="br3 shadow-2 mb4">

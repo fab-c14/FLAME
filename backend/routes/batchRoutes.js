@@ -5,9 +5,8 @@ import mongoose from 'mongoose';
 const router = express.Router();
 
 // Create a new batch
-router.post('/', async (req, res) => {
+router.post('/create', async (req, res) => {
   const { name , createdBy} = req.body;
-  console.log(createdBy);
   try {
     const newBatch = new Batch({ name , createdBy});
     await newBatch.save();
