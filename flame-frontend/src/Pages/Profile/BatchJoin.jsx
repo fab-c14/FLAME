@@ -3,6 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 import axios from 'axios'; // Import axios
 import { BACKEND_URL } from '../../config';
 
+
 const BatchJoin = ({ onJoinBatch , user}) => {
   const [batchCode, setBatchCode] = useState('');
     

@@ -8,10 +8,12 @@ import { logoutUser } from '../../actions/authActions'; // Import logoutUser act
 import ShowBatches from './ShowBatches.jsx';
 import UserStatsChart from './UserStatsChart.jsx';
 import BatchManager from './BatchManager.jsx'; // Import BatchManager
+import BatchJoin from './BatchJoin.jsx';
+import { BACKEND_URL } from '../../config.js';
 
 const Profile = ({ user }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // Initialize dispatch
+  const dispatch = useDispatch();
 
   const [selectedStudent, setSelectedStudent] = useState(null);
 
@@ -30,6 +32,7 @@ const Profile = ({ user }) => {
       const response = await axios.post(`${BACKEND_URL}/api/batches/${batchCode}`, {
         studentId,
       });
+      console.log(response.data);
     } catch (error) {
       console.error('Error joining the batch:', error);
     }
@@ -53,7 +56,7 @@ const Profile = ({ user }) => {
               </Button>
             </Card.Body>
           </Card>
-          {!isStudent&&<BatchManager setSelectedStudent={setSelectedStudent} createdBy={user._id} />}
+          {!isStudent ? <BatchManager setSelectedStudent={setSelectedStudent} createdBy={user._id} /> : <BatchJoin onJoinBatch={onJoinBatch} user={user} />}
         </Col>
         <Col xs={12} md={8}>
           <Card className="br3 shadow-2 mb4">
