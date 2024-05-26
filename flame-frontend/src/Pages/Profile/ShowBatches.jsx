@@ -21,7 +21,7 @@ const ShowBatches = ({ joinedBatches }) => {
 
   useEffect(() => {
     if (batches.length > 0) {
-      const matchedBatches = batches.filter(batch => joinedBatches.includes(batch.id));
+      const matchedBatches = batches.filter(batch => joinedBatches.includes(batch._id));
       if (matchedBatches.length > 0) {
         localStorage.setItem('joinedBatches', JSON.stringify(matchedBatches));
         setStoredBatches(matchedBatches);
