@@ -21,7 +21,8 @@ const Profile = ({ user }) => {
     // Dispatch the logoutUser action
     dispatch(logoutUser());
     // Clear localStorage and navigate
-    localStorage.removeItem('token'); // Remove the token from localStorage
+    localStorage.removeItem('token'); 
+    localStorage.removeItem('joinedBatches');
     navigate('/');
   };
 

@@ -26,11 +26,9 @@ const Routes = ({ handleLogin }) => {
     }
   }
 
-  console.log(user);
-
   return (
     <Rs>
-      <Route path="/" element={
+      <Route exact path="/" element={
         <React.Fragment>
           <Header />
           <About />

@@ -4,6 +4,7 @@ import { FiUser } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 
+
 const CustomNavbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -12,7 +13,7 @@ const CustomNavbar = () => {
         // Simulate a login status check
         const userLoggedIn = localStorage.getItem('token') !== null; // Check if 'user' exists in local storage
         setIsLoggedIn(userLoggedIn);
-    }, []);
+    },[setIsLoggedIn]);
     
     return (
         <Navbar expand="lg" className="py-3 black shadow-3 ma3 br2 bw1 b pa2 ba b--white-80 hover-navbar">
@@ -27,13 +28,13 @@ const CustomNavbar = () => {
                     <Link to="/" className="nav-link hover-bg-light-red ma2 pa2 br2">Home</Link>
                     <Link to="/about" className="nav-link hover-bg-light-red ma2 pa2 br2">About</Link>
                     <Link to="/docs" className="nav-link hover-bg-light-red ma2 pa2 br2">Docs</Link>
-                    {isLoggedIn ? (
-                        <Link to="/profile" className="nav-link hover-bg-light-red ma2 pa2 br2 d-flex align-items-center">
-                            <FiUser className="mr2" /> Profile
-                        </Link>
-                    ) : (
-                        <Link to="/login" className="nav-link hover-bg-light-red ma2 pa2 br2">Login</Link>
-                    )}
+                
+                    <Link to={isLoggedIn ? `/Profile` : `/login`} className="nav-link hover-bg-light-red ma2 pa2 br2 d-flex align-items-center">
+                            {isLoggedIn? <><FiUser className="mr2" /> Profile</> : "Login" }
+                    </Link>
+                
+                       
+                   
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
