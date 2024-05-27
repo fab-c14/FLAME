@@ -44,7 +44,8 @@ app.post('/run', (req, res) => {
 
 app.use('/api/batches', batchRoutes);
 app.use('/api/users', authRoutes);
-app.use('/api/questions', questionRoutes); // Use question routes
+app.use('/api/questions', questionRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

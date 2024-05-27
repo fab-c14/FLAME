@@ -1,3 +1,3 @@
-export const BACKEND_URL="https://5000-fabc14-flame-44b707a4d8f.ws-us114.gitpod.io";
+export const BACKEND_URL="https://5000-fabc14-flame-p24p0vrjg0t.ws-us114.gitpod.io";
 export const PORT = 5000;
 // this is because we will be using the url many times in our program that will create difficulty

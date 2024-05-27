@@ -1,3 +1,4 @@
 backend/temp.c
 backend/temp.out
 flame-frontend/.env
+flame-frontend/src/config.js

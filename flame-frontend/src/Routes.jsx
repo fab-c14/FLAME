@@ -10,6 +10,7 @@ import Login from './components/SignUp/Login/Login';
 import Editor from './Pages/Editor/Editor';
 import Profile from './Pages/Profile/Profile';
 import {jwtDecode} from 'jwt-decode';
+import Community from './Pages/Community/Community';
 
 
 
@@ -41,6 +42,7 @@ const Routes = ({ handleLogin }) => {
       <Route path="/login" element={<Login handleLogin={handleLogin} />} />
       <Route path="/editor" element={<Editor />} />
       <Route path="/profile" element={<Profile user={user||null} />} />
+      <Route path="/community" element={<Community user={user||null} />} />
     </Rs>
   );
 };

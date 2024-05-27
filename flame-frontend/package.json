@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@cometchat-pro/chat": "^3.0.13",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@reduxjs/toolkit": "^2.2.5",
     "ace-builds": "^1.33.1",
@@ -27,6 +28,7 @@
     "react-ace": "^11.0.1",
     "react-bootstrap": "^2.10.2",
     "react-chartjs-2": "^5.2.0",
+    "react-chat-engine": "^1.11.28",
     "react-dom": "^18.2.0",
     "react-fireworks": "^1.0.4",
     "react-icons": "^5.1.0",
