@@ -3,7 +3,7 @@ import { Card, ListGroup, ListGroupItem, Button, Form, Modal } from 'react-boots
 import { FaPlus, FaUser } from 'react-icons/fa';
 import axios from 'axios';
 import { BACKEND_URL } from '../../config';
-
+import {Link} from 'react-router-dom';
 const BatchManager = ({ setSelectedStudent, createdBy }) => {
   const [showModal, setShowModal] = useState(false);
   const [batchName, setBatchName] = useState('');
@@ -42,18 +42,22 @@ const BatchManager = ({ setSelectedStudent, createdBy }) => {
   };
 
   return (
-    <Card className="br3 shadow-2 mt4">
+    <Card className="br3 shadow-3 mt4">
       <Card.Header className="bg-light-gray d-flex align-items-center">
         <span>Manage Batches</span>
         <Button variant="success" className="ml-auto" onClick={() => setShowModal(true)}>
           <FaPlus className="mr2" /> Create Batch
         </Button>
       </Card.Header>
-      <ListGroup variant="flush">
+      <ListGroup variant="flush br2">
         {batches.length > 0 ? (
           batches.map((batch) => (
-            <ListGroupItem key={batch._id} onClick={() => handleBatchClick(batch)}>
-              <FaUser className="mr2" /> {batch.name} ({batch._id})
+            <ListGroupItem className='tc ma2 pa2 shadow-2 bg-light-green' key={batch._id} onClick={() => handleBatchClick(batch)}>
+             <FaUser className="mr2" /> {batch.name} ({batch._id}){' '}
+              <Link to="/community" className='tc ma2 pa2 dib btn btn-warning'>
+                Community
+              </Link>
+
             </ListGroupItem>
           ))
         ) : (

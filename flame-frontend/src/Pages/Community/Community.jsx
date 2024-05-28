@@ -9,7 +9,7 @@ const Community = ({ user }) => {
     <Container>
       <Row>
         <Col>
-         <Chatbox />
+         <Chatbox user={user} />
         </Col>
       </Row>
     </Container>
