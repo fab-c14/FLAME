@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBatches } from '../../actions/batchActions';
-
+import { Link } from 'react-router-dom';
 const ShowBatches = ({ joinedBatches }) => {
   const dispatch = useDispatch();
   const { batches, loading, error } = useSelector((state) => state.batches);
@@ -46,7 +46,7 @@ const ShowBatches = ({ joinedBatches }) => {
                   <p className="ma0"><strong>ID:</strong> {batch._id}</p>
                   <p className="ma0"><strong>Created By:</strong> {batch.createdBy}</p>
                 </div>
-                <Button variant="primary" className="ml3">Community</Button>
+                <Link to='/community' className="pa2 bg-blue white dib ml3 br2">Community</Link>
               </li>
             ))}
           </ul>

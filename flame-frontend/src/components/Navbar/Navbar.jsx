@@ -8,12 +8,12 @@ import logo from '../../assets/logo.svg';
 const CustomNavbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    // Mock user authentication for demonstration
+   
     useEffect(() => {
         // Simulate a login status check
         const userLoggedIn = localStorage.getItem('token') !== null; // Check if 'user' exists in local storage
         setIsLoggedIn(userLoggedIn);
-    },[setIsLoggedIn]);
+    },[isLoggedIn]);
     
     return (
         <Navbar expand="lg" className="py-3 black shadow-3 ma3 br2 bw1 b pa2 ba b--white-80 hover-navbar">
@@ -32,8 +32,6 @@ const CustomNavbar = () => {
                     <Link to={isLoggedIn ? `/Profile` : `/login`} className="nav-link hover-bg-light-red ma2 pa2 br2 d-flex align-items-center">
                             {isLoggedIn? <><FiUser className="mr2" /> Profile</> : "Login" }
                     </Link>
-                
-                       
                    
                 </Nav>
             </Navbar.Collapse>
