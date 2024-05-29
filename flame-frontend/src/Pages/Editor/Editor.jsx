@@ -24,21 +24,21 @@ const CodeEditor = () => {
 
   const handleExecuteCode = async () => {
     try {
-      const response = await axios.post('https://judge0-ce.p.rapidapi.com/submissions', {
+      const response = await axios.post('https://online-code-compiler.p.rapidapi.com/v1/', {
         source_code: code,
         language_id: language.id,
       }, {
         headers: {
           'Content-Type': 'application/json',
-          'x-rapidapi-key': 'YOUR_API_KEY',
-          'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',
+          'x-rapidapi-key': '6ba5bba27dmsh201c6a5962bbe59p1165e0jsn5a975c661f9f',
+          'x-rapidapi-host': 'online-code-compiler.p.rapidapi.com',
         }
       });
 
       const token = response.data.token;
 
       setTimeout(async () => {
-        const resultResponse = await axios.get(`https://judge0-ce.p.rapidapi.com/submissions/${token}`, {
+        const resultResponse = await axios.get(`online-code-compiler.p.rapidapi.com/submissions/${token}`, {
           headers: {
             'x-rapidapi-key': 'YOUR_API_KEY',
             'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',

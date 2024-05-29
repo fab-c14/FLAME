@@ -29,6 +29,9 @@ const MonacoEditor = ({ code, language, onChange, onExecute }) => {
 
   return (
     <div>
+      <div className="flex items-center justify-center">
+        <FaPlay className="pointer dim" size={36} onClick={onExecute} />
+      </div>
       <Editor
         height="60vh"
         theme="vs-dark"
@@ -44,9 +47,7 @@ const MonacoEditor = ({ code, language, onChange, onExecute }) => {
           snippetSuggestions: 'top',
         }}
       />
-      <div className="flex items-center justify-center">
-        <FaPlay className="pointer dim" size={36} onClick={onExecute} />
-      </div>
+  
     </div>
   );
 };
