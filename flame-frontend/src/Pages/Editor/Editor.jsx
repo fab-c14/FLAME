@@ -1,127 +1,66 @@
 import React, { useState } from 'react';
-import { Form, Container, Row, Col } from 'react-bootstrap';
-import { FiFilePlus, FiPlay, FiEdit2, FiDownload } from 'react-icons/fi';
-import CodeEditor from './CodeEditor';
-import FileList from './FileList';
+import Editor from '@monaco-editor/react';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import CustomNavbar from '../../components/Navbar/Navbar';
 
-const Editor = () => {
-  const [activeFile, setActiveFile] = useState('untitled');
-  const [language, setLanguage] = useState('javascript');
+const Judge0_API_KEY = 'YOUR_JUDGE0_API_KEY';
+const Judge0_URL = 'https://judge0.p.rapidapi.com/submissions';
+
+const CodeEditor = () => {
   const [code, setCode] = useState('');
-  const [files, setFiles] = useState(['untitled']);
-  const [fileListVisible, setFileListVisible] = useState(false);
-  const [output, setOutput] = useState('Default Output');
-  const [error, setError] = useState('');
+  const [language, setLanguage] = useState('javascript');
+  const [output, setOutput] = useState('');
 
-  const handleLanguageChange = (selectedLanguage) => {
-    setLanguage(selectedLanguage);
+  const handleCodeChange = (value) => {
+    setCode(value);
   };
 
-  const handleNewFile = () => {
-    const newFileName = `untitled-${Math.random().toString(36).substring(7)}.js`;
-    setActiveFile(newFileName);
-    setFiles([...files, newFileName]);
-    toast.info('New file created');
-  };
-
-  const handleFileClick = (fileName) => {
-    setActiveFile(fileName);
-  };
-
-  const handleRenameFile = () => {
-    const newFileName = prompt('Enter new file name:', activeFile);
-    if (newFileName) {
-      setActiveFile(newFileName);
-      toast.info('File renamed');
-    }
-  };
-
-  const saveFile = () => {
-    console.log('Saving file...');
-    toast.info('File saved');
-  };
-
-  const toggleFileList = () => {
-    setFileListVisible(!fileListVisible);
-  };
-
-  const url = "https://5000-fabc14-flame-i2zf3dg3ea7.ws-us110.gitpod.io";
-  const instance = axios.create({
-    baseURL: url, 
-  });
-
-  const handleRunCode = async () => {
-    toast.info('Running code...');
+  const executeCode = async () => {
     try {
-      const response = await instance.post('/run', { code, language });
-      setOutput(response.data.output);
-      setError(response.data.error || '');
+      const response = await axios.post(Judge0_URL, {
+        source_code: code,
+        language_id: 63, // Corresponds to JavaScript
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-rapidapi-key': Judge0_API_KEY,
+          'x-rapidapi-host': 'judge0.p.rapidapi.com',
+        }
+      });
+      const token = response.data.token;
+
+      // Polling for the result
+      setTimeout(async () => {
+        const result = await axios.get(`${Judge0_URL}/${token}`, {
+          headers: {
+            'x-rapidapi-key': Judge0_API_KEY,
+            'x-rapidapi-host': 'judge0.p.rapidapi.com',
+          }
+        });
+        setOutput(result.data.stdout || result.data.stderr);
+      }, 3000);
     } catch (error) {
-      console.error(error);
-      setOutput('');
-      setError('Error occurred while running code');
+      console.error('Error executing code:', error);
     }
   };
 
   return (
-    <>
-   
-    <Container fluid>
-      <Row>
-        <Col xs={12} md={8}>
-          <div className="editor-container mb-4">
-            <div className="toolbar pa2 mb2 d-flex justify-content-between align-items-center shadow-2">
-              <FiDownload onClick={saveFile} style={{ cursor: 'pointer', fontSize: '1.5rem', marginRight: '1rem' }} />
-              <div className="active-file">{activeFile}</div>
-              <div className="d-flex center">
-                <FileList
-                  activeFile={activeFile}
-                  setActiveFile={setActiveFile}
-                  files={files}
-                  visible={fileListVisible}
-                  toggleVisible={toggleFileList}
-                />
-              </div>
-              <div>
-                <FiFilePlus onClick={handleNewFile} style={{ cursor: 'pointer', fontSize: '1.5rem', marginRight: '1rem' }} />
-                <FiPlay onClick={handleRunCode} style={{ cursor: 'pointer', fontSize: '1.5rem', marginRight: '1rem' }} />
-                <FiEdit2 onClick={handleRenameFile} style={{ cursor: 'pointer', fontSize: '1.5rem', marginRight: '1rem' }} />
-                <Form.Group className="mr2">
-                  <Form.Control as="select" value={language} onChange={(e) => handleLanguageChange(e.target.value)}>
-                    <option value="javascript">JavaScript</option>
-                    <option value="python">Python</option>
-                    <option value="html">HTML</option>
-                    <option value="java">Java</option>
-                    <option value="c">C</option>
-                    <option value="c++">C++</option>
-                  </Form.Control>
-                </Form.Group>
-              </div>
-            </div>
-            <CodeEditor language={language} code={code} setCode={setCode} />
-          </div>
-        </Col>
-        <Col xs={12} md={4}>
-          <div>
-            <h5>Output:</h5>
-            <pre>{output}</pre>
-            {error && (
-              <>
-                <h5 style={{ color: 'red' }}>Error:</h5>
-                <pre style={{ color: 'red' }}>{error}</pre>
-              </>
-            )}
-          </div>
-        </Col>
-      </Row>
-      <ToastContainer />
-    </Container>
-    </>
+    <div className="container">
+      <div className="row">
+        <div className="col-12">
+          <h1>Code Editor</h1>
+          <Editor
+            height="60vh"
+            language={language}
+            value={code}
+            onChange={handleCodeChange}
+          />
+          <button className="btn btn-primary mt-3" onClick={executeCode}>Run Code</button>
+          <h2>Output</h2>
+          <pre>{output}</pre>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default Editor;
+export default CodeEditor;

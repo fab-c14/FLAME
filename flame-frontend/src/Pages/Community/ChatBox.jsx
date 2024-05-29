@@ -17,15 +17,18 @@ const ChatBubble = ({ message, isCurrentUser, timestamp, userName, isTeacher }) 
 
 const Chatbox = ({ user }) => {
   const [userMessage, setUserMessage] = useState('');
-  const [isQuestion, setIsQuestion] = useState(false); // New state for question selection
+  const [isQuestion, setIsQuestion] = useState(false);
+  const [testCases, setTestCases] = useState('');
+  const [answers, setAnswers] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
-  console.log(user);
+
   const handleSendMessage = () => {
     if (userMessage.trim()) {
-      setChatHistory([...chatHistory, { message: userMessage, isCurrentUser: true, userName:user.name, isTeacher: user.role, isQuestion }]);
+      setChatHistory([...chatHistory, { message: userMessage, isCurrentUser: true, userName: user.name, isTeacher: user.role, isQuestion, testCases, answers }]);
       setUserMessage('');
     }
   };
+  
 
   return (
     <Container className="bg-black pa3 mt-3 b--black white shadow-5 br3">
@@ -37,9 +40,11 @@ const Chatbox = ({ user }) => {
               message={chat.message}
               isCurrentUser={chat.isCurrentUser}
               timestamp={new Date().toLocaleTimeString()}
-             
+              userName={user.name}
+              isTeacher={user.role}
             />
           ))}
+          {isTeacher&&
           <Form>
             <Form.Group controlId="userMessage">
               <Form.Control
@@ -57,10 +62,30 @@ const Chatbox = ({ user }) => {
                 onChange={() => setIsQuestion(!isQuestion)}
               />
             </Form.Group>
+            {isQuestion && (
+              <>
+                <Form.Group controlId="testCases">
+                  <Form.Control
+                    type="text"
+                    placeholder="Test cases (comma-separated)"
+                    value={testCases}
+                    onChange={(e) => setTestCases(e.target.value)}
+                  />
+                </Form.Group>
+                <Form.Group controlId="answers">
+                  <Form.Control
+                    type="text"
+                    placeholder="Answers (comma-separated)"
+                    value={answers}
+                    onChange={(e) => setAnswers(e.target.value)}
+                  />
+                </Form.Group>
+              </>
+            )}
             <Button variant="primary" className="mt-3" onClick={handleSendMessage}>
               Send
             </Button>
-          </Form>
+          </Form> }
         </Col>
       </Row>
     </Container>
