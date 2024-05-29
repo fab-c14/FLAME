@@ -60,6 +60,7 @@ const Profile = ({ user }) => {
           {!isStudent ? <BatchManager setSelectedStudent={setSelectedStudent} createdBy={user.name} /> : <BatchJoin onJoinBatch={onJoinBatch} user={user} />}
         </Col>
         <Col xs={12} md={8}>
+          {isStudent &&
           <Card className="br3 shadow-2 mb4">
             <Card.Header className="bg-light-gray">{user.name} Statistics</Card.Header>
             <ListGroup variant="flush">
@@ -76,7 +77,7 @@ const Profile = ({ user }) => {
                 <strong>Last Active:</strong> {new Date(user.stats.lastActive).toLocaleString()}
               </ListGroupItem>
             </ListGroup>
-          </Card>
+          </Card>}
           {!isStudent ? (
             <>
               <UserStatsChart selectedStudent={selectedStudent} />
