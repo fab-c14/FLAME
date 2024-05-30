@@ -1,40 +1,32 @@
+// FileManagement.jsx
 import React from 'react';
-import { Dropdown, Button } from 'react-bootstrap';
-
-const languageOptions = [
-  { id: 63, name: 'JavaScript', editorLang: 'javascript' },
-  { id: 54, name: 'C++', editorLang: 'cpp' },
-  { id: 62, name: 'Java', editorLang: 'java' },
-  { id: 71, name: 'Python', editorLang: 'python' },
-  { id: 80, name: 'R', editorLang: 'r' },
-  { id: 50, name: 'C', editorLang: 'c' },
-  { id: 86, name: 'Perl', editorLang: 'perl' },
-  { id: 74, name: 'TypeScript', editorLang: 'typescript' },
-];
+import { Form, Button, InputGroup } from 'react-bootstrap';
 
 const FileManagement = ({ fileName, setFileName, language, onLanguageChange, onSaveFile }) => {
   return (
-    <div className="mb3">
-      <div className="flex justify-between items-center">
-        <input
+    <div className="mb-3">
+      <InputGroup>
+        <Form.Control
           type="text"
+          placeholder="File Name"
           value={fileName}
           onChange={(e) => setFileName(e.target.value)}
-          className="pa2 ba b--black-20"
-          placeholder="File name"
         />
-        <Dropdown onSelect={(e) => onLanguageChange(languageOptions.find(lang => lang.id === parseInt(e)))}>
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
-            {language.name}
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            {languageOptions.map(lang => (
-              <Dropdown.Item key={lang.id} eventKey={lang.id}>{lang.name}</Dropdown.Item>
-            ))}
-          </Dropdown.Menu>
-        </Dropdown>
-        <Button variant="primary" onClick={onSaveFile}>Save</Button>
-      </div>
+        <Button onClick={onSaveFile}>Save File</Button>
+      </InputGroup>
+      <Form.Group controlId="languageSelect">
+        <Form.Label>Select Language</Form.Label>
+        <Form.Control
+          as="select"
+          value={language}
+          onChange={(e) => onLanguageChange(e.target.value)}
+        >
+          <option value="javascript">JavaScript</option>
+          <option value="python">Python</option>
+          <option value="c">C</option>
+          <option value="cpp">C++</option>
+        </Form.Control>
+      </Form.Group>
     </div>
   );
 };

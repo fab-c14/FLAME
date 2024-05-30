@@ -1,55 +1,27 @@
-import React, { useRef } from 'react';
-import Editor, { useMonaco } from '@monaco-editor/react';
-import { FaPlay } from 'react-icons/fa';
+import React from 'react';
+import MonacoEditor from '@monaco-editor/react';
 
-const MonacoEditor = ({ code, language, onChange, onExecute }) => {
-  const editorRef = useRef(null);
-  const monaco = useMonaco();
+const Editor = ({ code, language, onChange, theme }) => {
+  const options = {
+    selectOnLineNumbers: true,
+    roundedSelection: true,
+    readOnly: false,
+    cursorStyle: 'line',
 
-  const handleEditorDidMount = (editor) => {
-    editorRef.current = editor;
-
-    // Enable auto-completion for all languages
-    monaco.languages.registerCompletionItemProvider(language.editorLang, {
-      provideCompletionItems: () => {
-        const suggestions = [
-          {
-            label: 'console.log',
-            kind: monaco.languages.CompletionItemKind.Snippet,
-            insertText: 'console.log(${1});',
-            insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            documentation: 'Log output to console'
-          },
-          // Add more suggestions for each language as needed
-        ];
-        return { suggestions: suggestions };
-      }
-    });
+    automaticLayout: true,
   };
 
   return (
-    <div>
-      <div className="flex items-center justify-center">
-        <FaPlay className="pointer dim" size={36} onClick={onExecute} />
-      </div>
-      <Editor
-        height="60vh"
-        theme="vs-dark"
-        language={language.editorLang}
-        value={code}
-        onChange={onChange}
-        editorDidMount={handleEditorDidMount}
-        options={{
-          autoClosingBrackets: 'always',
-          autoClosingQuotes: 'always',
-          autoIndent: 'full',
-          formatOnType: true,
-          snippetSuggestions: 'top',
-        }}
-      />
-  
-    </div>
+    <MonacoEditor
+      width="100%"
+      height="600"
+      language={language}
+      theme={theme || 'vs-dark'}
+      value={code}
+      options={options}
+      onChange={onChange}
+    />
   );
 };
 
-export default MonacoEditor;
+export default Editor;

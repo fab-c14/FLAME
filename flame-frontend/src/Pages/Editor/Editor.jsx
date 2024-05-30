@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import MonacoEditor from './MonacoEditor';
-import Output from './Output';
-import FileManagement from './FileManagement';
+// CodeEditor.jsx
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import { useMonaco, Editor } from '@monaco-editor/react';
 import axios from 'axios';
-const CodeEditor = () => {
+import FileManagement from './FileManagement';
+import Output from './Output';
+const CodeEditor = ({ questionId }) => {
   const [code, setCode] = useState('');
-  const [language, setLanguage] = useState({
-    id: 63,
-    name: 'JavaScript',
-    editorLang: 'javascript',
-  });
+  const [language, setLanguage] = useState('javascript');
   const [output, setOutput] = useState('');
   const [fileName, setFileName] = useState('Untitled');
 
@@ -24,35 +21,19 @@ const CodeEditor = () => {
 
   const handleExecuteCode = async () => {
     try {
-      const response = await axios.post('https://online-code-compiler.p.rapidapi.com/v1/', {
-        source_code: code,
-        language_id: language.id,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'x-rapidapi-key': '6ba5bba27dmsh201c6a5962bbe59p1165e0jsn5a975c661f9f',
-          'x-rapidapi-host': 'online-code-compiler.p.rapidapi.com',
-        }
+      const response = await axios.post('/api/execute', {
+        code,
+        language,
+        questionId,
       });
-
-      const token = response.data.token;
-
-      setTimeout(async () => {
-        const resultResponse = await axios.get(`online-code-compiler.p.rapidapi.com/submissions/${token}`, {
-          headers: {
-            'x-rapidapi-key': 'YOUR_API_KEY',
-            'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',
-          }
-        });
-        setOutput(resultResponse.data.stdout || resultResponse.data.stderr);
-      }, 3000);
+      setOutput(response.data.output);
     } catch (error) {
       console.error('Error executing code:', error);
     }
   };
 
   const handleFileSave = () => {
-    const element = document.createElement("a");
+    const element = document.createElement('a');
     const file = new Blob([code], { type: 'text/plain' });
     element.href = URL.createObjectURL(file);
     element.download = fileName;
@@ -71,15 +52,19 @@ const CodeEditor = () => {
             onLanguageChange={handleLanguageChange}
             onSaveFile={handleFileSave}
           />
-          <MonacoEditor
-            code={code}
+          <Editor
+            height="600px"
             language={language}
+            value={code}
+            theme="vs-dark"
             onChange={handleCodeChange}
-            onExecute={handleExecuteCode}
           />
         </Col>
         <Col xs={12} md={4} className="pa3">
           <Output output={output} />
+          <Button className="mt-3" onClick={handleExecuteCode}>
+            Run Code
+          </Button>
         </Col>
       </Row>
     </Container>
