@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Box, Button, Text, useToast } from "@chakra-ui/react";
 import { executeCode } from "../api";
+import { Navigate, useNavigate } from "react-router";
 
 const Output = ({ editorRef, language }) => {
   const toast = useToast();
   const [output, setOutput] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-
+  const navigate = useNavigate();
   const runCode = async () => {
     const sourceCode = editorRef.current.getValue();
     if (!sourceCode) return;
@@ -42,6 +43,16 @@ const Output = ({ editorRef, language }) => {
         onClick={runCode}
       >
         Run Code
+      </Button>
+      &nbsp;
+      <Button
+        variant="outline"
+        colorScheme="White"
+        mb={4}
+        isLoading={isLoading}
+        onClick={()=>navigate('/')}
+      >
+        GoBack
       </Button>
       <Box
         height="75vh"

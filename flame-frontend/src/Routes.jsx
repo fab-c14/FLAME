@@ -60,8 +60,12 @@ const Routes = () => {
         </React.Fragment>
       } />
       <Route path="/docs" element={<Documentation />} />
-      <Route path="/register" element={<Registration />} />
-      <Route path="/login" element={<Login handleLogin={handleLogin} />} />
+      {
+       
+      }
+
+      {!user && <Route path="/register" element={<Registration />} />}
+      {!user && <Route path="/login" element={<Login handleLogin={handleLogin} />} />}
       <Route path="/editor" element={<Editor />} />
       <Route path="/profile" element={<Profile user={user||null} />} />
       <Route path="/community" element={<Community user={user||null} />} />

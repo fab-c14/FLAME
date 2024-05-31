@@ -1,12 +1,13 @@
 // Modules to control application life and create native browser window
 import { app, BrowserWindow,Menu } from 'electron'
-import {isDev} from 'electron-is-dev';
+import isDev from 'electron-is-dev';
 
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    icon:'./flame.png',
     webPreferences: {
       nodeIntegration:true,
     }
