@@ -1,6 +1,5 @@
 export const LANGUAGE_VERSIONS = {
     javascript: "18.15.0",
-    typescript: "5.0.3",
     python: "3.10.0",
     java: "15.0.2",
     csharp: "6.12.0",
@@ -14,7 +13,7 @@ export const LANGUAGE_VERSIONS = {
     console.log("Hello, " + name + "!");
   }
   
-  greet("Alex");`,
+  greet("Faisal");`,
     typescript: `type Params = {
     name: string;
   }
@@ -23,11 +22,11 @@ export const LANGUAGE_VERSIONS = {
     console.log("Hello, " + data.name + "!");
   }
   
-  greet({ name: "Alex" });`,
+  greet({ name: "Faisal" });`,
     python: `def greet(name):
       print("Hello, " + name + "!")
   
-  greet("Alex")`,
+  greet("Faisal")`,
     java: `public class HelloWorld {
     public static void main(String[] args) {
       System.out.println("Hello World");
@@ -47,12 +46,13 @@ export const LANGUAGE_VERSIONS = {
   }`,
     php: `<?php
   
-  $name = 'Alex';
+  $name = 'Faisal';
   echo $name;`,
     c: `#include <stdio.h>
   
   int main() {
-      printf("Hello World in C\n");
+      printf("Hello World in C");\n
+
       return 0;
   }`,
     cpp: `#include <iostream>
