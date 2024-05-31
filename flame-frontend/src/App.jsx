@@ -9,17 +9,7 @@ import Routes from './Routes';
 
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleLogin = () => {
-    // Logic to handle login and set isLoggedIn to true
-    setIsLoggedIn(true);
-  };
-
-  const handleLogout = () => {
-    // Logic to handle logout and set isLoggedIn to false
-    setIsLoggedIn(false);
-  };
 
   return (
     <div>
@@ -35,9 +25,9 @@ function App() {
       >
         <ParticlesBg bg={true} type={'cobweb'} zIndex={'-1'} num={30} speed={0.1} color={['red', 'green']} />
       </div>
-      <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
-      <Routes handleLogin={handleLogin} />
-      <Footer />
+      
+      <Routes  />
+      
     </div>
   );
 }
