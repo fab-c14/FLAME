@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BACKEND_URL } from '../config';
+import { BACKEND_URL } from '../config.js';
 
 export const FETCH_BATCHES_REQUEST = 'FETCH_BATCHES_REQUEST';
 export const FETCH_BATCHES_SUCCESS = 'FETCH_BATCHES_SUCCESS';

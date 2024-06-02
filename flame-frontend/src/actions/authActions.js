@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BACKEND_URL } from '../config';
+import { BACKEND_URL } from '../config.js';
 import { jwtDecode } from 'jwt-decode';
 
 

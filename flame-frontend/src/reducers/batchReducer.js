@@ -1,10 +1,10 @@
-// src/reducers/batchReducer.js
+
 import {
     FETCH_BATCHES_REQUEST,
     FETCH_BATCHES_SUCCESS,
     FETCH_BATCHES_FAILURE,
     CREATE_BATCH_SUCCESS,
-  } from '../actions/batchActions';
+  } from '../actions/batchActions.js';
   
   const initialState = {
     batches: [],
