@@ -9,6 +9,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
+    
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
@@ -20,7 +21,9 @@
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.3",
+    "concurrently": "^8.2.2",
     "dotenv": "^16.4.5",
+    "electron": "^30.0.9",
     "electron-is-dev": "^3.0.1",
     "framer-motion": "^11.2.9",
     "jsonwebtoken": "^9.0.2",
@@ -36,7 +39,8 @@
     "react-router": "^6.23.0",
     "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5",
-    "tachyons": "^4.12.0"
+    "tachyons": "^4.12.0",
+    "wait-on": "^7.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
@@ -49,6 +53,5 @@
     "eslint-plugin-react-refresh": "^0.4.6",
     "typescript": "^5.4.5",
     "vite": "^5.2.0"
-   
   }
 }

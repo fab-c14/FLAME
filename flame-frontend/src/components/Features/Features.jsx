@@ -18,15 +18,15 @@ function Features() {
                     <Col md={4} className="mb-4">
                         <div className="text-center">
                             <FaChalkboardTeacher size={60} className="mb-3 text-primary" />
-                            <h3>Expert Guidance</h3>
-                            <p>Access expert-led tutorials, tips, and resources to enhance your learning experience.</p>
+                            <h3>Solve Questions</h3>
+                            <p>Access expert-led batches, where you/others can share tips, and resources to enhance your learning experience.</p>
                         </div>
                     </Col>
                     <Col md={4} className="mb-4">
                         <div className="text-center">
                             <FaUsers size={60} className="mb-3 text-primary" />
                             <h3>Community Collaboration</h3>
-                            <p>Connect with a global community of learners, share ideas, and collaborate on projects.</p>
+                            <p>Connect with a global community of learners, share ideas, and solve questions.</p>
                         </div>
                     </Col>
                 </Row>
