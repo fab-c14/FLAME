@@ -7,7 +7,12 @@
   "homepage": "./",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "electron:serve":"concurrently -k \"cross-env BROWSER=none npm start\" \"npm electron start\"",
+    "electron:buld":"",
+    "electron:start":"wait-on top:3000 && electron ."
+
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
