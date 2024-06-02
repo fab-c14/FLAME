@@ -9,10 +9,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "electron:serve":"concurrently -k \"cross-env BROWSER=none npm start\" \"npm electron start\"",
-    "electron:buld":"",
-    "electron:start":"wait-on top:3000 && electron ."
-
+    "electron:serve": "concurrently -k \"cross-env BROWSER=none npm start\" \"npm electron start\"",
+    "electron:buld": "",
+    "electron:start": "wait-on top:3000 && electron ."
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
@@ -24,7 +23,10 @@
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.3",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
+    "electron": "^30.0.9",
     "electron-is-dev": "^3.0.1",
     "framer-motion": "^11.2.9",
     "jsonwebtoken": "^9.0.2",
