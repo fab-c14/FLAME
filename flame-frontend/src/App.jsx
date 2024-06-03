@@ -23,7 +23,7 @@ function App() {
           zIndex: -1,
         }}
       >
-        <ParticlesBg bg={true} type={'fountain'} zIndex={'-1'} num={2} speed={0.1} color={['red', 'green']} />
+        {/* <ParticlesBg bg={true} type={'fountain'} zIndex={'-1'} num={2} speed={0.1} color={['red', 'green']} /> */}
       </div>
       
       <Routes  />

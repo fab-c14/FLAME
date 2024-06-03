@@ -13,13 +13,13 @@ const Footer = () => {
                     </Col>
                     <Col xs={12} className="text-center">
                         <div>
-                            <a href="https://github.com/yourusername" className="text-light mr3" target="_blank" rel="noopener noreferrer">
+                            <a href="https://github.com/fab-c14" className="text-light mr3" target="_blank" rel="noopener noreferrer">
                                 <FaGithub size={32} className="icon grow" />
                             </a>
-                            <a href="https://twitter.com/yourusername" className="text-light mr3" target="_blank" rel="noopener noreferrer">
+                            <a href="https://twitter.com/fab14c" className="text-light mr3" target="_blank" rel="noopener noreferrer">
                                 <FaTwitter size={32} className="icon grow" />
                             </a>
-                            <a href="https://www.linkedin.com/in/yourusername" className="text-light" target="_blank" rel="noopener noreferrer">
+                            <a href="https://www.linkedin.com/in/faisal-ahmad-bhat-aaba29229/" className="text-light" target="_blank" rel="noopener noreferrer">
                                 <FaLinkedin size={32} className="icon grow" />
                             </a>
                         </div>

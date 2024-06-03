@@ -54,7 +54,7 @@ const Routes = () => {
       <Route exact path="/" element={
         <React.Fragment>
           <Header />
-          <About />
+          <About isLoggedIn={isLoggedIn} />
           <Docs />
           <Features />
         </React.Fragment>

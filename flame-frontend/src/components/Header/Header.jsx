@@ -22,7 +22,7 @@ function Header() {
                         <h1 className="display-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>Welcome to FLAME</h1>
                         <p className="lead">Your platform for interactive learning</p>
                         <Button variant="warning" className="mr-2 hover-button b" onClick={handleClick}><FaRocket className="mr-2" /> Get Started</Button>&nbsp;&nbsp;
-                        <Button variant="outline-light" className='b'>Learn More</Button>
+                        <Button variant="outline-light bg-washed-red black" className='b' >Learn More</Button>
                     </Col>
                     <Col md={6} className="text-center">
                         <div className="mx-auto" style={{ maxWidth: '300px' }}>
