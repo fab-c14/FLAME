@@ -30,7 +30,7 @@ const Login = () => {
 
   return (
     <section className='ma3 pa2 py-3 b br4 center '>
-      <Container className='card mb-3'>
+      <Container className='mb-3 cardLogin'>
         <Row className="justify-content-center align-items-center">
           <Col md={6}>
             <h2 className="text-center mb-4">Login</h2>

@@ -1,5 +1,5 @@
 
-/* .card {
+.cardLogin {
     background-image: 
     radial-gradient(at 47% 33%, hsl(55.36, 94%, 54%) 0, transparent 59%), 
     radial-gradient(at 82% 65%, hsl(251.18, 98%, 45%) 0, transparent 55%);
@@ -8,4 +8,4 @@
     background-color: rgba(17, 25, 40, 0.27);
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.125);
-} */
+}

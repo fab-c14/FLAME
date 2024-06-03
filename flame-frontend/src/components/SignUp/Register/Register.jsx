@@ -3,7 +3,7 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../../actions/authActions';
-
+import '../Login/Login.css';
 
 const Registration = () => {
   const [userType, setUserType] = useState('student');
@@ -26,8 +26,8 @@ const Registration = () => {
   };
 
   return (
-    <section className='ma3 pa2 py-3 b br4 b--white gradient-background'>
-      <Container className='card '>
+    <section className='ma3 pa2 py-3 b br4 center '>
+      <Container className='cardLogin'>
         <Row className="justify-content-center">
           <Col md={6}>
             <h2 className="text-center ma-2">Registration</h2>

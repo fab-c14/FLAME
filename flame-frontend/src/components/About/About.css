@@ -2,5 +2,6 @@
 .hover-about{
     background-image: url('../../assets/about_btns.svg');
     background-repeat: no-repeat;
+
     background-size: cover;
 }
