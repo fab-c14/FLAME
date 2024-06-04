@@ -6,6 +6,7 @@ import authReducer from './authReducer'; // Adjust the import based on your auth
 const rootReducer = combineReducers({
     auth: authReducer,
     batches: batchReducer,
+    // question:questionReducer,
 });
 
 export default rootReducer;

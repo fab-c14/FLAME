@@ -7,11 +7,12 @@ export const FETCH_BATCHES_FAILURE = 'FETCH_BATCHES_FAILURE';
 export const CREATE_BATCH_SUCCESS = 'CREATE_BATCH_SUCCESS';
 export const JOIN_BATCH_SUCCESS = 'JOIN_BATCH_SUCCESS';
 
-export const fetchBatches = () => async (dispatch) => {
+export const fetchBatches = (createdBy) => async (dispatch) => {
   dispatch({ type: FETCH_BATCHES_REQUEST });
   try {
-    const response = await axios.get(`${BACKEND_URL}/api/batches`);
+    const response = await axios.post(`${BACKEND_URL}/api/batches`,{createdBy});
     dispatch({ type: FETCH_BATCHES_SUCCESS, payload: response.data });
+    localStorage.setItem('batches',JSON.stringify(response.data));
   
   } catch (error) {
     dispatch({ type: FETCH_BATCHES_FAILURE, error });

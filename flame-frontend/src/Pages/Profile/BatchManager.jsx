@@ -4,28 +4,28 @@ import { FaPlus, FaUser } from 'react-icons/fa';
 import axios from 'axios';
 import { BACKEND_URL } from '../../config';
 import {Link} from 'react-router-dom';
+import { createBatch, fetchBatches } from '../../actions/batchActions';
+import { useDispatch, useSelector } from 'react-redux';
 const BatchManager = ({ setSelectedStudent, createdBy }) => {
   const [showModal, setShowModal] = useState(false);
   const [batchName, setBatchName] = useState('');
   const [batches, setBatches] = useState([]);
-  const [selectedBatch, setSelectedBatch] = useState(null);
+  const [selectedBatch, setSelectedBatch] = useState();
+  const user_batches = useSelector(state=>state.batches);
+  // console.log(user_batches);
+  // console.log(user_batches);
+  const dispatch = useDispatch();
+  useEffect(() => {      
+    dispatch(fetchBatches(createdBy));
+    setBatches(user_batches)
 
-  useEffect(() => {
-    const fetchBatches = async () => {
-      try {
-        const response = await axios.get(`${BACKEND_URL}/api/batches/`);
-        setBatches(response.data);
-      } catch (error) {
-        console.error('Error fetching batches:', error);
-      }
-    };
-    fetchBatches();
   }, []);
+  console.log(batches);
 
   const handleBatchCreation = async () => {
     try {
-      const response = await axios.post(`${BACKEND_URL}/api/batches/create`, { name: batchName, createdBy });
-      setBatches([...batches, response.data]);
+      dispatch(createBatch( batchName, createdBy ));
+      setBatches([...user_batches]);
       setBatchName('');
       setShowModal(false);
     } catch (error) {

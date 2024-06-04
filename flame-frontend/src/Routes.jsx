@@ -49,7 +49,7 @@ const Routes = () => {
 
   return (
     <>
-   {!isEditor && <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />}
+   {!isEditor && <Navbar />}
     <Rs>
       <Route exact path="/" element={
         <React.Fragment>

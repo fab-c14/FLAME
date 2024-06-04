@@ -18,15 +18,24 @@ router.post('/create', async (req, res) => {
 });
 
 // Get all batches (with students' names and emails)
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
+  const { createdBy } = req.body;
   try {
-    const batches = await Batch.find().populate('students', 'name stats');
+    let batches;
+    if (createdBy) {
+      // Fetch batches created by the specified user
+      batches = await Batch.find({ createdBy }).populate('students', 'name stats');
+    } else {
+      // Fetch all batches
+      batches = await Batch.find().populate('students', 'name stats');
+    }
     res.json(batches);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
+
 
 
 
