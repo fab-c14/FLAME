@@ -8,8 +8,7 @@ import './Login.css';
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoading, error } = useSelector(state => state.auth); // Destructure to get isLoading and error
-
+  const { isLoading, error } = useSelector(state => state.auth); 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -57,7 +56,7 @@ const Login = () => {
               <Button variant="primary" type="submit" className="w-100 mb-4" disabled={isLoading}>
                 {isLoading ? 'Loading...' : 'Login'}
               </Button>
-              {error && <p className="text-danger">{error}</p>}
+              {error && <p className="bg-light-pink black br2 tc">{error}</p>}
               <Link to="/register">
                 <Button variant='warning' className='w-100 mb-3'>Register</Button>
               </Link>

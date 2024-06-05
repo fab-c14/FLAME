@@ -10,12 +10,13 @@ const router = express.Router();
 // @route   POST /api/users/login
 // @access  Public
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-
+  const { email, password,userType } = req.body;
+  console.log(userType);
+  
   try {
     const user = await User.findOne({ email });
-
-    if (user && (await user.matchPassword(password))) {
+    console.log(user.role,userType);
+    if (user && (await user.matchPassword(password)) && user.role==userType) {
       const payload = {
         user: {
           id: user._id,
@@ -27,7 +28,7 @@ router.post('/login', async (req, res) => {
         },
       };
 
-      jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' }, (err, token) => {
+      jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '3d' }, (err, token) => {
         if (err) throw err;
         // Send additional user data along with the token
         res.json({
@@ -84,7 +85,7 @@ router.post('/register', async (req, res) => {
       },
     };
 
-    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' }, (err, token) => {
+    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '3d' }, (err, token) => {
       if (err) throw err;
       // Send additional user data along with the token
       res.status(201).json({

@@ -76,7 +76,7 @@ const Registration = () => {
               <Button variant="primary" type="submit" className="w-100 mb-4" disabled={isLoading}>
                 {isLoading ? 'Loading...' : 'Register'}
               </Button>
-              {error && <p className="text-danger">{error}</p>}
+              {error && <p className="black bg-light-pink br2 tc">{error}</p>}
               <Link to="/login">
                 <Button variant='warning' className='w-100 mb-3'>Login</Button>
               </Link>
