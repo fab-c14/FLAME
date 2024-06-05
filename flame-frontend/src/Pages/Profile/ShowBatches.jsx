@@ -40,7 +40,7 @@ const ShowBatches = ({ joinedBatches }) => {
         ) : storedBatches.length > 0 ? (
           <ul className="list pl0 mt3">
             {storedBatches.map((batch) => (
-              <li key={batch.id} className="flex items-center justify-between pa3 bg-light-gray mb2 ba2 b--green b3">
+              <li key={batch._id} className="flex items-center justify-between pa3 bg-light-gray mb2 ba2 b--green b3">
                 <div className="batch-info">
                   <h5 className="f5 ma0">{batch.name}</h5>
                   <p className="ma0"><strong>ID:</strong> {batch._id}</p>

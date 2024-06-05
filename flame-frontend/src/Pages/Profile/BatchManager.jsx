@@ -1,31 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Card, ListGroup, ListGroupItem, Button, Form, Modal } from 'react-bootstrap';
 import { FaPlus, FaUser } from 'react-icons/fa';
-import axios from 'axios';
-import { BACKEND_URL } from '../../config';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { createBatch, fetchBatches } from '../../actions/batchActions';
 import { useDispatch, useSelector } from 'react-redux';
+
 const BatchManager = ({ setSelectedStudent, createdBy }) => {
   const [showModal, setShowModal] = useState(false);
   const [batchName, setBatchName] = useState('');
-  const [batches, setBatches] = useState([]);
   const [selectedBatch, setSelectedBatch] = useState();
-  const user_batches = useSelector(state=>state.batches);
-  // console.log(user_batches);
-  // console.log(user_batches);
   const dispatch = useDispatch();
-  useEffect(() => {      
-    dispatch(fetchBatches(createdBy));
-    setBatches(user_batches)
 
-  }, []);
-  console.log(batches);
+  const batches = useSelector(state=> state.batches.batches);
+  // console.log(batches.batches)
+  useEffect(() => {
+    dispatch(fetchBatches(createdBy));
+  }, [dispatch, createdBy]);
 
   const handleBatchCreation = async () => {
     try {
-      dispatch(createBatch( batchName, createdBy ));
-      setBatches([...user_batches]);
+      await dispatch(createBatch(batchName, createdBy));
+      dispatch(fetchBatches(createdBy));
       setBatchName('');
       setShowModal(false);
     } catch (error) {
@@ -50,14 +45,13 @@ const BatchManager = ({ setSelectedStudent, createdBy }) => {
         </Button>
       </Card.Header>
       <ListGroup variant="flush br2">
-        {batches.length > 0 ? (
+        {batches && batches.length > 0 ? (
           batches.map((batch) => (
             <ListGroupItem className='tc ma2 pa2 shadow-2 bg-light-green' key={batch._id} onClick={() => handleBatchClick(batch)}>
-             <FaUser className="mr2" /> {batch.name} ({batch._id}){' '}
+              <FaUser className="mr2" /> {batch.name} ({batch._id}){' '}
               <Link to="/community" className='tc ma2 pa2 dib btn btn-warning'>
                 Community
               </Link>
-
             </ListGroupItem>
           ))
         ) : (
@@ -93,7 +87,7 @@ const BatchManager = ({ setSelectedStudent, createdBy }) => {
           <h4 className="tc ba b--blue">Students in Batch:</h4>
           <ListGroup>
             {selectedBatch.students.map((student) => (
-              <ListGroupItem className="blue tc" key={student.id} onClick={() => handleStudentClick(student)}>
+              <ListGroupItem className="blue tc" key={student._id} onClick={() => handleStudentClick(student)}>
                 {student.name} (ID: {student._id})
               </ListGroupItem>
             ))}

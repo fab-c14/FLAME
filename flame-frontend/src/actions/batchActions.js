@@ -12,8 +12,7 @@ export const fetchBatches = (createdBy) => async (dispatch) => {
   try {
     const response = await axios.post(`${BACKEND_URL}/api/batches`,{createdBy});
     dispatch({ type: FETCH_BATCHES_SUCCESS, payload: response.data });
-    localStorage.setItem('batches',JSON.stringify(response.data));
-  
+    // localStorage.setItem('batches',JSON.stringify(response.data));
   } catch (error) {
     dispatch({ type: FETCH_BATCHES_FAILURE, error });
   }
@@ -21,8 +20,9 @@ export const fetchBatches = (createdBy) => async (dispatch) => {
 
 export const createBatch = (batchName, createdBy) => async (dispatch) => {
   try {
-    const response = await axios.post(`${BACKEND_URL}/api/batches`, { name: batchName, createdBy });
+    const response = await axios.post(`${BACKEND_URL}/api/batches/create`, { name: batchName, createdBy });
     dispatch({ type: CREATE_BATCH_SUCCESS, payload: response.data });
+    // localStorage.setItem('batches',JSON.stringify(response.data));
   } catch (error) {
     console.error('Error creating batch:', error);
   }
