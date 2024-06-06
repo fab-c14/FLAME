@@ -1,116 +1,128 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import { Card } from 'react-bootstrap';
+import { Button, Form, InputGroup, Card, ListGroup, Container, Row, Col } from 'react-bootstrap';
+import { FaPaperPlane } from 'react-icons/fa';
 import axios from 'axios';
 
-const ChatBubble = ({ message, isCurrentUser, timestamp, userName, isTeacher, isQuestion, testCases, answers, onSolve }) => {
-  return (
-    <Card className={`chat-bubble ${isCurrentUser ? 'current-user' : ''} mb-2`}>
-      <Card.Body>
-        <Card.Text>{message}</Card.Text>
-        <Card.Subtitle className="text-muted">
-          {timestamp} by {userName} {isTeacher && <span className="teacher-tag">(Teacher)</span>}
-        </Card.Subtitle>
-        {isQuestion && !isCurrentUser && (
-          <Button variant="secondary" className="mt-2" onClick={() => onSolve(testCases, answers)}>
-            Solve
-          </Button>
-        )}
-      </Card.Body>
-    </Card>
-  );
-};
+const Chatbox = ({ userType }) => {
+  const [question, setQuestion] = useState('');
+  const [testCases, setTestCases] = useState([{ input: '', expectedOutput: '' }]);
+  const [response, setResponse] = useState('');
+  const [messages, setMessages] = useState([]);
 
-const Chatbox = ({ user }) => {
-  const [userMessage, setUserMessage] = useState('');
-  const [isQuestion, setIsQuestion] = useState(false);
-  const [testCases, setTestCases] = useState('');
-  const [answers, setAnswers] = useState('');
-  const [chatHistory, setChatHistory] = useState([]);
-  const isStudent = user.role === 'student';
+  const handlePostQuestion = () => {
+    if (question.trim() === '' || testCases.some(tc => tc.input === '' || tc.expectedOutput === '')) return;
 
-  const handleSendMessage = () => {
-    if (userMessage.trim()) {
-      setChatHistory([...chatHistory, { message: userMessage, isCurrentUser: true, userName: user.name, isTeacher: !isStudent, isQuestion, testCases, answers }]);
-      setUserMessage('');
-      setIsQuestion(false);
-      setTestCases('');
-      setAnswers('');
-    }
+    const newMessage = { type: 'question', content: question, testCases };
+    setMessages([...messages, newMessage]);
+    setQuestion('');
+    setTestCases([{ input: '', expectedOutput: '' }]);
   };
 
-  const handleSolve = async (testCases, answers) => {
+  const handleSolveQuestion = async (index) => {
+    const answer = response;
+    const { testCases } = messages[index];
+
     try {
-      const response = await axios.post('/api/solve', { testCases, answers });
-      const solution = response.data.solution;
-      setChatHistory([...chatHistory, { message: solution, isCurrentUser: false, userName: 'System', isTeacher: false }]);
+      const res = await axios.post('http://localhost:3000/execute', {
+        code: answer,
+        testCases: testCases.map(tc => ({ input: tc.input, expectedOutput: tc.expectedOutput }))
+      });
+
+      const results = res.data.results;
+      const newMessage = { type: 'answer', content: response, result: results };
+      const updatedMessages = [...messages];
+      updatedMessages[index].answers = updatedMessages[index].answers || [];
+      updatedMessages[index].answers.push(newMessage);
+      setMessages(updatedMessages);
+      setResponse('');
     } catch (error) {
-      console.error('Error solving the question:', error);
+      console.error('Error executing code:', error);
     }
   };
-  const timeStamp = new Date().toLocaleDateString();
+
+  const addTestCase = () => {
+    setTestCases([...testCases, { input: '', expectedOutput: '' }]);
+  };
+
+  const handleTestCaseChange = (index, field, value) => {
+    const newTestCases = [...testCases];
+    newTestCases[index][field] = value;
+    setTestCases(newTestCases);
+  };
 
   return (
-    <Container className="bg-black pa3 mt-3 b--black white shadow-5 br3">
-      <Row>
-        <Col>
-          {chatHistory.map((chat, index) => (
-            <ChatBubble
-              key={index}
-              message={chat.message}
-              isCurrentUser={chat.isCurrentUser}
-              timestamp={timeStamp.toString()}
-              userName={chat.userName}
-              isTeacher={chat.isTeacher}
-              isQuestion={chat.isQuestion}
-              testCases={chat.testCases}
-              answers={chat.answers}
-              onSolve={handleSolve}
-            />
-          ))}
-          {!isStudent && (
-            <Form>
-              <Form.Group controlId="userMessage">
-                <Form.Control
-                  type="text"
-                  placeholder="Type your message..."
-                  value={userMessage}
-                  onChange={(e) => setUserMessage(e.target.value)}
-                />
-              </Form.Group>
-              <Form.Group controlId="isQuestion">
-                <Form.Check
-                  type="checkbox"
-                  label="Is this a question?"
-                  checked={isQuestion}
-                  onChange={() => setIsQuestion(!isQuestion)}
-                />
-              </Form.Group>
-              {isQuestion && (
+    <Container className="mt-4">
+      <Row className="justify-content-md-center">
+        <Col xs={12} md={8}>
+          <Card className="pa3">
+            <Card.Body>
+              <Card.Title className="tc">Classroom Chatbox</Card.Title>
+              <ListGroup variant="flush">
+                {messages.map((msg, index) => (
+                  <ListGroup.Item key={index} className="mb-2">
+                    <div className="mb-2">
+                      <strong>{msg.type === 'question' ? 'Question' : 'Answer'}:</strong> {msg.content}
+                    </div>
+                    {msg.type === 'question' && userType === 'teacher' && (
+                      <>
+                        {/* <InputGroup className="mb-2">
+                          <Form.Control
+                            as="textarea"
+                            placeholder="Enter your solution"
+                            value={response}
+                            onChange={(e) => setResponse(e.target.value)}
+                          />
+                        </InputGroup> */}
+                        <Button variant="success" onClick={() => handleSolveQuestion(index)}>
+                          Solve <FaPaperPlane />
+                        </Button>
+                      </>
+                    )}
+                    {msg.answers && msg.answers.map((answer, i) => (
+                      <div key={i} className="mt-2">
+                        <strong>Answer:</strong> {answer.content}
+                        <div><strong>Result:</strong> {JSON.stringify(answer.result)}</div>
+                      </div>
+                    ))}
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+              {userType === 'teacher' && (
                 <>
-                  <Form.Group controlId="testCases">
+                  <InputGroup className="mt-3 mb-2">
                     <Form.Control
-                      type="text"
-                      placeholder="Test cases (comma-separated)"
-                      value={testCases}
-                      onChange={(e) => setTestCases(e.target.value)}
+                      as="textarea"
+                      placeholder="Enter your question"
+                      value={question}
+                      onChange={(e) => setQuestion(e.target.value)}
                     />
-                  </Form.Group>
-                  <Form.Group controlId="answers">
-                    <Form.Control
-                      type="text"
-                      placeholder="Answers (comma-separated)"
-                      value={answers}
-                      onChange={(e) => setAnswers(e.target.value)}
-                    />
-                  </Form.Group>
+                  </InputGroup>
+                  {testCases.map((testCase, index) => (
+                    <InputGroup className="mb-2" key={index}>
+                      <Form.Control
+                        type="text"
+                        placeholder="Input"
+                        value={testCase.input}
+                        onChange={(e) => handleTestCaseChange(index, 'input', e.target.value)}
+                      />
+                      <Form.Control
+                        type="text"
+                        placeholder="Expected Output"
+                        value={testCase.expectedOutput}
+                        onChange={(e) => handleTestCaseChange(index, 'expectedOutput', e.target.value)}
+                      />
+                    </InputGroup>
+                  ))}
+                  <Button variant="secondary" onClick={addTestCase}>
+                    Add Test Case
+                  </Button> &nbsp; &nbsp;
+                  <Button variant="primary" onClick={handlePostQuestion} className="mt-2">
+                    Post Question <FaPaperPlane />
+                  </Button>
                 </>
               )}
-              <Button variant="primary" className="mt-3" onClick={handleSendMessage}>
-                Send
-              </Button>
-            </Form>
-          )}
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
     </Container>
