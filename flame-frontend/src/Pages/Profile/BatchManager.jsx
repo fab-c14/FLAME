@@ -12,7 +12,7 @@ const BatchManager = ({ setSelectedStudent, createdBy }) => {
   const dispatch = useDispatch();
 
   const batches = useSelector(state=> state.batches.batches);
-  // console.log(batches.batches)
+
   useEffect(() => {
     dispatch(fetchBatches(createdBy));
   }, [dispatch, createdBy]);

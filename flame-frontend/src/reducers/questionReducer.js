@@ -1,5 +1,4 @@
-// actions.js
-import axios from 'axios';
+// reducer.js
 import {
     CREATE_QUESTION_REQUEST,
     CREATE_QUESTION_SUCCESS,
@@ -7,27 +6,45 @@ import {
     GET_QUESTIONS_REQUEST,
     GET_QUESTIONS_SUCCESS,
     GET_QUESTIONS_FAILURE,
-} from './actionTypes';
-import { BACKEND_URL } from '../config';
+} from '../actions/actionTypes';
 
-// Action creator for creating a question
-export const createQuestion = (question) => async (dispatch) => {
-    dispatch({ type: CREATE_QUESTION_REQUEST });
-    try {
-        const response = await axios.post(`${BACKEND_URL}/api/questions/createQuestions`, question);
-        dispatch({ type: CREATE_QUESTION_SUCCESS, payload: response.data });
-    } catch (error) {
-        dispatch({ type: CREATE_QUESTION_FAILURE, error: error.message });
+const initialState = {
+    questions: [],
+    loading: false,
+    error: null,
+};
+
+const questionReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case CREATE_QUESTION_REQUEST:
+        case GET_QUESTIONS_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: null,
+            };
+        case CREATE_QUESTION_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                questions: [...state.questions, action.payload],
+            };
+        case GET_QUESTIONS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                questions: action.payload,
+            };
+        case CREATE_QUESTION_FAILURE:
+        case GET_QUESTIONS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error,
+            };
+        default:
+            return state;
     }
 };
 
-// Action creator for getting questions by batch ID
-export const getQuestions = (batchId) => async (dispatch) => {
-    dispatch({ type: GET_QUESTIONS_REQUEST });
-    try {
-        const response = await axios.get(`${BACKEND_URL}/api/questions/batch/${batchId}`);
-        dispatch({ type: GET_QUESTIONS_SUCCESS, payload: response.data });
-    } catch (error) {
-        dispatch({ type: GET_QUESTIONS_FAILURE, error: error.message });
-    }
-};
+export default questionReducer;

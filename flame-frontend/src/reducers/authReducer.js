@@ -16,7 +16,7 @@ const initialState = {
   error: null,
 };
 
-// Reducer function
+
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_REQUEST:
