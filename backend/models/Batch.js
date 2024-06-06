@@ -13,6 +13,10 @@ const BatchSchema = new mongoose.Schema({
     type:String,
     ref: 'User',
   },
+  questions:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'Batch'
+  }],
   created_at: {
     type: Date,
     default: Date.now,

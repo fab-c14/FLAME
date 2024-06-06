@@ -4,16 +4,21 @@ import Question from '../models/Question.js';
 const router = express.Router();
 
 // Create a question
-router.post('/', async (req, res) => {
-  const { title, description, testCases, createdBy, batchId } = req.body;
+router.post('/createQuestion', async (req, res) => {
+  const { title, testCases, createdBy, batchId } = req.body;
+  console.log(title,testCases,createdBy,batchId);
   try {
-    const newQuestion = new Question({ title, description, testCases, createdBy, batchId });
+    const newQuestion = new Question({ title,  testCases, createdBy, batchId });
     await newQuestion.save();
     res.status(201).json(newQuestion);
   } catch (error) {
     res.status(400).json({ message: 'Failed to create question', error });
   }
 });
+
+
+
+
 
 // Get questions by batch
 router.get('/batch/:batchId', async (req, res) => {

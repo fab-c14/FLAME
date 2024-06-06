@@ -29,6 +29,7 @@ const BatchManager = ({ setSelectedStudent, createdBy }) => {
   };
 
   const handleBatchClick = (batch) => {
+    localStorage.setItem('selectedBatch',JSON.stringify(batch));
     setSelectedBatch(batch);
   };
 
