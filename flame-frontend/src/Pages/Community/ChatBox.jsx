@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Form, InputGroup, Card, ListGroup, Container, Row, Col } from 'react-bootstrap';
 import { FaPaperPlane } from 'react-icons/fa';
 import axios from 'axios';
+import { BACKEND_URL } from '../../config';
 
 const Chatbox = ({ userType }) => {
   const [question, setQuestion] = useState('');
@@ -23,7 +24,7 @@ const Chatbox = ({ userType }) => {
     const { testCases } = messages[index];
 
     try {
-      const res = await axios.post('http://localhost:3000/execute', {
+      const res = await axios.post(`${BACKEND_URL}/execute`, {
         code: answer,
         testCases: testCases.map(tc => ({ input: tc.input, expectedOutput: tc.expectedOutput }))
       });
@@ -65,14 +66,14 @@ const Chatbox = ({ userType }) => {
                     </div>
                     {msg.type === 'question' && userType === 'teacher' && (
                       <>
-                        {/* <InputGroup className="mb-2">
+                        <InputGroup className="mb-2">
                           <Form.Control
                             as="textarea"
                             placeholder="Enter your solution"
                             value={response}
                             onChange={(e) => setResponse(e.target.value)}
                           />
-                        </InputGroup> */}
+                        </InputGroup>
                         <Button variant="success" onClick={() => handleSolveQuestion(index)}>
                           Solve <FaPaperPlane />
                         </Button>
