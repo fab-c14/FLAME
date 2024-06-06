@@ -9,6 +9,7 @@ const Chatbox = ({ userType, user}) => {
   const [testCases, setTestCases] = useState([{ input: '', expectedOutput: '' }]);
   const [response, setResponse] = useState('');
   const [messages, setMessages] = useState([]);
+
   const handlePostQuestion = async () => {
     if (question.trim() === '' || testCases.some(tc => tc.input === '' || tc.expectedOutput === '')) return;
     const selectedBatch = JSON.parse(localStorage.getItem('selectedBatch'));
@@ -36,7 +37,7 @@ const Chatbox = ({ userType, user}) => {
       // Handle the error (e.g., show an error message to the user)
     }
   };
-
+  
 
   const handleSolveQuestion = async (index) => {
     const answer = response;
@@ -72,61 +73,80 @@ const Chatbox = ({ userType, user}) => {
 
   return (
     <Container className="mt-4">
-    <Row className="justify-content-md-center">
-      <Col xs={12} md={8}>
-        <Card className="pa3">
-          <Card.Body>
-            <Card.Title className="tc">Classroom Chatbox</Card.Title>
-            <ListGroup variant="flush">
-              {messages.map((msg, index) => (
-                <ListGroup.Item key={index} className="mb-2">
-                  <div className="mb-2">
-                    <strong>{msg.type === 'question' ? 'Question' : 'Answer'}:</strong> {msg.content}
-                  </div>
-                  {msg.type === 'question' && userType === 'teacher' && (
-                    <>
-                      <InputGroup className="mb-2">
-                        <Form.Control
-                          as="textarea"
-                          placeholder="Enter your solution"
-                          value={response}
-                          onChange={(e) => setResponse(e.target.value)}
-                        />
-                      </InputGroup>
-                      <Button variant="success" onClick={() => handleSolveQuestion(index)}>
-                        Solve <FaPaperPlane />
-                      </Button>
-                    </>
-                  )}
-                  {msg.answers && msg.answers.map((answer, i) => (
-                    <div key={i} className="mt-2">
-                      <strong>Answer:</strong> {answer.content}
-                      <div><strong>Result:</strong> {JSON.stringify(answer.result)}</div>
+      <Row className="justify-content-md-center">
+        <Col xs={12} md={8}>
+          <Card className="pa3">
+            <Card.Body>
+              <Card.Title className="tc">Classroom Chatbox</Card.Title>
+              <ListGroup variant="flush">
+                {messages.map((msg, index) => (
+                  <ListGroup.Item key={index} className="mb-2">
+                    <div className="mb-2">
+                      <strong>{msg.type === 'question' ? 'Question' : 'Answer'}:</strong> {msg.content}
                     </div>
-                  ))}
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-            {userType === 'teacher' && (
-              <>
-                {/* Display questions with a "Solve" button */}
-                {questions.map((question, qIndex) => (
-                  <div key={qIndex} className="mt-3">
-                    <strong>Question:</strong> {question.title}
-                    <Button variant="success" onClick={() => handleSolveQuestion(question._id)}>
-                      Solve <FaPaperPlane />
-                    </Button>
-                  </div>
+                    {msg.type === 'question' && userType === 'teacher' && (
+                      <>
+                        <InputGroup className="mb-2">
+                          <Form.Control
+                            as="textarea"
+                            placeholder="Enter your solution"
+                            value={response}
+                            onChange={(e) => setResponse(e.target.value)}
+                          />
+                        </InputGroup>
+                        <Button variant="success" onClick={() => handleSolveQuestion(index)}>
+                          Solve <FaPaperPlane />
+                        </Button>
+                      </>
+                    )}
+                    {msg.answers && msg.answers.map((answer, i) => (
+                      <div key={i} className="mt-2">
+                        <strong>Answer:</strong> {answer.content}
+                        <div><strong>Result:</strong> {JSON.stringify(answer.result)}</div>
+                      </div>
+                    ))}
+                  </ListGroup.Item>
                 ))}
-                {/* Add input fields for posting a new question */}
-                {/* ... (existing input fields for posting a new question) ... */}
-              </>
-            )}
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
-  </Container>
+              </ListGroup>
+              {userType === 'teacher' && (
+                <>
+                  <InputGroup className="mt-3 mb-2">
+                    <Form.Control
+                      as="textarea"
+                      placeholder="Enter your question"
+                      value={question}
+                      onChange={(e) => setQuestion(e.target.value)}
+                    />
+                  </InputGroup>
+                  {testCases.map((testCase, index) => (
+                    <InputGroup className="mb-2" key={index}>
+                      <Form.Control
+                        type="text"
+                        placeholder="Input"
+                        value={testCase.input}
+                        onChange={(e) => handleTestCaseChange(index, 'input', e.target.value)}
+                      />
+                      <Form.Control
+                        type="text"
+                        placeholder="Expected Output"
+                        value={testCase.expectedOutput}
+                        onChange={(e) => handleTestCaseChange(index, 'expectedOutput', e.target.value)}
+                      />
+                    </InputGroup>
+                  ))}
+                  <Button variant="secondary" className='mt-2' onClick={addTestCase}>
+                    Add Test Case
+                  </Button> &nbsp; &nbsp;
+                  <Button variant="primary" onClick={handlePostQuestion} className="mt-2">
+                    Post Question <FaPaperPlane />
+                  </Button>
+                </>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
