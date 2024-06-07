@@ -8,8 +8,8 @@ import {
     GET_QUESTIONS_SUCCESS,
     GET_QUESTIONS_FAILURE,
 } from './actionTypes';
+import { BACKEND_URL } from '../config';
 
-const BACKEND_URL = 'your_backend_url_here'; // Replace with your actual backend URL
 
 // Action creator for creating a question
 export const createQuestion = (question, user, batchId) => async (dispatch) => {

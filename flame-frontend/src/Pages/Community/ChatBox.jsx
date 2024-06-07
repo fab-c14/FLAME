@@ -3,14 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col, Card, ListGroup, InputGroup, Form, Button } from 'react-bootstrap';
 import { FaPaperPlane } from 'react-icons/fa';
 import { createQuestion, fetchQuestions } from '../../actions/questionActions';
+import {Link, useNavigate} from 'react-router-dom';
 const ChatBox = ({ userType, user }) => {
     const [question, setQuestion] = useState('');
     const [testCases, setTestCases] = useState([{ input: '', expectedOutput: '' }]);
-    const [response, setResponse] = useState('');
-
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { questions, loading, error } = useSelector((state) => state.questions);
-    console.log(questions,loading,error);
   
     useEffect(() => {
         const selectedBatch = JSON.parse(localStorage.getItem('selectedBatch'));
@@ -48,52 +47,46 @@ const ChatBox = ({ userType, user }) => {
     };
 
     const handleSolveQuestion = (index) => {
-        // Implement the logic for solving the question here
         console.log('Solve question at index:', index);
+
     };
 
     return (
-        <Container className="mt-4">
-            <Row className="justify-content-md-center">
-                <Col xs={12} md={8}>
-                    <Card className="pa3">
-                        <Card.Body>
-                            <Card.Title className="tc">Classroom Chatbox</Card.Title>
-                            <ListGroup variant="flush">
-                                {questions.map((msg, index) => (
-                                    <ListGroup.Item key={index} className="mb-2">
-                                        <div className="mb-2">
-                                            <strong>{msg.type === 'question' ? 'Question' : 'Answer'}:</strong> {msg.content}
-                                        </div>
-                                        {msg.type === 'question' && userType === 'teacher' && (
-                                            <>
-                                                <InputGroup className="mb-2">
-                                                    <Form.Control
-                                                        as="textarea"
-                                                        placeholder="Enter your solution"
-                                                        value={response}
-                                                        onChange={(e) => setResponse(e.target.value)}
-                                                    />
-                                                </InputGroup>
-                                                <Button variant="success" onClick={() => handleSolveQuestion(index)}>
-                                                    Solve <FaPaperPlane />
-                                                </Button>
-                                            </>
-                                        )}
-                                        {msg.answers && msg.answers.map((answer, i) => (
-                                            <div key={i} className="mt-2">
-                                                <strong>Answer:</strong> {answer.content}
-                                                <div><strong>Result:</strong> {JSON.stringify(answer.result)}</div>
-                                            </div>
-                                        ))}
-                                    </ListGroup.Item>
+<Container className="mt-4">
+    <Row className="justify-content-md-center">
+        <Col xs={12} md={8}>
+            <Card className="pa3 bg-navy">
+                <Card.Body>
+                    <Card.Title className="tc br3">Classroom Chatbox</Card.Title>
+                    <ListGroup variant="flush ">
+                        {questions.map((question, index) => (
+                            <ListGroup.Item key={question._id} className="mb-2">
+                                <div className="mb-2">
+                                    <strong>Title:</strong> {question.title}
+                                    <div><strong>Posted By:</strong> {question.createdBy}</div>
+                                </div>
+                                {question.testCases.map((testCase, idx) => (
+                                    <div key={idx} className="mt-2">
+                                        <strong>Test Case {idx + 1}:</strong>
+                                        <div><strong>Input:</strong> {testCase.input}</div>
+                                        <div><strong>Expected Output:</strong> {testCase.expectedOutput}</div>
+                                    </div>
                                 ))}
+                                {userType === 'teacher' && (
+                                    <>
+                                    <Link className='' to="/editor" onClick={() => handleSolveQuestion(question._id)}>
+                                        Solve <FaPaperPlane />
+                                    </Link>
+                                    </>
+                                )}
+                            </ListGroup.Item>
+                        ))}
                             </ListGroup>
                             {userType === 'teacher' && (
                                 <>
                                     <InputGroup className="mt-3 mb-2">
                                         <Form.Control
-                                            as="textarea"
+                                            as="input"
                                             placeholder="Enter your question"
                                             value={question}
                                             onChange={(e) => setQuestion(e.target.value)}
