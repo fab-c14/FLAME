@@ -12,12 +12,7 @@ const ShowBatches = ({ joinedBatches }) => {
     dispatch(fetchBatches());
   }, [dispatch]);
 
-  useEffect(() => {
-    const localStorageBatches = localStorage.getItem('userBatches');
-    if (localStorageBatches) {
-      setStoredBatches(JSON.parse(localStorageBatches));
-    }
-  }, []);
+
 
   useEffect(() => {
     if (batches.length > 0) {
@@ -28,6 +23,10 @@ const ShowBatches = ({ joinedBatches }) => {
       }
     }
   }, [batches, joinedBatches]);
+
+  const handleBatchClick = (batch)=>{
+    localStorage.setItem("selectedBatch",JSON.stringify(batch))
+  }
 
   return (
     <Card className="br3 shadow-3 mt4 ba2 br3 b--black">
@@ -41,7 +40,7 @@ const ShowBatches = ({ joinedBatches }) => {
           <ul className="list pl0 mt3">
             {storedBatches.map((batch) => (
               <li key={batch._id} className="flex items-center justify-between pa3 bg-light-gray mb2 ba2 b--green b3">
-                <div className="batch-info">
+                <div className="batch-info  p-3  br3 bg-yellow" onClick={()=>handleBatchClick(batch)}>
                   <h5 className="f5 ma0">{batch.name}</h5>
                   <p className="ma0"><strong>ID:</strong> {batch._id}</p>
                   <p className="ma0"><strong>Created By:</strong> {batch.createdBy}</p>

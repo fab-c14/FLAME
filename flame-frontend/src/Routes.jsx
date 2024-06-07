@@ -14,6 +14,7 @@ import Community from './Pages/Community/Community';
 import Footer from './components/Footer/Footer';
 import Navbar from './components/Navbar/Navbar';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Routes = () => {
   let user = null; // Initialize user to null

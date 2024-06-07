@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { BACKEND_URL } from '../config';
 
-export const FETCH_BATCHES_REQUEST = 'FETCH_BATCHES_REQUEST';
-export const FETCH_BATCHES_SUCCESS = 'FETCH_BATCHES_SUCCESS';
-export const FETCH_BATCHES_FAILURE = 'FETCH_BATCHES_FAILURE';
-export const CREATE_BATCH_SUCCESS = 'CREATE_BATCH_SUCCESS';
-export const JOIN_BATCH_SUCCESS = 'JOIN_BATCH_SUCCESS';
+import{
+  FETCH_BATCHES_REQUEST,
+  FETCH_BATCHES_SUCCESS,
+  FETCH_BATCHES_FAILURE,
+  CREATE_BATCH_SUCCESS,
+  JOIN_BATCH_SUCCESS
+} from './actionTypes'
 
 export const fetchBatches = (createdBy) => async (dispatch) => {
   dispatch({ type: FETCH_BATCHES_REQUEST });

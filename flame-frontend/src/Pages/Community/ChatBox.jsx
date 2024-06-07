@@ -4,14 +4,16 @@ import { Container, Row, Col, Card, ListGroup, InputGroup, Form, Button } from '
 import { FaPaperPlane } from 'react-icons/fa';
 import { createQuestion, fetchQuestions } from '../../actions/questionActions';
 import {Link, useNavigate} from 'react-router-dom';
-const ChatBox = ({ userType, user }) => {
+const ChatBox = ({ user }) => {
     const [question, setQuestion] = useState('');
     const [testCases, setTestCases] = useState([{ input: '', expectedOutput: '' }]);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { questions, loading, error } = useSelector((state) => state.questions);
-  
+
+    const userType = user.role;
     useEffect(() => {
+
         const selectedBatch = JSON.parse(localStorage.getItem('selectedBatch'));
         if (selectedBatch && selectedBatch._id) {
             dispatch(fetchQuestions(selectedBatch._id));
@@ -57,7 +59,7 @@ const ChatBox = ({ userType, user }) => {
         <Col xs={12} md={8}>
             <Card className="pa3 bg-navy">
                 <Card.Body>
-                    <Card.Title className="tc br3">Classroom Chatbox</Card.Title>
+                    <Card.Title className="tc br3 white">Classroom Chatbox</Card.Title>
                     <ListGroup variant="flush ">
                         {questions.map((question, index) => (
                             <ListGroup.Item key={question._id} className="mb-2">
@@ -72,12 +74,13 @@ const ChatBox = ({ userType, user }) => {
                                         <div><strong>Expected Output:</strong> {testCase.expectedOutput}</div>
                                     </div>
                                 ))}
-                                {userType === 'teacher' && (
-                                    <>
-                                    <Link className='' to="/editor" onClick={() => handleSolveQuestion(question._id)}>
+                                {userType === 'student' && (
+                            
+                                     <Link className='dib link dim br2 ph3 pv2 mb2 dib white bg-dark-blue' to="/editor" onClick={() => handleSolveQuestion(question._id)}>
                                         Solve <FaPaperPlane />
                                     </Link>
-                                    </>
+
+                               
                                 )}
                             </ListGroup.Item>
                         ))}

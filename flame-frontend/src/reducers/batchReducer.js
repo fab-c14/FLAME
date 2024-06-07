@@ -4,7 +4,7 @@ import {
     FETCH_BATCHES_SUCCESS,
     FETCH_BATCHES_FAILURE,
     CREATE_BATCH_SUCCESS,
-  } from '../actions/batchActions';
+  } from '../actions/actionTypes';
   
   const initialState = {
     batches: [],
