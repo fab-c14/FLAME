@@ -60,34 +60,38 @@ const ChatBox = ({ user }) => {
             <Card className="pa3 bg-navy">
                 <Card.Body>
                     <Card.Title className="tc br3 white">Classroom Chatbox</Card.Title>
-                    <ListGroup variant="flush ">
+                        <ListGroup variant="flush br3">
                         {questions.map((question, index) => (
-                            <ListGroup.Item key={question._id} className="mb-2">
+                            <ListGroup.Item key={question._id} className="mb-2 bg-light-blue br3 pa3 shadow-1">
                                 <div className="mb-2">
-                                    <strong>Title:</strong> {question.title}
-                                    <div><strong>Posted By:</strong> {question.createdBy}</div>
+                                    <h4 className="f4 b">{question.title}</h4>
+                                    <p className="f6"><strong>Posted By:</strong> {question.createdBy}</p>
                                 </div>
                                 {question.testCases.map((testCase, idx) => (
                                     <div key={idx} className="mt-2">
-                                        <strong>Test Case {idx + 1}:</strong>
-                                        <div><strong>Input:</strong> {testCase.input}</div>
-                                        <div><strong>Expected Output:</strong> {testCase.expectedOutput}</div>
+                                        <Form.Group>
+                                            <Form.Label className="f6 b db mb2">Test Case {idx + 1}</Form.Label>
+                                            <div className="mb2">
+                                                <Form.Text className="f6 b">Input:</Form.Text> {idx === 0 ? testCase.input : '*****'}
+                                            </div>
+                                            <div className="mb2">
+                                                <Form.Text className="f6 b">Expected Output:</Form.Text> {idx === 0 ? testCase.expectedOutput : '*****'}
+                                            </div>
+                                        </Form.Group>
                                     </div>
                                 ))}
+
                                 {userType === 'student' && (
-                            
-                                     <Link className='dib link dim br2 ph3 pv2 mb2 dib white bg-dark-blue' to="/editor" onClick={() => handleSolveQuestion(question._id)}>
+                                    <Link className='dib link dim br2 ph3 pv2 mb2 white bg-dark-blue' to="/editor" onClick={() => handleSolveQuestion(question._id)}>
                                         Solve <FaPaperPlane />
                                     </Link>
-
-                               
                                 )}
                             </ListGroup.Item>
                         ))}
-                            </ListGroup>
-                            {userType === 'teacher' && (
-                                <>
-                                    <InputGroup className="mt-3 mb-2">
+                    </ListGroup>
+                    {userType === 'teacher' && (
+                            <>
+                            <InputGroup className="mt-3 mb-2">
                                         <Form.Control
                                             as="input"
                                             placeholder="Enter your question"
