@@ -65,15 +65,7 @@ const Output = ({ editorRef, language }) => {
           ? output.map((line, i) => <Text key={i}>{line}</Text>)
           : 'Click "Run Code" to see the output here'}
       </Box>
-      <Box className="tc py mt2"
-      width="30vh"
-      height="8vh"
-      border="1px dashed"
-      borderRadius={2}
-      borderColor={isError ? "red.100" : "#333"}
-      >
-        Test Case 1
-      </Box>
+  
     </Box>
   );
 };

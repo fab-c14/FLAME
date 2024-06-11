@@ -4,8 +4,10 @@ import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector";
 import { CODE_SNIPPETS } from "../constants";
 import Output from "./Output";
+import TestCases from "./TestCases";
 
-const CodeEditor = () => {
+const CodeEditor = ({question}) => {
+  console.log("incode", question);
   const editorRef = useRef();
   const [value, setValue] = useState("");
   const [language, setLanguage] = useState("javascript");
@@ -41,6 +43,7 @@ const CodeEditor = () => {
           />
         </Box>
         <Output editorRef={editorRef} language={language} />
+        <TestCases testCases={question.testCases}/>
       </HStack>
     </Box>
   );

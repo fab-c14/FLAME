@@ -82,7 +82,7 @@ const ChatBox = ({ user }) => {
                                 ))}
 
                                 {userType === 'student' && (
-                                    <Link className='dib link dim br2 ph3 pv2 mb2 white bg-dark-blue' to="/editor" onClick={() => handleSolveQuestion(question._id)}>
+                                    <Link className='dib link dim br2 ph3 pv2 mb2 white bg-dark-blue' state={{ question: { question } }}  to="/editor" onClick={() => handleSolveQuestion(question._id)}>
                                         Solve <FaPaperPlane />
                                     </Link>
                                 )}

@@ -31,17 +31,7 @@ router.post('/login', async (req, res) => {
       jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '3d' }, (err, token) => {
         if (err) throw err;
         // Send additional user data along with the token
-        res.json({
-          token,
-          user: {
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-            joinedDate: user.createdAt,
-            stats: user.stats,
-          },
-        });
+        res.json({token});
       });
     } else {
       res.status(401).json("Invalid Username or Password");
@@ -79,31 +69,18 @@ router.post('/register', async (req, res) => {
     const payload = {
       user: {
         id: user._id,
+        name:user.name,
         role: user.role,
         joined:user.createdAt,
-        stats:user.stats
+        stats:user.stats,
+        batches:user.batches
       },
     };
 
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '3d' }, (err, token) => {
       if (err) throw err;
       // Send additional user data along with the token
-      res.status(201).json({
-        token,
-        user: {
-          _id: user._id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-          joinedDate: user.createdAt,
-          stats: {
-            totalRuns: 0,
-            successfulRuns: 0,
-            failedRuns: 0,
-            lastActive: Date.now(),
-          },
-        },
-      });
+      res.status(201).json({token});
     });
   } catch (error) {
     console.error('Error during registration:', error);
