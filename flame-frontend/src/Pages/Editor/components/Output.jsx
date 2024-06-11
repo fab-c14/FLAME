@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Box, Button, Text, useToast } from "@chakra-ui/react";
 import { executeCode } from "../api";
-import { Navigate, useNavigate } from "react-router";
-
-const Output = ({ editorRef, language }) => {
+import {  useNavigate } from "react-router";
+import TestCases from "./TestCases";
+const Output = ({ editorRef, language,question }) => {
   const toast = useToast();
   const [output, setOutput] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [isSuccess,setIsSuccess] = useState(false);
   const navigate = useNavigate();
   const runCode = async () => {
     const sourceCode = editorRef.current.getValue();
@@ -16,7 +17,9 @@ const Output = ({ editorRef, language }) => {
       setIsLoading(true);
       const { run: result } = await executeCode(language, sourceCode);
       setOutput(result.output.split("\n"));
+      setIsSuccess(true);
       result.stderr ? setIsError(true) : setIsError(false);
+  
     } catch (error) {
       console.log(error);
       toast({
@@ -27,6 +30,7 @@ const Output = ({ editorRef, language }) => {
       });
     } finally {
       setIsLoading(false);
+    
     }
   };
 
@@ -64,6 +68,12 @@ const Output = ({ editorRef, language }) => {
         {output
           ? output.map((line, i) => <Text key={i}>{line}</Text>)
           : 'Click "Run Code" to see the output here'}
+      </Box>
+      <Box>
+        <TestCases testCases={question.question.testCases} 
+        isLoading={isLoading} 
+        isSuccess={isSuccess}
+        />
       </Box>
   
     </Box>

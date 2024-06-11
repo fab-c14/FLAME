@@ -28,7 +28,7 @@ const CodeEditor = ({question}) => {
   return (
     <Box>
       <HStack spacing={4}>
-        <Box w="50%">
+        <Box w="70%">
           <LanguageSelector language={language} onSelect={onSelect} />
           <Editor
             options={{
@@ -45,8 +45,8 @@ const CodeEditor = ({question}) => {
             onChange={(value) => setValue(value)}
           />
         </Box>
-        <Output editorRef={editorRef} language={language} />
-        <TestCases testCases={question.question.testCases}/>
+        <Output editorRef={editorRef} language={language} question={question}/>
+        
       </HStack>
     </Box>
   );
