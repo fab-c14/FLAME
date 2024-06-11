@@ -7,10 +7,13 @@ import Output from "./Output";
 import TestCases from "./TestCases";
 
 const CodeEditor = ({question}) => {
-  console.log("incode", question);
+
   const editorRef = useRef();
   const [value, setValue] = useState("");
   const [language, setLanguage] = useState("javascript");
+
+
+
 
   const onMount = (editor) => {
     editorRef.current = editor;
@@ -43,7 +46,7 @@ const CodeEditor = ({question}) => {
           />
         </Box>
         <Output editorRef={editorRef} language={language} />
-        <TestCases testCases={question.testCases}/>
+        <TestCases testCases={question.question.testCases}/>
       </HStack>
     </Box>
   );
