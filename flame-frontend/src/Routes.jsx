@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import { BrowserRouter, Routes as Rs, Route } from 'react-router-dom';
 import About from './components/About/About';
 import Header from './components/Header/Header';
@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux';
 
 const Routes = () => {
   let user = null; // Initialize user to null
+  
 
   const token = localStorage.getItem('token');
   if (token) {

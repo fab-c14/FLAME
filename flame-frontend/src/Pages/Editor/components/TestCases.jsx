@@ -11,7 +11,6 @@ const TestCases = ({ testCases,isSuccess,isLoading }) => {
             key={index}
             colorScheme={isSuccess ? "green" : "red"}
             isLoading={isLoading}
-  
           >
             Test Case {index + 1}
           </Button>

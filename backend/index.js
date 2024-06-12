@@ -8,9 +8,9 @@ import questionRoutes from './routes/questionRoutes.js'; // Import question rout
 import runJavaScript from './runners/jsRunner.js';
 import runPython from './runners/pyRunner.js';
 import runC from './runners/cRunner.js';
-import executeCode from 'code-executor';
 import runCPP from './runners/cppRunner.js';
-
+import {CodeExecutor} from 'code-executor';
+import executeRoute from './routes/executeRoute.js'
 dotenv.config();
 
 connectDB();
@@ -46,24 +46,4 @@ app.post('/run', (req, res) => {
 app.use('/api/batches', batchRoutes);
 app.use('/api/users', authRoutes);
 app.use('/api/questions', questionRoutes);
-app.post('/execute', async (req, res) => {
-  const { code1, testCases } = req.body;
-  const code = `
-const numbers = [2, 1];
-console.log(numbers.join(' '));
-`;
-  // console.log(testCases);
-  console.log(code);
-
-  try {
-    const results = await executeCode({ code, testCases });
-    res.json({ results });
-  } catch (error) {
-    res.status(500).json({ error: 'Error executing code' });
-  }
-});
-
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.use('/api/',executeRoute);

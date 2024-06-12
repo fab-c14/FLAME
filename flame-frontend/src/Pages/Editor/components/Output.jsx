@@ -9,15 +9,52 @@ const Output = ({ editorRef, language,question }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isSuccess,setIsSuccess] = useState(false);
+
+  const isQuestion = question!==null;
+  console.log(isQuestion);
   const navigate = useNavigate();
   const runCode = async () => {
+
+
     const sourceCode = editorRef.current.getValue();
+
+    const input = [
+      {
+          "language": "Python",
+          "code": "import time\n time.sleep(1)\n print('hello')",
+          "testCases": [
+              {
+                  "input": "",
+                  "output": "hello\n"
+              }
+          ],
+          "timeout": 2
+      },
+      {
+          "language": "Bash",
+          "code": "echo hello",
+          "testCases": [
+              {
+                  "input": "",
+                  "output": "hello\n"
+              }
+          ],
+          "timeout": 2
+      }
+  ];
+
+
     if (!sourceCode) return;
     try {
       setIsLoading(true);
-      const { run: result } = await executeCode(language, sourceCode);
+      
+      const { run: result } = await executeCode(language, sourceCode,isQuestion,input);
+      
       setOutput(result.output.split("\n"));
-      setIsSuccess(true);
+      if(isQuestion){
+        const {response} = await executeCode(language,sourceCode,!isQuestion,input);
+        setIsSuccess(true);
+      }
       result.stderr ? setIsError(true) : setIsError(false);
   
     } catch (error) {
@@ -69,12 +106,14 @@ const Output = ({ editorRef, language,question }) => {
           ? output.map((line, i) => <Text key={i}>{line}</Text>)
           : 'Click "Run Code" to see the output here'}
       </Box>
+      {isQuestion &&
       <Box>
+      
         <TestCases testCases={question.question.testCases} 
         isLoading={isLoading} 
         isSuccess={isSuccess}
         />
-      </Box>
+      </Box>}
   
     </Box>
   );
