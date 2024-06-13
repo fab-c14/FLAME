@@ -2,41 +2,56 @@ import { Router } from 'express';
 import { CodeExecutor, Worker } from 'code-executor';
 
 const router = Router();
-const executorUrl = 'https://6379-fabc14-flame-vap42gcrp5o.ws-us114.gitpod.io';
+const executorUrl = process.env.REDIS_URL;
 const codeExecutor = new CodeExecutor('myExecutor', executorUrl);
-const worker = new Worker('myExecutor', executorUrl);
 
-async function buildWorker() {
-    await worker.build();
-    console.log('containers build success');
-}
-
-// Build the worker containers when the application starts
-buildWorker().catch(error => {
-    console.error('Failed to build containers:', error);
-});
 
 router.post('/execute', async (req, res) => {
-    const inputs = {
-        language: "Python",
-        code: 'print("hello\n")',
+
+    const pythonCode = `
+        import time
+        time.sleep(1)
+        print('hello')
+        `;
+
+        const bashCode = `
+        echo hello
+        `;
+
+
+    const inputs = [{
+        language: 'Python',
+        code: pythonCode,
         testCases: [
             {
-                input: "",
-                output: "hello\n"
-            }
+                input: '',
+                output: 'hello\n',
+            },
         ],
-        timeout: 2
-    };
+        timeout: 2,
+    },
+    {
+        language: 'Bash',
+        code: bashCode,
+        testCases: [
+            {
+                input: '',
+                output: 'hello\n',
+            },
+        ],
+        timeout: 2,
+    }];
 
     try {
         console.log('Received input:', inputs);
         
-        // Ensure the worker is started
-        worker.start();
+      
         
-        // Run the code using CodeExecutor and wait for the result
-        const results = await codeExecutor.runCode(inputs);
+        const results = await Promise.all(
+            inputs.map((input) => codeExecutor.runCode(input)),
+            codeExecutor.stop());
+    
+       
         
         // Return the results to the client
         res.status(200).json(results);

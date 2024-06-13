@@ -53,7 +53,7 @@ const Routes = () => {
     <>
    {!isEditor && <Navbar />}
     <Rs>
-      <Route exact path="/" element={
+      <Route  path="/" element={
         <React.Fragment>
           <Header />
           <About isLoggedIn={isLoggedIn} />
