@@ -3,14 +3,24 @@ import { CodeExecutor,Worker } from 'code-executor';
 
 const router = Router();
 const executorUrl = process.env.REDIS_URL;
-const codeExecutor = new CodeExecutor('myExecutor','redis://127.0.0.1:6379');
 
-const worker = new Worker('myExecutor', 'redis://127.0.0.1:6379');
+// random worker generator
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+  
+
+
 
 router.post('/execute', async (req, res) => {
+    const randNO = getRandomInt(1000);
+    const codeExecutor = new CodeExecutor('myExecutor' + randNO);
 
-    const pythonCode = `
-    print('hello')`;
+    const worker = new Worker('myExecutor' + randNO);
+    await worker.build(['Python']);
+    await worker.start();
+
+    const pythonCode = `print('hello')`;
 
     const inputs = {
         language: 'Python',
@@ -19,7 +29,11 @@ router.post('/execute', async (req, res) => {
             {
                 input: '',
                 output: 'hello\n',
-            },
+    
+            },{
+                input:'',
+                output:'tello',
+            }
         ],
         timeout: 2,
     };
@@ -27,8 +41,7 @@ router.post('/execute', async (req, res) => {
 
     try {
         console.log('Received input:', inputs);
-        await worker.build();
-        await worker.start();
+       
         const results = await codeExecutor.runCode(inputs);
        console.log("promise solved");
         
