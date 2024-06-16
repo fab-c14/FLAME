@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router";
 function Editor() {
 
   const location = useLocation();
-  const {question} = location.state; // no wwe have the question here we
+  const question = location.state?.question; // no wwe have the question here we
   console.log(question);
   return (
     <ChakraProvider theme={theme}>

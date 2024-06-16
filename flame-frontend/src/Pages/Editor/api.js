@@ -10,7 +10,7 @@ const API2 = axios.create({
 
 export const executeCode = async (language, sourceCode,isQuestion,input) => {
 
-  if (!isQuestion){
+  if (isQuestion){
     console.log(isQuestion);
     const response = await API2.post(`${BACKEND_URL}/api/execute`,{input});
     console.log(response);

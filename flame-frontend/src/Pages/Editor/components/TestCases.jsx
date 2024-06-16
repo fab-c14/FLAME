@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { Box, Button, HStack } from "@chakra-ui/react";
 
 const TestCases = ({ testCases,isSuccess,isLoading }) => {
-  
+  if (testCases === null){
+    return;
+  }
   return (
     <Box>
       <HStack spacing={4} className="pa4">

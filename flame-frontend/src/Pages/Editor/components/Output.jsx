@@ -11,8 +11,14 @@ const Output = ({ editorRef, language, question }) => {
   const [isError, setIsError] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
+  let testCases = null;
 
-  const isQuestion = question !== null;
+  const isQuestion = question!=undefined 
+  if(isQuestion){
+    testCases = question.question.testCases;
+  }
+
+  console.log("isQuest",isQuestion)
 
   const runCode = async () => {
     const sourceCode = editorRef.current.getValue();
@@ -36,8 +42,8 @@ const Output = ({ editorRef, language, question }) => {
       setIsError(false);
       setIsSuccess(false);
       setOutput(null);
-
-      const result = await executeCode(language, sourceCode, !isQuestion, input);
+   
+      const result = await executeCode(language, sourceCode, isQuestion, input);
       if (isQuestion) {
         setIsSuccess(true);
       }
@@ -73,6 +79,29 @@ const Output = ({ editorRef, language, question }) => {
         Run Code
       </Button>
       &nbsp;
+
+      {isQuestion && <Button
+        variant="outline"
+        colorScheme="green"
+        mb={4}
+        isLoading={isLoading}
+        
+      >
+        Run Tests
+      </Button> }
+      &nbsp;
+     
+      {isQuestion && 
+      <Button
+        variant="outline"
+        colorScheme="green"
+        mb={4}
+        isLoading={isLoading}
+        
+      >
+        Submit Code  
+        </Button>}
+      &nbsp;
       <Button
         variant="outline"
         colorScheme="white"
@@ -94,13 +123,15 @@ const Output = ({ editorRef, language, question }) => {
           : 'Click "Run Code" to see the output here'}
       </Box>
       {isQuestion && (
+        
         <Box>
           <TestCases
-            testCases={question.question.testCases}
+            testCases={testCases}
             isLoading={isLoading}
             isSuccess={isSuccess}
           />
         </Box>
+        
       )}
     </Box>
   );

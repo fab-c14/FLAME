@@ -14,7 +14,7 @@ import Community from './Pages/Community/Community';
 import Footer from './components/Footer/Footer';
 import Navbar from './components/Navbar/Navbar';
 import { useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+
 
 const Routes = () => {
   let user = null; // Initialize user to null
@@ -40,11 +40,7 @@ const Routes = () => {
     setIsLoggedIn(true);
   };
 
-  const handleLogout = () => {
-    // Logic to handle logout and set isLoggedIn to false
-    setIsLoggedIn(false);
-  };
-
+ 
   const isEditor = Location.pathname === '/editor';
 
 
