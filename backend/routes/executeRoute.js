@@ -13,37 +13,24 @@ function getRandomInt(max) {
 
 
 router.post('/execute', async (req, res) => {
+    let inputs = req.body;
+    console.log(inputs.input)
+    inputs = inputs.input;
+    const buildLang = inputs.language;
     const randNO = getRandomInt(1000);
     const codeExecutor = new CodeExecutor('myExecutor' + randNO);
 
     const worker = new Worker('myExecutor' + randNO);
-    await worker.build(['Python']);
+    await worker.build([buildLang]);
     await worker.start();
 
-    const pythonCode = `print('hello')`;
-
-    const inputs = {
-        language: 'Python',
-        code: pythonCode,
-        testCases: [
-            {
-                input: '',
-                output: 'hello\n',
-    
-            },{
-                input:'',
-                output:'tello',
-            }
-        ],
-        timeout: 2,
-    };
    
 
     try {
         console.log('Received input:', inputs);
        
         const results = await codeExecutor.runCode(inputs);
-       console.log("promise solved");
+        console.log("promise solved");
         
         // Return the results to the client
         res.status(200).json(results);

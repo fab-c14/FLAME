@@ -3,6 +3,9 @@ import { Box, Button, Text, useToast } from "@chakra-ui/react";
 import { executeCode } from "../api";
 import { useNavigate } from "react-router";
 import TestCases from "./TestCases";
+// for supporting the language
+const capitalizeFirstLetter = word => word.charAt(0).toUpperCase() + word.slice(1);
+
 
 const Output = ({ editorRef, language, question }) => {
   const toast = useToast();
@@ -11,27 +14,17 @@ const Output = ({ editorRef, language, question }) => {
   const [isError, setIsError] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
-  let testCases = null;
+  const testCases = question.question?.testCases || [];
+  console.log(testCases);
+  console.log(question.question.testCases);
 
-  const isQuestion = question!=undefined 
-  if(isQuestion){
-    testCases = question.question.testCases;
-  }
-
-  console.log("isQuest",isQuestion)
-
-  const runCode = async () => {
+  const runCode = async (action) => {
     const sourceCode = editorRef.current.getValue();
 
     const input = {
-      language: "Python",
+      language:capitalizeFirstLetter(language),
       code: sourceCode,
-      testCases: [
-        {
-          input: "",
-          output: "hello\n"
-        }
-      ],
+      testCases: testCases.map(tc => ({ input: tc.input, output: tc.expectedOutput })),
       timeout: 2
     };
 
@@ -42,12 +35,9 @@ const Output = ({ editorRef, language, question }) => {
       setIsError(false);
       setIsSuccess(false);
       setOutput(null);
-   
-      const result = await executeCode(language, sourceCode, isQuestion, input);
-      if (isQuestion) {
-        setIsSuccess(true);
-      }
 
+      const result = await executeCode(language, sourceCode, action === 'submit', input);
+      setIsSuccess(true);
       setOutput(result.output ? result.output.split("\n") : []);
       result.stderr ? setIsError(true) : setIsError(false);
     } catch (error) {
@@ -74,33 +64,35 @@ const Output = ({ editorRef, language, question }) => {
         colorScheme="green"
         mb={4}
         isLoading={isLoading}
-        onClick={runCode}
+        onClick={() => runCode('run')}
       >
         Run Code
       </Button>
       &nbsp;
 
-      {isQuestion && <Button
-        variant="outline"
-        colorScheme="green"
-        mb={4}
-        isLoading={isLoading}
-        
-      >
-        Run Tests
-      </Button> }
-      &nbsp;
-     
-      {isQuestion && 
-      <Button
-        variant="outline"
-        colorScheme="green"
-        mb={4}
-        isLoading={isLoading}
-        
-      >
-        Submit Code  
-        </Button>}
+      {question && (
+        <>
+          <Button
+            variant="outline"
+            colorScheme="green"
+            mb={4}
+            isLoading={isLoading}
+            onClick={() => runCode('test')}
+          >
+            Run Tests
+          </Button>
+          &nbsp;
+          <Button
+            variant="outline"
+            colorScheme="green"
+            mb={4}
+            isLoading={isLoading}
+            onClick={() => runCode('submit')}
+          >
+            Submit Code
+          </Button>
+        </>
+      )}
       &nbsp;
       <Button
         variant="outline"
@@ -122,8 +114,7 @@ const Output = ({ editorRef, language, question }) => {
           ? output.map((line, i) => <Text key={i}>{line}</Text>)
           : 'Click "Run Code" to see the output here'}
       </Box>
-      {isQuestion && (
-        
+      {question && (
         <Box>
           <TestCases
             testCases={testCases}
@@ -131,7 +122,6 @@ const Output = ({ editorRef, language, question }) => {
             isSuccess={isSuccess}
           />
         </Box>
-        
       )}
     </Box>
   );
