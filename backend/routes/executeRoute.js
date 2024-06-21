@@ -2,16 +2,13 @@ import { Router } from 'express';
 import { CodeExecutor, Worker } from 'code-executor';
 import RedisServer from 'redis-server';
 
-
 const router = Router();
 const executorUrl = process.env.REDIS_URL;
 
-// Random worker generator
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
-// Initialize Redis server
 const server = new RedisServer(6379);
 server.open((err) => {
   if (err === null) {
@@ -35,19 +32,27 @@ router.post('/execute', async (req, res) => {
     console.log('Received input:', inputs);
 
     const results = await codeExecutor.runCode(inputs);
-    console.log('Promise resolved.');
+    console.log('Results:', results);
 
-    // Return the results to the client
-    res.status(200).json(results);
+    if (inputs.testCases) {
+      const testResults = inputs.testCases.map(testCase => {
+        const obtainedOutput = results.run?.stdout?.trim() || '';
+        const remarks = obtainedOutput === testCase.output ? 'Pass' : 'Fail';
+
+
+        return { ...testCase, obtainedOutput, remarks, exitCode: results.run?.exitCode || 0 };
+      });
+      res.status(200).json({ tests: testResults });
+    } else {
+      res.status(200).json(results);
+    }
   } catch (error) {
     console.error('Code execution failed:', error);
     res.status(500).json({ error: 'Code execution failed', details: error.message });
   } finally {
-    // Stop the code executor to clean up resources
     await codeExecutor.stop();
   }
   console.log('Execution finished.');
 });
 
 export default router;
-// Implement it here instead of starting the server separately

@@ -10,11 +10,11 @@ const API2 = axios.create({
   baseURL: BACKEND_URL,
 });
 
-export const executeCode = async (language, sourceCode, isSubmit, input) => {
-  if (isSubmit) {
-    const response = await API2.post(`${BACKEND_URL}/api/execute`, { input });
-    return response.data;
-  } else {
+export const executeCode = async (language, sourceCode, action, input) => {
+  if (action === 'test' || action === 'submit') {
+    const response = await API2.post("/api/execute", { input });
+    return response.data.tests;
+  } else if (action === 'run') {
     const response = await API.post("/execute", {
       language: language,
       version: LANGUAGE_VERSIONS[language],
