@@ -33,13 +33,14 @@ router.post('/execute', async (req, res) => {
 
     const results = await codeExecutor.runCode(inputs);
     console.log('Results:', results);
-
+    let i =0;
     if (inputs.testCases) {
+        
       const testResults = inputs.testCases.map(testCase => {
-        const obtainedOutput = results.run?.stdout?.trim() || '';
+        const obtainedOutput = results.tests[i].obtainedOutput.trim() || '';
+        // console.log("outputs : ",testCase.output,results.tests[i].obtainedOutput);// thse line one code are for testing purpose
         const remarks = obtainedOutput === testCase.output ? 'Pass' : 'Fail';
-
-
+    
         return { ...testCase, obtainedOutput, remarks, exitCode: results.run?.exitCode || 0 };
       });
       res.status(200).json({ tests: testResults });
