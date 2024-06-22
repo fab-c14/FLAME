@@ -131,7 +131,7 @@ const Output = ({ editorRef, language, question }) => {
             <Text>Test Results:</Text>
             {testResults.map((test, index) => (
               <Text key={index} color={test.remarks === 'Fail' ? "red.500" : "green.500"}>
-                Input: {test.input} | Expected Output: {test.expectedOutput} | Obtained Output: {test.obtainedOutput} | Remarks: {test.remarks}
+                Input: {test.input} | Expected Output: {test.output} | Obtained Output: {test.obtainedOutput} | Remarks: {test.remarks}
               </Text>
             ))}
           </Box>

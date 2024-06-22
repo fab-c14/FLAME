@@ -3,13 +3,14 @@ import { CodeExecutor, Worker } from 'code-executor';
 import RedisServer from 'redis-server';
 
 const router = Router();
-const executorUrl = process.env.REDIS_URL;
+
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
 const server = new RedisServer(6379);
+console.log(server)
 server.open((err) => {
   if (err === null) {
     console.log('Redis server started successfully.');
@@ -19,14 +20,22 @@ server.open((err) => {
 router.post('/execute', async (req, res) => {
   let inputs = req.body;
   console.log(inputs.input);
-  inputs = inputs.input;
-  const buildLang = inputs.language;
-  const randNO = getRandomInt(1000);
-  const codeExecutor = new CodeExecutor('myExecutor' + randNO, executorUrl);
 
-  const worker = new Worker('myExecutor' + randNO, executorUrl);
+  inputs = inputs.input;
+  
+  let buildLang = inputs.language;
+  if(buildLang=='Cpp'){
+    buildLang = 'Cplusplus'
+    inputs.language = buildLang;
+  }
+  console.log(buildLang);
+  const randNO = getRandomInt(1000);
+  const codeExecutor = new CodeExecutor('myExecutor' + randNO, server);
+
+  const worker = new Worker('myExecutor' + randNO, server);
+
   await worker.build([buildLang]);
-  await worker.start();
+  worker.start();
 
   try {
     console.log('Received input:', inputs);
