@@ -36,8 +36,7 @@ const About = () => {
                              <Link to={isLoggedIn ? "/editor":"/register"} className='f4 bg-dark-red br4 link dim ba bw1 ph3 pv2 mb2 dib light-gray  b' >
                             {isLoggedIn ? "Start Coding":"Register"}
                             </Link>
-                             
-
+                            
                         </div>
                     </Col>
                 </Row>

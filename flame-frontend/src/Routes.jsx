@@ -67,6 +67,7 @@ const Routes = () => {
       <Route path="/editor" element={<Editor />} />
       <Route path="/profile" element={<Profile user={user||null} />} />
       <Route path="/community" element={<Community user={user||null} />} />
+      <Route path='/about' element={ <About isLoggedIn={isLoggedIn} /> } />
     </Rs>
     {!isEditor && <Footer /> }
     </>

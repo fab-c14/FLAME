@@ -12,6 +12,8 @@ const API2 = axios.create({
 
 export const executeCode = async (language, sourceCode, action, input) => {
   if (action === 'test' || action === 'submit') {
+    // try running the code on the system compilers first 
+    // here let's try first apis
     const response = await API2.post("/api/execute", { input });
     return response.data.tests;
   } else if (action === 'run') {

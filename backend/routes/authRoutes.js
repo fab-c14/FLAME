@@ -6,9 +6,7 @@ import User from '../models/User.js';
 
 const router = express.Router();
 
-// @desc    Auth user & get token
-// @route   POST /api/users/login
-// @access  Public
+
 router.post('/login', async (req, res) => {
   const { email, password,userType } = req.body;
   console.log(userType);
@@ -42,9 +40,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// @desc    Register a new user
-// @route   POST /api/users/register
-// @access  Public
+
 router.post('/register', async (req, res) => {
   const { name, email, password, role } = req.body;
 

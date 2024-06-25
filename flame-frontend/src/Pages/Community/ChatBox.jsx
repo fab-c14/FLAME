@@ -59,7 +59,7 @@ const ChatBox = ({ user }) => {
         <Col xs={12} md={8}>
             <Card className="pa3 bg-navy">
                 <Card.Body>
-                    <Card.Title className="tc br3 white">Classroom Chatbox</Card.Title>
+                    <Card.Title className="tc br3 white">Batch Questions</Card.Title>
                         <ListGroup variant="flush br3">
                         {questions.map((question, index) => (
                             <ListGroup.Item key={question._id} className="mb-2 bg-light-blue br3 pa3 shadow-1">
