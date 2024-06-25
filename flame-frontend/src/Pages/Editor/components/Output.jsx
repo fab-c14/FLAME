@@ -3,7 +3,7 @@ import { Box, Button, Text, useToast } from "@chakra-ui/react";
 import { executeCode } from "../api";
 import { useNavigate } from "react-router";
 import TestCases from "./TestCases";
-
+import InputModel from './inputModel';
 const capitalizeFirstLetter = word => word.charAt(0).toUpperCase() + word.slice(1);
 
 const Output = ({ editorRef, language, question }) => {
