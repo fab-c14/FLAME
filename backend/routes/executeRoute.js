@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { CodeExecutor, Worker } from 'code-executor';
 import RedisServer from 'redis-server';
-
+import SnippetStore from '../models/SnippetStore.js';
 const router = Router();
 
 
@@ -17,6 +17,12 @@ server.open((err) => {
   }
 });
 
+router.post("/saveCode",async(req,res)=>{
+  let inputs = req.body;
+  console.log(inputs);
+
+})
+
 router.post('/execute', async (req, res) => {
   let inputs = req.body;
   console.log(inputs.input);
@@ -27,6 +33,13 @@ router.post('/execute', async (req, res) => {
   if(buildLang=='Cpp'){
     buildLang = 'Cplusplus'
     inputs.language = buildLang;
+  }
+  else if(buildLang=='Csharp'){
+    buildLang='csharp'
+    inputs.language=buildLang
+  } else if(buildLang=='Java'){
+    buildLang='Java'
+    inputs.language=buildLang
   }
   console.log(buildLang);
   const randNO = getRandomInt(1000);
@@ -44,7 +57,6 @@ router.post('/execute', async (req, res) => {
     console.log('Results:', results);
     let i =0;
     if (inputs.testCases) {
-        
       const testResults = inputs.testCases.map(testCase => {
         const obtainedOutput = results.tests[i].obtainedOutput.trim() || '';
         // console.log("outputs : ",testCase.output,results.tests[i].obtainedOutput);// thse line one code are for testing purpose

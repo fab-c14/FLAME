@@ -1,7 +1,6 @@
 import express from 'express';
 import Batch from '../models/Batch.js';
-import User from '../models/User.js'; // Make sure to import the User model
-import mongoose from 'mongoose';
+import User from '../models/User.js'; 
 const router = express.Router();
 
 // Create a new batch
@@ -59,10 +58,6 @@ router.post('/:batchId', async (req, res) => {
       student.batches.push(batchId);
       await student.save();
     }
-
-    
-
-    
 
     res.json(batch);
   } catch (err) {

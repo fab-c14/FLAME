@@ -7,6 +7,12 @@ import {
     GET_QUESTIONS_REQUEST,
     GET_QUESTIONS_SUCCESS,
     GET_QUESTIONS_FAILURE,
+    CREATE_ANSWER_REQUEST,
+    CREATE_ANSWER_FAILED,
+    CREATE_ANSWER_SUCCESS,
+    GET_ANSWER_REQUEST,
+    GET_ANSWER_SUCCESS,
+    GET_ANSWER_FAILED
 } from './actionTypes';
 import { BACKEND_URL } from '../config';
 
@@ -41,3 +47,11 @@ export const fetchQuestions = (batchId) => async (dispatch) => {
         dispatch({ type: GET_QUESTIONS_FAILURE, error: error.message });
     }
 };
+
+
+// export const getAnswer = (userId,sourceCode,)=> async(dispatch)=>{
+//     dispatch({type:GET_ANSWER_REQUEST})
+//     try{
+//         const response = await axios.get(`${BACKEND_URL}/api/answers`,)
+//     }
+// }

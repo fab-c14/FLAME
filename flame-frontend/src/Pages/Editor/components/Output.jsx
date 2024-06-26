@@ -39,10 +39,13 @@ const Output = ({ editorRef, language, question }) => {
       setTestResults([]);
 
       if (action === 'submit') {
-        const result = await executeCode(language, sourceCode, action, input);
+        const tests = await executeCode(language, sourceCode, action, input);
         setIsSuccess(true);
-        setOutput(result.run.output ? result.run.output.split("\n") : []);
-        setIsError(!!result.run.stderr);
+        setTestResults(tests);
+        setOutput(tests.map(test=>test.obtainedOutput));
+        setIsError(tests.some(test => test.remarks === 'Fail'));
+        setIsSuccess(!tests.some(test => test.remarks === 'Fail'));
+      
       } else if (action === 'test') {
         const tests = await executeCode(language, sourceCode, action, input);
         setTestResults(tests);
@@ -137,7 +140,7 @@ const Output = ({ editorRef, language, question }) => {
           </Box>
         )}
       </Box>
-      {question && (
+      {/* {question && (
         <Box>
           <TestCases
             testCases={testCases}
@@ -146,7 +149,7 @@ const Output = ({ editorRef, language, question }) => {
             isSuccess={isSuccess}
           />
         </Box>
-      )}
+      )} */}
     </Box>
   );
 };
