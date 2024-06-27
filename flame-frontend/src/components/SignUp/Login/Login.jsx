@@ -19,7 +19,14 @@ const Login = () => {
     dispatch(loginUser(email, password, userType)).then(() => {
       navigate('/');
     });
+
+   
+
+    
   };
+
+  const hi = useSelector(state=>state.auth.user)
+  console.log(hi);
 
   const [userType, setUserType] = useState('student');
 
@@ -62,6 +69,7 @@ const Login = () => {
               </Link>
             </Form>
           </Col>
+     
         </Row>
       </Container>
     </section>

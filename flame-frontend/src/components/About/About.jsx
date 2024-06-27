@@ -5,12 +5,8 @@ import { Link } from 'react-router-dom';
 import { GiFlame } from "react-icons/gi";
 import { useState ,useEffect} from 'react';
 
-const About = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const userLoggedIn = localStorage.getItem('token') !== null;
-    useEffect(() => {
-        setIsLoggedIn(userLoggedIn);
-    },[userLoggedIn]);
+const About = ({isLoggedIn}) => {
+
     return (
         <section className="shadow-2 py-5 ma3 br2 bw1 bt bb b--dark-pink about-background hover-about ">
             <Container>

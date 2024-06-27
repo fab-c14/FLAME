@@ -4,12 +4,8 @@ import { FiUser } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 
-const CustomNavbar = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const userLoggedIn = localStorage.getItem('token') !== null;
-    useEffect(() => {
-        setIsLoggedIn(userLoggedIn);
-    },[userLoggedIn]);
+const CustomNavbar = ({isLoggedIn}) => {
+
     
     return (
         <Navbar expand="lg" className="py-3 black shadow-3 ma3 br2 bw1 b pa2 ba  hover-navbar b--black">

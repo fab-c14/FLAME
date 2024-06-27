@@ -1,18 +1,24 @@
 import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Flame } from '../../assets/Flame';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { FaRocket } from 'react-icons/fa'; // Importing the Rocket icon from React Icons
 import {useNavigate} from 'react-router-dom'
 import './Header.css';
-function Header() {
+function Header({isLoggedIn}) {
+
     const navigate = useNavigate();
-    const notify = () => toast("Welcome to FLAME! Let's get started.");
+
     const handleClick = () => {
-         // Redirect to /editor route
-         navigate('/editor');
-      };
+        if(isLoggedIn){
+            navigate('/editor');
+        }else{
+            navigate('/login');
+        }
+    };
+
+    const goToDocs = ()=>{
+        navigate("/Docs");
+    };
 
     return (
         <header className="shadow-2 py-5 ma3 br2 bw1 bt bb b--dark-pink header-background">
@@ -22,13 +28,7 @@ function Header() {
                         <h1 className="display-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>Welcome to FLAME</h1>
                         <p className="lead">Your platform for interactive learning</p>
                         <Button variant="warning" className="mr-2 hover-button b" onClick={handleClick}><FaRocket className="mr-2" /> Get Started</Button>&nbsp;&nbsp;
-                        <Button variant="outline-light bg-washed-red black" className='b' >Learn More</Button>
-                    </Col>
-                    <Col md={6} className="text-center">
-                        <div className="mx-auto" style={{ maxWidth: '300px' }}>
-                            <ToastContainer />
-                            <Flame />
-                        </div>
+                        <Button variant="outline-light bg-washed-red black" className='b' onClick={goToDocs}>Learn More</Button>
                     </Col>
                 </Row>
             </Container>
@@ -37,7 +37,7 @@ function Header() {
                 <Row>
                     <Col>
                         <h2>Discover the Possibilities</h2>
-                        <p>Explore our interactive coding labs, access a wide range of programming resources, and collaborate with fellow learners from around the world.</p>
+                        <p>Explore our interactive coding labs, access a wide range of coding choices, and solve questions with testcases and sharpen you skills.</p>
                     </Col>
                 </Row>
             </Container>

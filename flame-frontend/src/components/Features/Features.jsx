@@ -5,7 +5,7 @@ import { FaCode, FaChalkboardTeacher, FaUsers } from 'react-icons/fa';
 function Features() {
     return (
         <section className="py-5 shadow-3 ma3 pa2 bb bt b--black-20">
-            <Container>
+            <Container >
                 <h2 className="text-center mb-5">Key Features</h2>
                 <Row>
                     <Col md={4} className="mb-4">

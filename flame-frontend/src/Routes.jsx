@@ -32,6 +32,10 @@ const Routes = () => {
 
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const userLoggedIn = localStorage.getItem('token') !== null;
+  useEffect(() => {
+        setIsLoggedIn(userLoggedIn);
+  },[userLoggedIn]);
   const Location = useLocation();
   // console.log(Location.pathname);
 
@@ -47,23 +51,19 @@ const Routes = () => {
 
   return (
     <>
-   {!isEditor && <Navbar />}
+   {!isEditor && <Navbar isLoggedIn={isLoggedIn} />}
     <Rs>
       <Route  path="/" element={
         <React.Fragment>
-          <Header />
+          <Header isLoggedIn={isLoggedIn} />
           <About isLoggedIn={isLoggedIn} />
           <Docs />
           <Features />
         </React.Fragment>
       } />
-      <Route path="/docs" element={<Documentation />} />
-      {
-       
-      }
-
       {!user && <Route path="/register" element={<Registration />} />}
       {!user && <Route path="/login" element={<Login handleLogin={handleLogin} />} />}
+      <Route path="/docs" element={<Documentation />} />
       <Route path="/editor" element={<Editor />} />
       <Route path="/profile" element={<Profile user={user||null} />} />
       <Route path="/community" element={<Community user={user||null} />} />
