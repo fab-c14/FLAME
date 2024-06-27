@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { BACKEND_URL } from '../config';
 import { jwtDecode } from 'jwt-decode';
-import { LOAD_TOKEN, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_USER, REGISTER_FAILURE, REGISTER_SUCCESS } from './actionTypes';
+import {  LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_USER, REGISTER_FAILURE, REGISTER_SUCCESS,REGISTER_REQUEST } from './actionTypes';
 
 
 export const loginUser = (email, password, userType) => async (dispatch) => {
@@ -22,6 +22,7 @@ export const registerUser = (name, email, password, userType) => async (dispatch
   try {
     const response = await axios.post(`${BACKEND_URL}/api/users/register`, { name, email, password, role: userType });
     dispatch({ type: REGISTER_SUCCESS, payload: response.data });
+    dispatch(loginUser(email,password,userType));
   } catch (error) {
     dispatch({ type: REGISTER_FAILURE, error: error.message });
   }
@@ -33,13 +34,3 @@ export const logoutUser = () => ({
 
 
 
-export const loadToken = () => (dispatch) => {
-  // Get token from localStorage
-  const token = localStorage.getItem('token');
-  if (token) {
-    // Decode the token
-    const decoded = JSON.parse(jwtDecode(token));
-    // Dispatch an action to set the user with decoded token
-    dispatch({ type: LOAD_TOKEN, payload: decoded });
-  }
-};

@@ -1,15 +1,13 @@
 import { jwtDecode } from 'jwt-decode';
 
-// Action type constants
 import { LOGIN_REQUEST,
  LOGIN_SUCCESS ,
  LOGIN_FAILURE, 
  REGISTER_REQUEST,
  REGISTER_SUCCESS,
  REGISTER_FAILURE,
- LOAD_TOKEN } from "../actions/actionTypes";
+  } from "../actions/actionTypes";
 
-// Initial state
 const initialState = {
   user: null,
   isLoading: false,
@@ -28,8 +26,8 @@ const authReducer = (state = initialState, action) => {
     case LOGIN_FAILURE:
     case REGISTER_FAILURE:
       return { ...state, isLoading: false, error: action.error };
-    case LOAD_TOKEN:
-      return { ...state, user: action.payload }; // Set user from token
+    // case LOAD_TOKEN:
+    //   return { ...state, user: action.payload }; // Set user from token
     default:
       return state;
   }

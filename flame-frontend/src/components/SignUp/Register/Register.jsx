@@ -21,7 +21,7 @@ const Registration = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     dispatch(registerUser(name, email, password, userType)).then(() => {
-      navigate('/login');
+      navigate('/');
     });
   };
 

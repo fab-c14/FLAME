@@ -21,11 +21,11 @@ router.post("/saveCode",async(req,res)=>{
   let inputs = req.body;
   console.log(inputs);
 
-})
+});
 
 router.post('/execute', async (req, res) => {
   let inputs = req.body;
-  console.log(inputs.input);
+  // console.log(inputs.input);
 
   inputs = inputs.input;
   
@@ -54,14 +54,14 @@ router.post('/execute', async (req, res) => {
     console.log('Received input:', inputs);
 
     const results = await codeExecutor.runCode(inputs);
-    console.log('Results:', results);
+    // console.log('Results:', results);
     let i =0;
     if (inputs.testCases) {
       const testResults = inputs.testCases.map(testCase => {
         const obtainedOutput = results.tests[i].obtainedOutput.trim() || '';
         // console.log("outputs : ",testCase.output,results.tests[i].obtainedOutput);// thse line one code are for testing purpose
-        const remarks = obtainedOutput === testCase.output ? 'Pass' : 'Fail';
-    
+        const remarks = results.tests[i].remarks;
+        // console.log(remarks);
         return { ...testCase, obtainedOutput, remarks, exitCode: results.run?.exitCode || 0 };
       });
       res.status(200).json({ tests: testResults });

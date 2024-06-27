@@ -24,7 +24,7 @@ export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAILURE = 'REGISTER_FAILURE';
 // logout 
 export const LOGOUT_USER = 'LOGOUT_USER';
-export const LOAD_TOKEN = 'LOAD_TOKEN';
+// export const LOAD_TOKEN = 'LOAD_TOKEN';
 
 // answers
 export const CREATE_ANSWER_REQUEST = 'CREATE_ANSWER_REQUEST';

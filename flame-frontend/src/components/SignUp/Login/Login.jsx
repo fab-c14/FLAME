@@ -4,11 +4,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../../actions/authActions';
 import './Login.css';
+import Toaster from '../../../assets/Toaster';
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoading, error } = useSelector(state => state.auth); 
+
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -17,7 +21,16 @@ const Login = () => {
     const userType = formData.get('userType');
 
     dispatch(loginUser(email, password, userType)).then(() => {
-      navigate('/');
+      if(!error){
+        navigate('/');
+      }
+    }).catch((error) => {
+      console.error('Login failed:', error);
+      // Show an error toast using your custom Toaster component
+      setToastProps({
+        type: 'error',
+        message: 'There was an error logging you in. Please check your credentials.',
+      });
     });
 
    
@@ -25,8 +38,7 @@ const Login = () => {
     
   };
 
-  const hi = useSelector(state=>state.auth.user)
-  console.log(hi);
+ 
 
   const [userType, setUserType] = useState('student');
 
@@ -63,7 +75,7 @@ const Login = () => {
               <Button variant="primary" type="submit" className="w-100 mb-4" disabled={isLoading}>
                 {isLoading ? 'Loading...' : 'Login'}
               </Button>
-              {error && <p className="bg-light-pink black br2 tc">{error}</p>}
+              {/* display the toast here if there is an error */}
               <Link to="/register">
                 <Button variant='warning' className='w-100 mb-3'>Register</Button>
               </Link>
