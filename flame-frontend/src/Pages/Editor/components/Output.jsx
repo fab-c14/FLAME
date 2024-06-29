@@ -133,13 +133,21 @@ const Output = ({ editorRef, language, question }) => {
           <Box mt={4}>
             <Text>Test Results:</Text>
             {testResults.map((test, index) => (
-              <Text key={index} color={test.remarks === 'Fail' ? "red.500" : "green.500"}>
-                Input: {test.input} | Expected Output: {test.output} | Obtained Output: {test.obtainedOutput} | Remarks: {test.remarks}
-              </Text>
+               <Text
+               key={index}
+               color={test.remarks === 'Fail' ? 'red.500' : 'green.500'}
+               fontSize="md" // Adjust font size as needed
+               fontWeight="medium" // Customize font weight
+               lineHeight="tall" // Set line height for readability
+               mb={2} // Add margin bottom for spacing
+             >
+               Input: {test.input} | Expected Output: {test.output} | Obtained Output: {test.obtainedOutput} | Remarks: {test.remarks}
+             </Text>
             ))}
           </Box>
         )}
       </Box>
+      {/* for now we are not using the test cases file later we may use it  */}
       {/* {question && (
         <Box>
           <TestCases
