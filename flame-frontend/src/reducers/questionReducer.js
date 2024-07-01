@@ -6,6 +6,10 @@ import {
     GET_QUESTIONS_REQUEST,
     GET_QUESTIONS_SUCCESS,
     GET_QUESTIONS_FAILURE,
+    CREATE_ANSWER_REQUEST,
+    GET_ANSWER_REQUEST,
+    CREATE_ANSWER_SUCCESS,
+    CREATE_ANSWER_FAILED,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -42,6 +46,26 @@ const questionReducer = (state = initialState, action) => {
                 loading: false,
                 error: action.error,
             };
+        case CREATE_ANSWER_REQUEST:
+        case GET_ANSWER_REQUEST:
+            return{
+                ...state,
+                loading:true,
+                error:null
+            }
+        case CREATE_ANSWER_SUCCESS:
+            return{
+                ...state,
+                loading:true,
+                questions: [...state.questions, action.payload],
+            }
+        case CREATE_ANSWER_FAILED:
+            return{
+                ...state,
+                loading:false,
+                error:action.payload
+            }
+
         default:
             return state;
     }

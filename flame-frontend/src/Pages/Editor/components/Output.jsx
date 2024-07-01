@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Box, Button, Text, useToast } from "@chakra-ui/react";
 import { executeCode } from "../api";
 import { useNavigate } from "react-router";
-import TestCases from "./TestCases";
-import InputModel from './inputModel';
+import {useDispatch} from 'react-redux';
+import { submitAnswer } from "../../../actions/questionActions";
+
 const capitalizeFirstLetter = word => word.charAt(0).toUpperCase() + word.slice(1);
 
-const Output = ({ editorRef, language, question }) => {
+const Output = ({ editorRef, language, question,userId }) => {
   const toast = useToast();
   const [output, setOutput] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -14,9 +15,14 @@ const Output = ({ editorRef, language, question }) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [testResults, setTestResults] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   let testCases = [];
   if (question != undefined) {
     testCases = (question.question?.testCases) || [];
+  }
+  console.log(userId);
+  if(userId==undefined){
+    userId=0;
   }
 
   const runCode = async (action) => {
@@ -45,6 +51,8 @@ const Output = ({ editorRef, language, question }) => {
         setOutput(tests.map(test=>test.obtainedOutput));
         setIsError(tests.some(test => test.remarks === 'Fail'));
         setIsSuccess(!tests.some(test => test.remarks === 'Fail'));
+  
+        dispatch(submitAnswer(userId,sourceCode,language))
       
       } else if (action === 'test') {
         const tests = await executeCode(language, sourceCode, action, input);

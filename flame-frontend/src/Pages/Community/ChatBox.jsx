@@ -7,13 +7,12 @@ import {Link, useNavigate} from 'react-router-dom';
 const ChatBox = ({ user }) => {
     const [question, setQuestion] = useState('');
     const [testCases, setTestCases] = useState([{ input: '', expectedOutput: '' }]);
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { questions, loading, error } = useSelector((state) => state.questions);
 
     const userType = user.role;
+    // console.log(userId);
     useEffect(() => {
-
         const selectedBatch = JSON.parse(localStorage.getItem('selectedBatch'));
         if (selectedBatch && selectedBatch._id) {
             dispatch(fetchQuestions(selectedBatch._id));
@@ -33,7 +32,6 @@ const ChatBox = ({ user }) => {
 
         dispatch(createQuestion(newQuestion, user, selectedBatch._id));
 
-        // Clear the input fields
         setQuestion('');
         setTestCases([{ input: '', expectedOutput: '' }]);
     };
@@ -50,10 +48,9 @@ const ChatBox = ({ user }) => {
 
     const handleSolveQuestion = (index) => {
         console.log('Solve question at index:', index);
-
     };
 
-    return (
+return (
 <Container className="mt-4">
     <Row className="justify-content-md-center">
         <Col xs={12} md={8}>
@@ -82,7 +79,7 @@ const ChatBox = ({ user }) => {
                                 ))}
 
                                 {userType === 'student' && (
-                                    <Link className='dib link dim br2 ph3 pv2 mb2 white bg-dark-blue' state={{ question: { question } }}  to="/editor" onClick={() => handleSolveQuestion(question._id)}>
+                                    <Link className='dib link dim br2 ph3 pv2 mb2 white bg-dark-blue' state={{ question, user}}  to="/editor" onClick={() => handleSolveQuestion(question._id)}>
                                         Solve <FaPaperPlane />
                                     </Link>
                                 )}

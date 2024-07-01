@@ -49,21 +49,16 @@ export const fetchQuestions = (batchId) => async (dispatch) => {
 };
 
 
-// export const getAnswer = (userId,sourceCode,)=> async(dispatch)=>{
-//     dispatch({type:GET_ANSWER_REQUEST})
-//     try{
-//         const response = await axios.get(`${BACKEND_URL}/api/answers`,)
-//     }
-// }
 
-export const submitAnswer =(userId, sourceCode) => async(dispatch)=>{
+export const submitAnswer =(userId, sourceCode,language) => async(dispatch)=>{
     dispatch({type:CREATE_ANSWER_REQUEST})
     try{
-        const response = axios.post(`${BACKEND_URL}/api/answers`)
-        dispatch({type:CREATE_ANSWER_SUCCESS,payload:response});
-        console.log(response);
+        const response = axios.post(`${BACKEND_URL}/api/saveCode`,{userId,sourceCode,language})
+        dispatch({type:CREATE_ANSWER_SUCCESS,payload:response.data});
+        console.log(response.data);
     }
     catch(error){
+        dispatch({type:CREATE_ANSWER_FAILED,payload:error.message})
         console.log(error);
     }
 }

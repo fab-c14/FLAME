@@ -18,8 +18,16 @@ server.open((err) => {
 });
 
 router.post("/saveCode",async(req,res)=>{
-  let inputs = req.body;
-  console.log(inputs);
+  let {userId,sourceCode,language,} = req.body;
+  try{
+
+    const newSnippet = new SnippetStore({ userId ,language, code:sourceCode});
+    await newSnippet.save();
+    res.status(200).json("Saved Coded SuccessFully");
+  }catch(error){
+    console.log(error)
+    res.json({error});
+  }
 
 });
 
