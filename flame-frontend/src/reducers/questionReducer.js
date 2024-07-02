@@ -46,25 +46,6 @@ const questionReducer = (state = initialState, action) => {
                 loading: false,
                 error: action.error,
             };
-        case CREATE_ANSWER_REQUEST:
-        case GET_ANSWER_REQUEST:
-            return{
-                ...state,
-                loading:true,
-                error:null
-            }
-        case CREATE_ANSWER_SUCCESS:
-            return{
-                ...state,
-                loading:true,
-                questions: [...state.questions, action.payload],
-            }
-        case CREATE_ANSWER_FAILED:
-            return{
-                ...state,
-                loading:false,
-                error:action.payload
-            }
 
         default:
             return state;

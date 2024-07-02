@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Button, Text, useToast } from "@chakra-ui/react";
 import { executeCode } from "../api";
 import { useNavigate } from "react-router";
-import {useDispatch} from 'react-redux';
-import { submitAnswer } from "../../../actions/questionActions";
+import { useDispatch, useSelector } from 'react-redux';
+import { submitAnswer, getAnswers } from "../../../actions/answerActions";
 
 const capitalizeFirstLetter = word => word.charAt(0).toUpperCase() + word.slice(1);
 
-const Output = ({ editorRef, language, question,userId }) => {
+const Output = ({ editorRef, language, question, userId, name }) => {
   const toast = useToast();
   const [output, setOutput] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -15,14 +15,23 @@ const Output = ({ editorRef, language, question,userId }) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [testResults, setTestResults] = useState([]);
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const { answers, loading, error } = useSelector(state => state.submissions);
+
+  useEffect(() => {
+    dispatch(getAnswers());
+  }, [dispatch]);
+
   let testCases = [];
-  if (question != undefined) {
+  if (question !== undefined) {
     testCases = (question.question?.testCases) || [];
   }
-  console.log(userId);
-  if(userId==undefined){
-    userId=0;
+
+  if (userId === undefined) {
+    userId = 0;
+  }
+  if (name === undefined) {
+    name = "New User"; // set a sample user 
   }
 
   const runCode = async (action) => {
@@ -43,17 +52,14 @@ const Output = ({ editorRef, language, question,userId }) => {
       setIsSuccess(false);
       setOutput(null);
       setTestResults([]);
-
       if (action === 'submit') {
+        await dispatch(submitAnswer(userId, sourceCode, language, name, question._id));
         const tests = await executeCode(language, sourceCode, action, input);
         setIsSuccess(true);
         setTestResults(tests);
-        setOutput(tests.map(test=>test.obtainedOutput));
+        setOutput(tests.map(test => test.obtainedOutput));
         setIsError(tests.some(test => test.remarks === 'Fail'));
         setIsSuccess(!tests.some(test => test.remarks === 'Fail'));
-  
-        dispatch(submitAnswer(userId,sourceCode,language))
-      
       } else if (action === 'test') {
         const tests = await executeCode(language, sourceCode, action, input);
         setTestResults(tests);
@@ -154,18 +160,24 @@ const Output = ({ editorRef, language, question,userId }) => {
             ))}
           </Box>
         )}
+        {answers.length > 0 && (
+          <Box mt={4}>
+            <Text>Previous Answers:</Text>
+            {answers.map((answer, index) => (
+               <Text
+               key={index}
+               color="blue.500"
+               fontSize="md" // Adjust font size as needed
+               fontWeight="medium" // Customize font weight
+               lineHeight="tall" // Set line height for readability
+               mb={2} // Add margin bottom for spacing
+             >
+               User: {answer.submittedBy} | Language: {answer.language} | Code: {answer.code} | Question ID: {answer.questionId}
+             </Text>
+            ))}
+          </Box>
+        )}
       </Box>
-      {/* for now we are not using the test cases file later we may use it  */}
-      {/* {question && (
-        <Box>
-          <TestCases
-            testCases={testCases}
-            testResults={testResults}
-            isLoading={isLoading}
-            isSuccess={isSuccess}
-          />
-        </Box>
-      )} */}
     </Box>
   );
 };

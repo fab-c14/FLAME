@@ -10,26 +10,14 @@ function getRandomInt(max) {
 }
 
 const server = new RedisServer(6379);
-console.log(server)
+// console.log(server)
 server.open((err) => {
   if (err === null) {
     console.log('Redis server started successfully.');
   }
 });
 
-router.post("/saveCode",async(req,res)=>{
-  let {userId,sourceCode,language,} = req.body;
-  try{
 
-    const newSnippet = new SnippetStore({ userId ,language, code:sourceCode});
-    await newSnippet.save();
-    res.status(200).json("Saved Coded SuccessFully");
-  }catch(error){
-    console.log(error)
-    res.json({error});
-  }
-
-});
 
 router.post('/execute', async (req, res) => {
   let inputs = req.body;

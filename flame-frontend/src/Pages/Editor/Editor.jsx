@@ -8,12 +8,14 @@ function Editor() {
   const location = useLocation();
   const question = location.state?.question; // no wwe have the question here we
   console.log(question);
+
   const user = location.state?.user
-  console.log(user);
+
+  console.log(user.name);
   return (
     <ChakraProvider theme={theme}>
     <Box minH="100vh" bg="#0f0a19" color="gray.500" px={6} py={8}>
-      <CodeEditor question={question} userId={user.id}/>
+      <CodeEditor question={question} userId={user.id} name={user.name}/>
     </Box>
   </ChakraProvider>
   );

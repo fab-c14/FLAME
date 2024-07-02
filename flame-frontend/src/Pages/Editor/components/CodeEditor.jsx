@@ -6,7 +6,7 @@ import { CODE_SNIPPETS } from "../constants";
 import Output from "./Output";
 import TestCases from "./TestCases";
 
-const CodeEditor = ({question,userId}) => {
+const CodeEditor = ({question,userId,name}) => {
 
   const editorRef = useRef();
   const [value, setValue] = useState("");
@@ -45,7 +45,7 @@ const CodeEditor = ({question,userId}) => {
             onChange={(value) => setValue(value)}
           />
         </Box>
-        <Output editorRef={editorRef} language={language} question={question} userId={userId}/>
+        <Output editorRef={editorRef} language={language} question={question} userId={userId} name={name}/>
         
       </HStack>
     </Box>
