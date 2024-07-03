@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Card, Button, ListGroup, ListGroupItem } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend } from 'chart.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAnswers } from '../../actions/answerActions';
+import SolvedQuestionsList from './SolvedQuestionsList';
 
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
 
@@ -86,25 +87,8 @@ const UserStatsChart = ({ selectedStudent }) => {
         <hr/>
         <SolvedQuestionsList solvedQuestions={questionsData} />
       </Card.Body>
-  
     </Card>
   );
 };
-
-const SolvedQuestionsList = ({ solvedQuestions }) => (
-  
-  <ListGroup>
-    {Array.isArray(solvedQuestions) && solvedQuestions.length > 0 ? (
-      solvedQuestions.map(answer => (
-        <ListGroupItem key={answer.questionId}>
-          <strong>Question ID:</strong> {answer.questionId} <br />
-          <strong>Title:</strong> {answer.title} <br />
-        </ListGroupItem>
-      ))
-    ) : (
-      <ListGroupItem>No solved questions available.</ListGroupItem>
-    )}
-  </ListGroup>
-);
 
 export default UserStatsChart;
