@@ -38,7 +38,7 @@ const UserStatsChart = ({ selectedStudent }) => {
   ];
 
   const questionsData = Array.isArray(solvedQuestions) && solvedQuestions.length > 0 ? solvedQuestions : sampleSolvedQuestions;
-
+  console.log(questionsData)
   const lineData = {
     labels: questionsData.map(q => new Date(q.date).toLocaleDateString()),
     datasets: [

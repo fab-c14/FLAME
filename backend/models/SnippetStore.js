@@ -18,6 +18,10 @@ const snippetSchema = new mongoose.Schema({
   },
   language: String,
   code: String,
+  createdAt: {
+    type: Date,
+    default: Date.now, 
+  },
 });
 
 export default mongoose.model('SnippetStore', snippetSchema);

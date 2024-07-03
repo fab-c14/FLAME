@@ -12,6 +12,7 @@ router.post("/saveCode", async (req, res) => {
         if (existingSnippet) {
             // If an existing snippet is found, update its code
             existingSnippet.code = sourceCode;
+            existingSnippet.save();
         } else {
             // Otherwise, create a new snippet
             const newSnippet = new SnippetStore({ userId, language, code: sourceCode, submittedBy: name, questionId,questionTitle:questionTitle });
