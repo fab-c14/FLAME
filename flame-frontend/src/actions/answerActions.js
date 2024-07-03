@@ -9,10 +9,10 @@ import {
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 
-export const submitAnswer = (userId, sourceCode, language, name, questionId) => async (dispatch) => {
+export const submitAnswer = (userId, sourceCode, language, name, questionId,questionTitle) => async (dispatch) => {
     dispatch({ type: CREATE_ANSWER_REQUEST });
     try {
-        const response = await axios.post(`${BACKEND_URL}/api/saveCode`, { userId, sourceCode, language, name, questionId });
+        const response = await axios.post(`${BACKEND_URL}/api/saveCode`, { userId, sourceCode, language, name, questionId,questionTitle });
         dispatch({ type: CREATE_ANSWER_SUCCESS, payload: response.data.snippet });
         console.log(response.data);
     } catch (error) {
@@ -21,10 +21,10 @@ export const submitAnswer = (userId, sourceCode, language, name, questionId) => 
     }
 }
 
-export const getAnswers = () => async (dispatch) => {
+export const getAnswers = (userId) => async (dispatch) => {
     dispatch({ type: GET_ANSWER_REQUEST });
     try {
-        const response = await axios.get(`${BACKEND_URL}/api/getAnswers`);
+        const response = await axios.post(`${BACKEND_URL}/api/getAnswers`,{userId});
         dispatch({ type: GET_ANSWER_SUCCESS, payload: response.data });
     } catch (error) {
         dispatch({ type: GET_ANSWER_FAILED, payload: error.message });

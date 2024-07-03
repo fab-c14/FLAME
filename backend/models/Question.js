@@ -6,7 +6,7 @@ const questionSchema = new mongoose.Schema({
   testCases: { type: Array, required: true },
   createdBy: { type: String,  required: true },
   batchId: { type: mongoose.Schema.Types.ObjectId, ref: 'Batch', required: true },
-  solvedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+  // solvedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] // we can use this later
 }, { timestamps: true });
 
 const Question = mongoose.model('Question', questionSchema);

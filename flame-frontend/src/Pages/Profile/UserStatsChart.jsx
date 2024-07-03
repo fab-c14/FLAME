@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Button, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { Bar, Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import { useSelector } from 'react-redux';
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend } from 'chart.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAnswers } from '../../actions/answerActions';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
 
-const UserStatsChart = ({selectedStudent}) => {
-  // const selectedStudent = useSelector(state => state.student.selectedStudent);
+const UserStatsChart = ({ selectedStudent }) => {
+  const dispatch = useDispatch();
+  const solvedQuestions = useSelector(state => state.submissions.answers);
+
+  useEffect(() => {
+    if (selectedStudent) {
+      dispatch(getAnswers(selectedStudent._id));
+    }
+  }, [dispatch, selectedStudent]);
 
   if (!selectedStudent) {
     return (
@@ -19,34 +27,23 @@ const UserStatsChart = ({selectedStudent}) => {
     );
   }
 
-  const studentProgress = selectedStudent.stats;
-  // Assuming this data is available
+  const studentProgress = selectedStudent.stats || {};
 
-  const barData = {
-    labels: ['Total Runs', 'Successful Runs', 'Failed Runs'],
-    datasets: [
-      {
-        label: 'Runs',
-        data: [
-          studentProgress.totalRuns,
-          studentProgress.successfulRuns,
-          studentProgress.failedRuns
-        ],
-        backgroundColor: [
-          'rgb(75, 192, 192)',
-          'rgb(153, 102, 255)',
-          'rgb(255, 99, 132)'
-        ],
-      }
-    ],
-  };
+  // Sample data if the actual data is not fetched
+  const sampleSolvedQuestions = [
+    { date: '2023-01-01', count: 1 },
+    { date: '2023-02-01', count: 2 },
+    { date: '2023-03-01', count: 3 },
+  ];
+
+  const questionsData = Array.isArray(solvedQuestions) && solvedQuestions.length > 0 ? solvedQuestions : sampleSolvedQuestions;
 
   const lineData = {
-    labels: solvedQuestions.map(q => new Date(q.date).toLocaleDateString()), // Example label
+    labels: questionsData.map(q => new Date(q.date).toLocaleDateString()),
     datasets: [
       {
         label: 'Solved Questions',
-        data: solvedQuestions.map(q => q.count),
+        data: questionsData.map(q => q.count),
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
       }
@@ -72,32 +69,42 @@ const UserStatsChart = ({selectedStudent}) => {
       
         <ListGroup variant="flush" className="mt3">
           <ListGroupItem>
-            <strong>Total Codes Run:</strong> {studentProgress.totalRuns}
+            <strong>Total Codes Run:</strong> {studentProgress.totalRuns || 0}
           </ListGroupItem>
           <ListGroupItem>
-            <strong>Successful Runs:</strong> {studentProgress.successfulRuns}
+            <strong>Successful Runs:</strong> {studentProgress.successfulRuns || 0}
           </ListGroupItem>
           <ListGroupItem>
-            <strong>Failed Runs:</strong> {studentProgress.failedRuns}
+            <strong>Failed Runs:</strong> {studentProgress.failedRuns || 0}
           </ListGroupItem>
           <ListGroupItem>
-            <strong>Last Active:</strong> {new Date(studentProgress.lastActive).toLocaleString()}
+            <strong>Last Active:</strong> {studentProgress.lastActive ? new Date(studentProgress.lastActive).toLocaleString() : 'N/A'}
           </ListGroupItem>
         </ListGroup>
         <hr/>
-        <Bar data={barData} options={options} />
-        <hr/>
         <Line data={lineData} options={options} />
+        <hr/>
+        <SolvedQuestionsList solvedQuestions={questionsData} />
       </Card.Body>
-      <Card.Footer>
-        <div className="mt3">
-          <Button variant="danger" className="mr2 dib glow">
-            Solved Questions
-          </Button>
-        </div>
-      </Card.Footer>
+  
     </Card>
   );
 };
+
+const SolvedQuestionsList = ({ solvedQuestions }) => (
+  
+  <ListGroup>
+    {Array.isArray(solvedQuestions) && solvedQuestions.length > 0 ? (
+      solvedQuestions.map(answer => (
+        <ListGroupItem key={answer.questionId}>
+          <strong>Question ID:</strong> {answer.questionId} <br />
+          <strong>Title:</strong> {answer.title} <br />
+        </ListGroupItem>
+      ))
+    ) : (
+      <ListGroupItem>No solved questions available.</ListGroupItem>
+    )}
+  </ListGroup>
+);
 
 export default UserStatsChart;

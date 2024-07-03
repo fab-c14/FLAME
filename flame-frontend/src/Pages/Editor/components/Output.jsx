@@ -54,7 +54,7 @@ const Output = ({ editorRef, language, question, userId, name }) => {
       setOutput(null);
       setTestResults([]);
       if (action === 'submit') {
-        await dispatch(submitAnswer(userId, sourceCode, language, name, question._id));
+        await dispatch(submitAnswer(userId, sourceCode, language, name, question._id,question.title));
         const tests = await executeCode(language, sourceCode, action, input);
         setIsSuccess(true);
         setTestResults(tests);

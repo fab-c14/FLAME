@@ -1,30 +1,48 @@
 import { Router } from "express";
 import SnippetStore from '../models/SnippetStore.js';
-
+import User from '../models/User.js'
+import mongoose from "mongoose";
 const router = Router();
-
 router.post("/saveCode", async (req, res) => {
-    const { userId, sourceCode, language, name, questionId } = req.body;
+    const { userId, sourceCode, language, name, questionId,questionTitle} = req.body;
     try {
-        const newSnippet = new SnippetStore({ userId, language, code: sourceCode, submittedBy: name, questionId });
-        await newSnippet.save();
-        res.status(200).json({ data: "Saved Code Successfully", snippet: newSnippet });
+        // Check if an existing snippet with the same user ID and question ID exists
+        const existingSnippet = await SnippetStore.findOne({ userId, questionId,language });
+
+        if (existingSnippet) {
+            // If an existing snippet is found, update its code
+            existingSnippet.code = sourceCode;
+        } else {
+            // Otherwise, create a new snippet
+            const newSnippet = new SnippetStore({ userId, language, code: sourceCode, submittedBy: name, questionId,questionTitle:questionTitle });
+            await newSnippet.save();
+        }
+
+        // Find the user and update the solvedQuestions array
+        const user = await User.findOne({ _id:userId });
+        console.log(user);
+        user.stats.solvedQuestions.push(questionId);
+        await user.save();
+        res.status(200).json({ message: "Code saved successfully" });
     } catch (error) {
-        console.log(error);
+        console.error("Error saving code:", error);
         res.status(500).json({ error: error.message });
     }
 });
 
+
+
 router.post("/getAnswers", async (req, res) => {
-    const {userId} = req.body;
-    console.log(userId)
+    const { userId } = req.body;
     try {
-        const answers = await SnippetStore.find();
+       
+        const answers = await SnippetStore.find({ userId });
         res.status(200).json(answers);
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: error.message });
     }
 });
+
 
 export default router;

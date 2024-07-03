@@ -8,6 +8,10 @@ const snippetSchema = new mongoose.Schema({
   submittedBy:{
     type:String,
   },
+  questionTitle:{
+    type:String,
+    ref:'Question'
+  },
   questionId:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'Question',
