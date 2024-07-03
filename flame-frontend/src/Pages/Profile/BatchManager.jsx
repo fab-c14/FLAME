@@ -48,11 +48,12 @@ const BatchManager = ({ setSelectedStudent, createdBy }) => {
       <ListGroup variant="flush br2">
         {batches && batches.length > 0 ? (
           batches.map((batch) => (
-            <ListGroupItem className='tc ma2 pa2 shadow-2 bg-light-green' key={batch._id} onClick={() => handleBatchClick(batch)}>
+            <ListGroupItem className='tc ma2 pa2 dim pointer b shadow-2 bg-light-green' key={batch._id} onClick={() => handleBatchClick(batch)}>
               <FaUser className="mr2" /> {batch.name} ({batch._id}){' '}
               <Link to="/community" className='tc ma2 pa2 dib btn btn-warning'>
                 Community
               </Link>
+              {/* later i will add a delete button here also  */}
             </ListGroupItem>
           ))
         ) : (
@@ -83,12 +84,11 @@ const BatchManager = ({ setSelectedStudent, createdBy }) => {
       </Modal>
 
       {selectedBatch && (
-        <Card.Body>
-          <h3 className="tc pa1 bg-moon-gray">Batch: {selectedBatch.name}</h3>
-          <h4 className="tc ba b--blue">Students in Batch:</h4>
-          <ListGroup>
+        <Card.Body >
+          <h3 className="tc pa1 bg-moon-gray br3">Batch: {selectedBatch.name}</h3>
+          <ListGroup className='bg-blue light-gray '>
             {selectedBatch.students.map((student) => (
-              <ListGroupItem className="blue tc" key={student._id} onClick={() => handleStudentClick(student)}>
+              <ListGroupItem className="yellow tc pa2 ma3  ba bg-navy br2 shadow3 pointer grow" key={student._id} onClick={() => handleStudentClick(student)}>
                 {student.name} (ID: {student._id})
               </ListGroupItem>
             ))}

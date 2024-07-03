@@ -24,8 +24,9 @@ const Output = ({ editorRef, language, question, userId, name }) => {
 
   let testCases = [];
   if (question !== undefined) {
-    testCases = (question.question?.testCases) || [];
+    testCases = (question.testCases) || [];
   }
+  // console.log(testCases);
 
   if (userId === undefined) {
     userId = 0;
@@ -160,7 +161,7 @@ const Output = ({ editorRef, language, question, userId, name }) => {
             ))}
           </Box>
         )}
-        {answers.length > 0 && (
+        {/* {answers.length > 0 && (
           <Box mt={4}>
             <Text>Previous Answers:</Text>
             {answers.map((answer, index) => (
@@ -176,7 +177,7 @@ const Output = ({ editorRef, language, question, userId, name }) => {
              </Text>
             ))}
           </Box>
-        )}
+        )} */}
       </Box>
     </Box>
   );

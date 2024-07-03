@@ -15,7 +15,9 @@ router.post("/saveCode", async (req, res) => {
     }
 });
 
-router.get("/getAnswers", async (req, res) => {
+router.post("/getAnswers", async (req, res) => {
+    const {userId} = req.body;
+    console.log(userId)
     try {
         const answers = await SnippetStore.find();
         res.status(200).json(answers);
