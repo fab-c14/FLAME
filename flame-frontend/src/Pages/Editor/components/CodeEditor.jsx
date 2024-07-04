@@ -1,19 +1,16 @@
+// CodeEditor.js
 import { useRef, useState } from "react";
-import { Box, HStack } from "@chakra-ui/react";
+import { Box, HStack, Input } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector";
 import { CODE_SNIPPETS } from "../constants";
 import Output from "./Output";
-import TestCases from "./TestCases";
 
-const CodeEditor = ({question,userId,name}) => {
-
+const CodeEditor = ({ question, userId, name }) => {
   const editorRef = useRef();
   const [value, setValue] = useState("");
   const [language, setLanguage] = useState("javascript");
-
-
-
+  const [inputValue, setInputValue] = useState(""); // Add state for input value
 
   const onMount = (editor) => {
     editorRef.current = editor;
@@ -44,11 +41,24 @@ const CodeEditor = ({question,userId,name}) => {
             value={value}
             onChange={(value) => setValue(value)}
           />
+          <Input
+            placeholder="Enter input values here"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            mt={4}
+          />
         </Box>
-        <Output editorRef={editorRef} language={language} question={question} userId={userId} name={name}/>
-        
+        <Output
+          editorRef={editorRef}
+          language={language}
+          question={question}
+          userId={userId}
+          name={name}
+          inputValue={inputValue} // Pass input value to Output
+        />
       </HStack>
     </Box>
   );
 };
+
 export default CodeEditor;

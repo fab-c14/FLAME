@@ -34,12 +34,16 @@ const Output = ({ editorRef, language, question, userId, name }) => {
     name = "New User";
   }
 
+  
   const runCode = async (action) => {
     const sourceCode = editorRef.current.getValue();
+
+    console.log(sourceCode);
 
     const input = {
       language: capitalizeFirstLetter(language),
       code: sourceCode,
+      input:"Take an input: ",
       testCases: testCases.map(tc => ({ input: tc.input, output: tc.expectedOutput })),
       timeout: 2
     };
