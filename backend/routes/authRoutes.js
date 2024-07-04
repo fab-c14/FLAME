@@ -13,7 +13,7 @@ router.post('/login', async (req, res) => {
   
   try {
     const user = await User.findOne({ email });
-    console.log(user.role,userType);
+    // console.log(user.role,userType);
     if (user && (await user.matchPassword(password)) && user.role==userType) {
       const payload = {
         user: {

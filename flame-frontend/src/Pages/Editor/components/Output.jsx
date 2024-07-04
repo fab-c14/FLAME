@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+// Output.js
+import React, { useState, useEffect } from "react";
 import { Box, Button, Text, useToast } from "@chakra-ui/react";
-import { executeCode } from "../api";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from 'react-redux';
 import { submitAnswer, getAnswers } from "../../../actions/answerActions";
-
-const capitalizeFirstLetter = word => word.charAt(0).toUpperCase() + word.slice(1);
+import { executeCode } from "../api";
+import { capitalizeFirstLetter } from "./utils";
 
 const Output = ({ editorRef, language, question, userId, name }) => {
   const toast = useToast();
@@ -26,13 +26,12 @@ const Output = ({ editorRef, language, question, userId, name }) => {
   if (question !== undefined) {
     testCases = (question.testCases) || [];
   }
-  // console.log(testCases);
 
   if (userId === undefined) {
     userId = 0;
   }
   if (name === undefined) {
-    name = "New User"; // set a sample user 
+    name = "New User";
   }
 
   const runCode = async (action) => {
@@ -54,7 +53,7 @@ const Output = ({ editorRef, language, question, userId, name }) => {
       setOutput(null);
       setTestResults([]);
       if (action === 'submit') {
-        await dispatch(submitAnswer(userId, sourceCode, language, name, question._id,question.title));
+        await dispatch(submitAnswer(userId, sourceCode, language, name, question._id, question.title));
         const tests = await executeCode(language, sourceCode, action, input);
         setIsSuccess(true);
         setTestResults(tests);
@@ -148,36 +147,19 @@ const Output = ({ editorRef, language, question, userId, name }) => {
           <Box mt={4}>
             <Text>Test Results:</Text>
             {testResults.map((test, index) => (
-               <Text
-               key={index}
-               color={test.remarks === 'Fail' ? 'red.500' : 'green.500'}
-               fontSize="md" // Adjust font size as needed
-               fontWeight="medium" // Customize font weight
-               lineHeight="tall" // Set line height for readability
-               mb={2} // Add margin bottom for spacing
-             >
-               Input: {test.input} | Expected Output: {test.output} | Obtained Output: {test.obtainedOutput} | Remarks: {test.remarks}
-             </Text>
+              <Text
+                key={index}
+                color={test.remarks === 'Fail' || 'Error' ? 'red.500' : 'green.500'}
+                fontSize="md"
+                fontWeight="medium"
+                lineHeight="tall"
+                mb={2}
+              >
+                Input: {test.input} | Expected Output: {test.output} | Obtained Output: {test.obtainedOutput} | Remarks: {test.remarks}
+              </Text>
             ))}
           </Box>
         )}
-        {/* {answers.length > 0 && (
-          <Box mt={4}>
-            <Text>Previous Answers:</Text>
-            {answers.map((answer, index) => (
-               <Text
-               key={index}
-               color="blue.500"
-               fontSize="md" // Adjust font size as needed
-               fontWeight="medium" // Customize font weight
-               lineHeight="tall" // Set line height for readability
-               mb={2} // Add margin bottom for spacing
-             >
-               User: {answer.submittedBy} | Language: {answer.language} | Code: {answer.code} | Question ID: {answer.questionId}
-             </Text>
-            ))}
-          </Box>
-        )} */}
       </Box>
     </Box>
   );
