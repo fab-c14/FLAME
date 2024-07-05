@@ -10,19 +10,26 @@ router.post("/saveCode", async (req, res) => {
         const existingSnippet = await SnippetStore.findOne({ userId, questionId,language });
 
         if (existingSnippet) {
-            // If an existing snippet is found, update its code
+            
             existingSnippet.code = sourceCode;
             existingSnippet.save();
         } else {
-            // Otherwise, create a new snippet
+            
             const newSnippet = new SnippetStore({ userId, language, code: sourceCode, submittedBy: name, questionId,questionTitle:questionTitle });
             await newSnippet.save();
         }
 
-        // Find the user and update the solvedQuestions array
+       
         const user = await User.findOne({ _id:userId });
-        console.log(user);
-        user.stats.solvedQuestions.push(questionId);
+        if (user.stats.solvedQuestions.includes(questionId)) {
+            console.log("Question ID already exists in solvedQuestions");
+           
+        } else {
+          
+            user.stats.solvedQuestions.push(questionId);
+            await user.save();
+            console.log("Question ID added successfully");
+        }
         await user.save();
         res.status(200).json({ message: "Code saved successfully" });
     } catch (error) {
@@ -36,7 +43,6 @@ router.post("/saveCode", async (req, res) => {
 router.post("/getAnswers", async (req, res) => {
     const { userId } = req.body;
     try {
-       
         const answers = await SnippetStore.find({ userId });
         res.status(200).json(answers);
     } catch (error) {

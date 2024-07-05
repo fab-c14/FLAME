@@ -3,31 +3,11 @@ import Question from '../models/Question.js';
 import User from '../models/User.js';
 const router = Router();
 
-router.post("/updateQuestionAnswers", async (req, res) => {
-    const { userId, questionId } = req.body;
-
-    try {
-        const updatedSolved = await Question.findOne({ questionId });
-        if (updatedSolved.stats.solvedQuestions.includes(questionId)) {
-            // Question ID already exists, return an appropriate message
-            res.status(200).json({ message: "Question ID already added" });
-        } else {
-            // Add the question ID to the solvedQuestions array
-            updatedSolved.stats.solvedQuestions.push(questionId);
-            await updatedSolved.save();
-            res.status(200).json({ message: "Answer updated successfully" });
-        }
-    } catch (error) {
-        console.error("Error updating question ID:", error);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-
 
 router.post('/updateUserStats', async (req, res) => {
     const { userId, testResult } = req.body;
-
+    const result = testResult.some(test=>test.remarks==='Pass')
+    console.log(userId,testResult);
     try {
         // Find the user by userId
         const user = await User.findOne({ _id: userId });
@@ -35,11 +15,11 @@ router.post('/updateUserStats', async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-
+        console.log(result);
         // Analyze test results
-        if (testResult === 'success') {
+        if (result) {
             user.stats.successfulRuns += 1;
-        } else if (testResult === 'failed') {
+        } else if (!result) {
             user.stats.failedRuns += 1;
         }
 

@@ -10,6 +10,7 @@ import runPython from './runners/pyRunner.js';
 import runC from './runners/cRunner.js';
 import runCPP from './runners/cppRunner.js';
 import executeRoute from './routes/executeRoute.js'
+import updateRoutes from './routes/updateRoutes.js';
 import answerRoutes from './routes/answerRoutes.js';
 dotenv.config();
 
@@ -47,7 +48,8 @@ app.use('/api/batches', batchRoutes);
 app.use('/api/users', authRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/',executeRoute);
-app.use("/api/",answerRoutes);
+app.use('/api/',answerRoutes);
+app.use('/api/',updateRoutes);
 
 
 // accidently removed this part from last commit

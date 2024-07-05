@@ -9,12 +9,15 @@ import {
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 
-export const submitAnswer = (userId, sourceCode, language, name, questionId,questionTitle) => async (dispatch) => {
+export const submitAnswer = (userId, sourceCode, language, name, questionId,questionTitle,testResult) => async (dispatch) => {
+
     dispatch({ type: CREATE_ANSWER_REQUEST });
+    
     try {
-        const response = await axios.post(`${BACKEND_URL}/api/saveCode`, { userId, sourceCode, language, name, questionId,questionTitle });
+        const response = await axios.post(`${BACKEND_URL}/api/saveCode`, { userId, sourceCode, language, name, questionId,questionTitle});
+        console.log(testResult.some(test=> test.remarks === 'Fail'));
+        const updateStats = await axios.post(`${BACKEND_URL}/api/updateUserStats`,{userId,testResult})
         dispatch({ type: CREATE_ANSWER_SUCCESS, payload: response.data.snippet });
-        console.log(response.data);
     } catch (error) {
         dispatch({ type: CREATE_ANSWER_FAILED, payload: error.message });
         console.log(error);

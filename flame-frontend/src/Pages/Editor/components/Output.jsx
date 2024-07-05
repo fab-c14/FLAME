@@ -49,6 +49,7 @@ const Output = ({ editorRef, language, question, userId, name }) => {
     };
 
     if (!sourceCode) return;
+   
 
     try {
       setIsLoading(true);
@@ -57,7 +58,7 @@ const Output = ({ editorRef, language, question, userId, name }) => {
       setOutput(null);
       setTestResults([]);
       if (action === 'submit') {
-        await dispatch(submitAnswer(userId, sourceCode, language, name, question._id, question.title));
+        await dispatch(submitAnswer(userId, sourceCode, language, name, question._id, question.title,testResults));
         const tests = await executeCode(language, sourceCode, action, input);
         setIsSuccess(true);
         setTestResults(tests);

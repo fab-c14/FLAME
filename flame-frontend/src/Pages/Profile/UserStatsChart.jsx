@@ -30,7 +30,6 @@ const UserStatsChart = ({ selectedStudent }) => {
 
   const studentProgress = selectedStudent.stats || {};
 
-  // Sample data if the actual data is not fetched
   const sampleSolvedQuestions = [
     { date: '2023-01-01', count: 1 },
     { date: '2023-02-01', count: 2 },
@@ -38,16 +37,28 @@ const UserStatsChart = ({ selectedStudent }) => {
   ];
 
   const questionsData = Array.isArray(solvedQuestions) && solvedQuestions.length > 0 ? solvedQuestions : sampleSolvedQuestions;
-  console.log(questionsData)
+
   const lineData = {
-    labels: questionsData.map(q => new Date(q.date).toLocaleDateString()),
+    labels: questionsData.map(q => new Date(q.createdAt).toLocaleDateString()),
     datasets: [
       {
-        label: 'Solved Questions',
-        data: questionsData.map(q => q.count),
+        label: 'Total Runs',
+        data: questionsData.map(q => q.totalRuns || 0),
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
-      }
+      },
+      {
+        label: 'Successful Runs',
+        data: questionsData.map(q => q.successfulRuns || 0),
+        borderColor: 'rgb(54, 162, 235)',
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+      },
+      {
+        label: 'Failed Runs',
+        data: questionsData.map(q => q.failedRuns || 0),
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      },
     ],
   };
 
