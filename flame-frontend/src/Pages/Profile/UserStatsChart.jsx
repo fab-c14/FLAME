@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAnswers } from '../../actions/answerActions';
 import SolvedQuestionsList from './SolvedQuestionsList';
 
-ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const UserStatsChart = ({ selectedStudent }) => {
   const dispatch = useDispatch();
@@ -28,8 +28,6 @@ const UserStatsChart = ({ selectedStudent }) => {
     );
   }
 
-  const studentProgress = selectedStudent.stats || {};
-  console.log(JSON.stringify(studentProgress));
   const sampleSolvedQuestions = [
     { date: '2023-01-01', count: 1 },
     { date: '2023-02-01', count: 2 },
@@ -37,32 +35,25 @@ const UserStatsChart = ({ selectedStudent }) => {
   ];
 
   const questionsData = Array.isArray(solvedQuestions) && solvedQuestions.length > 0 ? solvedQuestions : sampleSolvedQuestions;
-  console.log(questionsData);
-  const lineData = {
-    labels: questionsData.map(q => new Date(q.createdAt).toLocaleDateString()),
+
+  const barData = {
+    labels: ['Total Runs', 'Successful Runs', 'Failed Runs'],
     datasets: [
       {
-        label: 'Total Runs',
-        data: questionsData.map(q => q.totalRuns || 0),
-        borderColor: 'rgb(75, 192, 192)',
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-      },
-      {
-        label: 'Successful Runs',
-        data: questionsData.map(q => q.successfulRuns || 0),
-        borderColor: 'rgb(54, 162, 235)',
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-      },
-      {
-        label: 'Failed Runs',
-        data: questionsData.map(q => q.failedRuns || 0),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        label: 'Runs',
+        data: [
+          selectedStudent.stats.totalRuns || 0,
+          selectedStudent.stats.successfulRuns || 0,
+          selectedStudent.stats.failedRuns || 0,
+        ],
+        backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+        borderColor: ['rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(255, 99, 132)'],
+        borderWidth: 1,
       },
     ],
   };
 
-  const options = {
+  const barOptions = {
     scales: {
       x: {
         beginAtZero: true,
@@ -81,24 +72,24 @@ const UserStatsChart = ({ selectedStudent }) => {
       
         <ListGroup variant="flush" className="mt3">
           <ListGroupItem>
-            <strong>Total Codes Run:</strong> {studentProgress.totalRuns || 0}
+            <strong>Total Codes Run:</strong> {selectedStudent.stats.totalRuns || 0}
           </ListGroupItem>
           <ListGroupItem>
-            <strong>Successful Runs:</strong> {studentProgress.successfulRuns || 0}
+            <strong>Successful Runs:</strong> {selectedStudent.stats.successfulRuns || 0}
           </ListGroupItem>
           <ListGroupItem>
-            <strong>Failed Runs:</strong> {studentProgress.failedRuns || 0}
+            <strong>Failed Runs:</strong> {selectedStudent.stats.failedRuns || 0}
           </ListGroupItem>
           <ListGroupItem>
-            <strong>Last Active:</strong> {studentProgress.lastActive ? new Date(studentProgress.lastActive).toLocaleString() : 'N/A'}
+            <strong>Last Active:</strong> {selectedStudent.stats.lastActive ? new Date(selectedStudent.stats.lastActive).toLocaleString() : 'N/A'}
           </ListGroupItem>
         </ListGroup>
         <hr/>
-        <Line data={lineData} options={options} />
+        <Bar data={barData} options={barOptions} />
         <hr/>
         <SolvedQuestionsList solvedQuestions={questionsData} />
       </Card.Body>
-    </Card>
+    </Card> 
   );
 };
 
