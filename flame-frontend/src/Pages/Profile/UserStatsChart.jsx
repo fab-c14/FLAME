@@ -29,7 +29,7 @@ const UserStatsChart = ({ selectedStudent }) => {
   }
 
   const studentProgress = selectedStudent.stats || {};
-
+  console.log(JSON.stringify(studentProgress));
   const sampleSolvedQuestions = [
     { date: '2023-01-01', count: 1 },
     { date: '2023-02-01', count: 2 },
@@ -37,7 +37,7 @@ const UserStatsChart = ({ selectedStudent }) => {
   ];
 
   const questionsData = Array.isArray(solvedQuestions) && solvedQuestions.length > 0 ? solvedQuestions : sampleSolvedQuestions;
-
+  console.log(questionsData);
   const lineData = {
     labels: questionsData.map(q => new Date(q.createdAt).toLocaleDateString()),
     datasets: [
