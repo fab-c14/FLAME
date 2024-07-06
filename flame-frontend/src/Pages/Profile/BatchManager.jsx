@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Card, ListGroup, ListGroupItem, Button, Form, Modal } from 'react-bootstrap';
 import { FaPlus, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { createBatch, fetchBatches } from '../../actions/batchActions';
 import { useDispatch, useSelector } from 'react-redux';
+import { createBatch, fetchBatches } from '../../actions/batchActions';
 
 const BatchManager = ({ setSelectedStudent, createdBy }) => {
   const [showModal, setShowModal] = useState(false);
   const [batchName, setBatchName] = useState('');
-  const [selectedBatch, setSelectedBatch] = useState();
+  const [selectedBatch, setSelectedBatch] = useState(null);
   const dispatch = useDispatch();
 
-  const batches = useSelector(state=> state.batches.batches);
+  const batches = useSelector(state => state.batches.batches);
 
   useEffect(() => {
     dispatch(fetchBatches(createdBy));
@@ -20,7 +20,6 @@ const BatchManager = ({ setSelectedStudent, createdBy }) => {
   const handleBatchCreation = async () => {
     try {
       await dispatch(createBatch(batchName, createdBy));
-      dispatch(fetchBatches(createdBy));
       setBatchName('');
       setShowModal(false);
     } catch (error) {
@@ -29,7 +28,7 @@ const BatchManager = ({ setSelectedStudent, createdBy }) => {
   };
 
   const handleBatchClick = (batch) => {
-    localStorage.setItem('selectedBatch',JSON.stringify(batch));
+    localStorage.setItem('selectedBatch', JSON.stringify(batch));
     setSelectedBatch(batch);
   };
 
@@ -53,7 +52,6 @@ const BatchManager = ({ setSelectedStudent, createdBy }) => {
               <Link to="/community" className='tc ma2 pa2 dib btn btn-warning'>
                 Community
               </Link>
-              {/* later i will add a delete button here also  */}
             </ListGroupItem>
           ))
         ) : (
@@ -84,9 +82,9 @@ const BatchManager = ({ setSelectedStudent, createdBy }) => {
       </Modal>
 
       {selectedBatch && (
-        <Card.Body >
+        <Card.Body>
           <h3 className="tc pa1 bg-moon-gray br3">Batch: {selectedBatch.name}</h3>
-          <ListGroup className='bg-blue light-gray '>
+          <ListGroup className='bg-blue light-gray'>
             {selectedBatch.students.map((student) => (
               <ListGroupItem className="yellow tc pa2 ma3  ba bg-navy br2 shadow3 pointer grow" key={student._id} onClick={() => handleStudentClick(student)}>
                 {student.name} (ID: {student._id})

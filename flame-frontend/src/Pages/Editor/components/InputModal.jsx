@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -9,19 +9,18 @@ import {
   ModalCloseButton,
   Button,
   Input,
-  useDisclosure,
-  Text
+  VStack
 } from "@chakra-ui/react";
 
-const InputModal = ({ isOpen, onClose, onSubmit }) => {
-  const [inputValue, setInputValue] = useState('');
-
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
+const InputModal = ({ isOpen, onClose, inputs, setInputs, onSubmit }) => {
+  const handleInputChange = (index, event) => {
+    const newInputs = [...inputs];
+    newInputs[index] = event.target.value;
+    setInputs(newInputs);
   };
 
   const handleSubmit = () => {
-    onSubmit(inputValue);
+    onSubmit(inputs);
     onClose();
   };
 
@@ -29,14 +28,19 @@ const InputModal = ({ isOpen, onClose, onSubmit }) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Enter Input</ModalHeader>
+        <ModalHeader>Enter Inputs</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Input
-            placeholder="Type your input here"
-            value={inputValue}
-            onChange={handleInputChange}
-          />
+          <VStack spacing={3}>
+            {inputs.map((input, index) => (
+              <Input
+                key={index}
+                placeholder={`Input ${index + 1}`}
+                value={input}
+                onChange={(event) => handleInputChange(index, event)}
+              />
+            ))}
+          </VStack>
         </ModalBody>
         <ModalFooter>
           <Button colorScheme="blue" mr={3} onClick={handleSubmit}>

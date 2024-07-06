@@ -4,7 +4,8 @@ import {
     CREATE_ANSWER_FAILED,
     GET_ANSWER_REQUEST,
     GET_ANSWER_SUCCESS,
-    GET_ANSWER_FAILED
+    GET_ANSWER_FAILED,
+    CLEAR_ANSWERS
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -40,6 +41,11 @@ const answerReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 error: action.payload
+            };
+        case CLEAR_ANSWERS:
+            return {
+                ...state,
+                answers: []
             };
         default:
             return state;

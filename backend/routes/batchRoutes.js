@@ -1,13 +1,14 @@
 import express from 'express';
 import Batch from '../models/Batch.js';
-import User from '../models/User.js'; 
+import User from '../models/User.js';
+
 const router = express.Router();
 
 // Create a new batch
 router.post('/create', async (req, res) => {
-  const { name , createdBy} = req.body;
+  const { name, createdBy } = req.body;
   try {
-    const newBatch = new Batch({ name , createdBy});
+    const newBatch = new Batch({ name, createdBy });
     await newBatch.save();
     res.json(newBatch);
   } catch (err) {
@@ -35,13 +36,11 @@ router.post('/', async (req, res) => {
   }
 });
 
-
-
-
 // Join a batch
 router.post('/:batchId', async (req, res) => {
   const { batchId } = req.params;
   const { studentId } = req.body;
+  console.log(batchId, studentId);
 
   try {
     const batch = await Batch.findById(batchId);
@@ -65,23 +64,47 @@ router.post('/:batchId', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-// for check if the batch exists or not , if not exists we'll throw an error
+
+// Check if the batch exists
 router.get('/:batchId', async (req, res) => {
-  const { batchId } =req.params;
+  const { batchId } = req.params;
 
   try {
     const batch = await Batch.findById(batchId);
-    
+
     if (!batch) {
       return res.json({ exists: false }); // Batch does not exist
     }
 
     res.json({ exists: true }); // Batch exists
   } catch (err) {
-
     res.status(500).send('Server Error');
   }
 });
+
+// Get all batches joined by a student
+router.post('/joined', async (req, res) => {
+  const { studentId } = req.body;
+
+  try {
+    // Validate studentId before querying
+    if (!mongoose.Types.ObjectId.isValid(studentId)) {
+      return res.status(400).json({ msg: 'Invalid student ID' });
+    }
+
+    const student = await User.findById(studentId).populate('batches', 'name');
+
+    if (!student) {
+      return res.status(404).json({ msg: 'Student not found' });
+    }
+
+    res.json(student.batches);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 
 
 

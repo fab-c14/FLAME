@@ -41,12 +41,12 @@ const CodeEditor = ({ question, userId, name }) => {
             value={value}
             onChange={(value) => setValue(value)}
           />
-          <Input
+          {/* <Input
             placeholder="Enter input values here"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             mt={4}
-          />
+          /> */}
         </Box>
         <Output
           editorRef={editorRef}
