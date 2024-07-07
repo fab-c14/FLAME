@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { FaCode, FaChalkboardTeacher, FaUsers } from 'react-icons/fa'; 
+import { FaCode, FaChalkboardTeacher, FaChartBar } from 'react-icons/fa'; 
 
 function Features() {
     return (
@@ -19,14 +19,15 @@ function Features() {
                         <div className="text-center">
                             <FaChalkboardTeacher size={60} className="mb-3 text-primary" />
                             <h3>Solve Questions</h3>
-                            <p>Access expert-led batches, where you/others can share tips, and resources to enhance your learning experience.</p>
+                            <p>Access expert-led batches, where you/others can solve questions, posted by batch instructor/teacher to enhance your learning experience.</p>
                         </div>
                     </Col>
                     <Col md={4} className="mb-4">
                         <div className="text-center">
-                            <FaUsers size={60} className="mb-3 text-primary" />
-                            <h3>Community Collaboration</h3>
-                            <p>Connect with a global community of learners, share ideas, and solve questions.</p>
+                            <FaChartBar size={60} className="mb-3 text-primary" />
+                            <h3>Performance Tracking</h3>
+<p>Flames Performance Tracking Approach empowers educators to seamlessly monitor student performance and progress.</p>
+
                         </div>
                     </Col>
                 </Row>
