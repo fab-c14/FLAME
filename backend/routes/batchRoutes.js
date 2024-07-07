@@ -1,7 +1,6 @@
 import express from 'express';
 import Batch from '../models/Batch.js';
 import User from '../models/User.js';
-
 const router = express.Router();
 
 // Create a new batch
@@ -37,7 +36,7 @@ router.post('/', async (req, res) => {
 });
 
 // Join a batch
-router.post('/:batchId', async (req, res) => {
+router.post('/join/:batchId', async (req, res) => {
   const { batchId } = req.params;
   const { studentId } = req.body;
   console.log(batchId, studentId);
@@ -66,7 +65,7 @@ router.post('/:batchId', async (req, res) => {
 });
 
 // Check if the batch exists
-router.get('/:batchId', async (req, res) => {
+router.get('/check/:batchId', async (req, res) => {
   const { batchId } = req.params;
 
   try {
@@ -87,25 +86,16 @@ router.post('/joined', async (req, res) => {
   const { studentId } = req.body;
 
   try {
-    // Validate studentId before querying
-    if (!mongoose.Types.ObjectId.isValid(studentId)) {
-      return res.status(400).json({ msg: 'Invalid student ID' });
-    }
-
+    // Fetch student by ID and populate the batches they have joined
     const student = await User.findById(studentId).populate('batches', 'name');
-
     if (!student) {
       return res.status(404).json({ msg: 'Student not found' });
     }
-
     res.json(student.batches);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
-
-
-
 
 export default router;

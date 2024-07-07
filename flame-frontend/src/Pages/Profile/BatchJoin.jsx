@@ -3,26 +3,25 @@ import { Form, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { BACKEND_URL } from '../../config';
-import { joinBatch } from '../../actions/batchActions';
+import { fetchJoinedBatches, joinBatch } from '../../actions/batchActions';
 
-const BatchJoin = ({ onJoinBatch, user }) => {
+const BatchJoin = ({onJoinBatch,  user }) => {
   const [batchCode, setBatchCode] = useState('');
   const dispatch = useDispatch();
 
   const handleJoin = async () => {
     try {
+      const studentId = user.id; 
+
       // Validate batch code (e.g., check if it exists in the database)
-      const response = await axios.get(`${BACKEND_URL}/api/batches/${batchCode}`);
+      const response = await axios.get(`${BACKEND_URL}/api/batches/check/${batchCode}`);
       const data = response.data;
 
       if (data.exists) {
         // If batch exists, join the batch
-        const studentId = user._id; // Ensure you use the correct user ID field
         dispatch(joinBatch(batchCode, studentId));
-        // Optional: Call parent component's join handler if needed
-        if (onJoinBatch) {
-          onJoinBatch(batchCode, studentId);
-        }
+        dispatch(fetchJoinedBatches(studentId));
+        
       } else {
         // Batch code does not exist
         alert('Invalid batch code. Please check and try again.');

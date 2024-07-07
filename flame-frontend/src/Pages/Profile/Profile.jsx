@@ -15,7 +15,6 @@ const Profile = ({ user }) => {
   const dispatch = useDispatch();
   const [selectedStudent, setSelectedStudent] = useState(null);
 
-  const joinedBatches = useSelector((state) => state.batches.joinedBatches || []);
 
   useEffect(() => {
     if (user.role === 'student') {
@@ -29,9 +28,7 @@ const Profile = ({ user }) => {
     navigate('/');
   };
 
-  const onJoinBatch = (batchCode) => {
-    dispatch(joinBatch(batchCode, user.id)); // Ensure correct ID property
-  };
+
 
   const isStudent = user.role === 'student';
 
@@ -54,7 +51,7 @@ const Profile = ({ user }) => {
           {!isStudent ? (
             <BatchManager setSelectedStudent={setSelectedStudent} createdBy={user.name} />
           ) : (
-            <BatchJoin onJoinBatch={onJoinBatch} user={user} />
+            <BatchJoin user={user} />
           )}
         </Col>
         <Col xs={12} md={8}>
@@ -80,7 +77,7 @@ const Profile = ({ user }) => {
           {!isStudent ? (
             <UserStatsChart selectedStudent={selectedStudent} />
           ) : (
-            <ShowBatches joinedBatches={joinedBatches} />
+            <ShowBatches />
           )}
         </Col>
       </Row>

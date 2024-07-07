@@ -31,7 +31,7 @@ export const createBatch = (batchName, createdBy) => async (dispatch) => {
 export const joinBatch = (batchCode, studentId) => async (dispatch) => {
   try {
     console.log(studentId);
-    const response = await axios.post(`${BACKEND_URL}/api/batches/${batchCode}`, { studentId });
+    const response = await axios.post(`${BACKEND_URL}/api/batches/join/${batchCode}`, { studentId });
     dispatch({ type: JOIN_BATCH_SUCCESS, payload: response.data });
 
     // localStorage.setItem('joinedBatches', JSON.stringify(response.data));
