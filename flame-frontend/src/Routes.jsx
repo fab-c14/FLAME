@@ -16,10 +16,11 @@ import Navbar from './components/Navbar/Navbar';
 import { useLocation } from 'react-router-dom';
 
 
+
 const Routes = () => {
   let user = null; // Initialize user to null
-  
 
+  
   const token = localStorage.getItem('token');
   if (token) {
     try {

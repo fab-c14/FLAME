@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "brew install redis; nodemon start; "
+    "start": "sudo apt install redis -y; nodemon start; "
   },
   "keywords": [],
   "author": "",
@@ -23,7 +23,7 @@
     "logger": "^0.0.1",
     "mongodb": "^6.6.2",
     "mongoose": "^8.4.0",
-    "nodemon": "^3.1.0",
+    "nodemon": "^3.1.4",
     "redis-server": "^1.2.2"
   },
   "devDependencies": {

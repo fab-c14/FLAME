@@ -43,7 +43,6 @@ const Output = ({ editorRef, language, question, userId, name }) => {
     const input = {
       language: capitalizeFirstLetter(language),
       code: sourceCode,
-      input:"Take an input: ",
       testCases: testCases.map(tc => ({ input: tc.input, output: tc.expectedOutput })),
       timeout: 2
     };
@@ -154,7 +153,7 @@ const Output = ({ editorRef, language, question, userId, name }) => {
             {testResults.map((test, index) => (
               <Text
                 key={index}
-                color={test.remarks === ('Fail' || 'Error' ) ? 'red.500' : 'green.500'}
+                color={test.remarks === ('Pass') ? 'green.500' : 'red.500'}
                 fontSize="md"
                 fontWeight="medium"
                 lineHeight="tall"

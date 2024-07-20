@@ -2,20 +2,18 @@ import { Router } from 'express';
 import { CodeExecutor, Worker } from 'code-executor';
 import RedisServer from 'redis-server';
 import SnippetStore from '../models/SnippetStore.js';
+import dotenv from 'dotenv'
 const router = Router();
+dotenv.config();
 
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
-const server = new RedisServer(6379);
+const server = process.env.REDIS_URL;
 // console.log(server)
-server.open((err) => {
-  if (err === null) {
-    console.log('Redis server started successfully.');
-  }
-});
+
 
 
 
