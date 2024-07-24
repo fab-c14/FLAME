@@ -10,13 +10,10 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
-const server = process.env.REDIS_URL || new RedisServer(6379);
+const server = process.env.REDIS_URL;
 // console.log(server)
 server.open(() => {
-  if (err == null) {
-    console.log("redis started and url is : url ");
-  }
-});
+
 
 router.post("/execute", async (req, res) => {
   let inputs = req.body;
