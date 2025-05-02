@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { CodeExecutor, Worker } from "code-executor";
 import { createClient } from "redis";
-import SnippetStore from "../models/SnippetStore.js";
 import dotenv from "dotenv";
 
 const router = Router();
@@ -11,12 +10,11 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
-// Create Redis client with provided connection details
+
 const client = createClient({
-  password: process.env.REDIS_PASSWORD,
   socket: {
-    host: "redis-19823.c98.us-east-1-4.ec2.redns.redis-cloud.com",
-    port: 19823,
+    host: "127.0.0.1",
+    port: 6379,
   },
 });
 
@@ -42,7 +40,7 @@ client.on("connect", () => {
     console.log(buildLang);
 
     const randNO = getRandomInt(1000);
-    const redisUrl = `redis://:${process.env.REDIS_PASSWORD}@redis-19823.c98.us-east-1-4.ec2.redns.redis-cloud.com:19823`;
+    const redisUrl = `redis://127.0.0.1:6379`;
 
     const codeExecutor = new CodeExecutor("myExecutor", redisUrl);
     const worker = new Worker("myExecutor", redisUrl);
