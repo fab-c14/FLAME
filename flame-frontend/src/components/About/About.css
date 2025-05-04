@@ -5,3 +5,31 @@
 
     background-size: cover;
 }
+
+/* About.css */
+.about-background {
+    background-color: #f8f9fa;
+  }
+  
+  h2, p {
+    font-family: 'Nunito Sans', sans-serif;
+  }
+  
+  h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+  
+  p {
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
+  
+  .f4 {
+    font-family: 'Nunito Sans', sans-serif;
+  }
+  
+  .d-flex .link {
+    font-family: 'Nunito Sans', sans-serif;
+  }
+  

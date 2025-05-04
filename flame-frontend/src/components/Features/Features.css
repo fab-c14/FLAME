@@ -1,0 +1,23 @@
+/* Features.css */
+.feature-title {
+    font-family: 'Rubik', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+  }
+  
+  .feature-subtitle {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  
+  .feature-text {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    color: #444;
+  }
+  
+  .features-background {
+    background-color: #fdfdfd;
+  }
+  
