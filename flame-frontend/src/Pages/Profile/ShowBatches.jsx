@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card } from 'react-bootstrap';
+import { Card } from '../../components/ui/react-bootstrap-compat';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBatches } from '../../actions/batchActions';
 import { Link } from 'react-router-dom';

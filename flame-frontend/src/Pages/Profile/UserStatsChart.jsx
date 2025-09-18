@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Card, ListGroup, ListGroupItem, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Card, ListGroup, ListGroupItem, Dropdown, DropdownButton } from '../../components/ui/react-bootstrap-compat';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { useDispatch, useSelector } from 'react-redux';

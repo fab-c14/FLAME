@@ -1,6 +1,6 @@
 // Community.jsx
 import React,{useState} from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from '../../components/ui/react-bootstrap-compat';
 import Chatbox from './ChatBox';
 
 

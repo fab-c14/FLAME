@@ -1,48 +1,64 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
 import './About.css';
 import { Link } from 'react-router-dom';
 import { GiFlame } from "react-icons/gi";
 import { Slide, Fade, Zoom } from 'react-awesome-reveal';
+import Container from '../ui/Container';
+import Button from '../ui/Button';
 
 const About = ({ isLoggedIn }) => {
   return (
-    <section className="shadow-2 py-5 ma3 br2 bw1 bt bb b--dark-pink about-background hover-about">
+    <section className="py-20 m-4">
       <Container>
-        <Row>
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Icon */}
-          <Col md={6} className="d-flex flex-column align-items-center justify-content-center">
+          <div className="flex justify-center">
             <Slide direction="left">
-              <GiFlame size={400} color='red' />
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-orange-500/20 rounded-full blur-3xl"></div>
+                <GiFlame className="relative text-red-400 hover:text-red-300 transition-colors duration-300" size={300} />
+              </div>
             </Slide>
-          </Col>
+          </div>
 
           {/* Right Text */}
-          <Col md={6} className="black">
+          <div className="text-white space-y-6">
             <Fade direction="down" cascade damping={0.1}>
-              <h2 className="f2 mb3" id="about" style={{ fontFamily: 'Nunito Sans, sans-serif' }}>About FLAME</h2>
-              <p className="f4" style={{ fontFamily: 'Nunito Sans, sans-serif' }}>
-                Welcome to FLAME (Foundation for Learning Assistance and Management Environment), your platform for interactive learning. Our mission is to empower students with the tools and resources they need to excel in their academic journey.
-              </p>
-              <p className="f4" style={{ fontFamily: 'Nunito Sans, sans-serif' }}>
-                At FLAME, we believe in the power of hands-on learning. Our platform provides a rich environment for students to practice coding, experiment with different programming languages, and collaborate with peers on exciting projects.
-              </p>
+              <div>
+                <h2 className="text-4xl lg:text-5xl font-bold mb-6 gradient-text">
+                  About FLAME
+                </h2>
+                <p className="text-lg text-white/90 leading-relaxed mb-6">
+                  Welcome to FLAME (Foundation for Learning Assistance and Management Environment), 
+                  your platform for interactive learning. Our mission is to empower students with 
+                  the tools and resources they need to excel in their academic journey.
+                </p>
+                <p className="text-lg text-white/80 leading-relaxed">
+                  At FLAME, we believe in the power of hands-on learning. Our platform provides 
+                  a rich environment for students to practice coding, experiment with different 
+                  programming languages, and collaborate with peers on exciting projects.
+                </p>
+              </div>
             </Fade>
 
             {/* Buttons with animation */}
             <Zoom delay={600}>
-              <div className="d-flex gap-3 mt-3 flex-wrap">
-                <Link to={isLoggedIn ? '/profile' : '/login'} className="f4 bg-light-green link dim ba bw1 ph3 pv2 mb2 br4 dib dark-red b">
-                  {isLoggedIn ? "Go To Profile" : "Login"}
+              <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                <Link to={isLoggedIn ? '/profile' : '/login'}>
+                  <Button className="w-full sm:w-auto">
+                    {isLoggedIn ? "Go To Profile" : "Login"}
+                  </Button>
                 </Link>
 
-                <Link to={isLoggedIn ? "/editor" : "/register"} className="f4 bg-dark-red br4 link dim ba bw1 ph3 pv2 mb2 dib light-gray b">
-                  {isLoggedIn ? "Start Coding" : "Register"}
+                <Link to={isLoggedIn ? "/editor" : "/register"}>
+                  <Button variant="secondary" className="w-full sm:w-auto">
+                    {isLoggedIn ? "Start Coding" : "Register"}
+                  </Button>
                 </Link>
               </div>
             </Zoom>
-          </Col>
-        </Row>
+          </div>
+        </div>
       </Container>
     </section>
   );

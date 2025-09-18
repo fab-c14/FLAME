@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Row, Col, Card, ListGroup, InputGroup, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, ListGroup, InputGroup, Form, Button } from '../../components/ui/react-bootstrap-compat';
 import { FaPaperPlane } from 'react-icons/fa';
 import { createQuestion, fetchQuestions } from '../../actions/questionActions';
 import {Link, useNavigate} from 'react-router-dom';

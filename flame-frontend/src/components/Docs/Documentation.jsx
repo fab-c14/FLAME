@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from '../ui/react-bootstrap-compat';
 
 const Documentation = () => {
     return (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, ListGroup, ListGroupItem, Button, Form, Modal } from 'react-bootstrap';
+import { Card, ListGroup, ListGroupItem, Button, Form, Modal } from '../../components/ui/react-bootstrap-compat';
 import { FaPlus, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';

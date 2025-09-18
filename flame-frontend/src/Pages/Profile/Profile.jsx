@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, ListGroup, ListGroupItem, Button } from '../../components/ui/react-bootstrap-compat';
 import { useNavigate } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
