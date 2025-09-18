@@ -1,71 +1,77 @@
 import React from 'react';
-import { Button, Container, Row, Col, Card } from 'react-bootstrap';
 import { FaBook } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
 import { Fade, Zoom } from 'react-awesome-reveal';
-import './Docs.css'; // Update your CSS file for fonts
+import Button from '../ui/Button';
+import Container from '../ui/Container';
+import Card from '../ui/Card';
+import './Docs.css';
 
 const Docs = () => {
   const navigate = useNavigate();
 
+  const docSections = [
+    {
+      title: 'Getting Started',
+      description: 'Learn how to set up your profile, start coding, and use the editor effectively.',
+      delay: 0
+    },
+    {
+      title: 'Features',
+      description: 'Discover key features like real-time test cases, language support, and solution history.',
+      delay: 100
+    },
+    {
+      title: 'FAQs',
+      description: 'Get answers to common questions about account setup, usage, and troubleshooting.',
+      delay: 200
+    }
+  ];
+
   return (
-    <section className="py-5 shadow-2 br3 ma3 pa2 b--black bw2 ba docs-background">
+    <section className="py-20 m-4">
       <Container>
         <Fade direction="down" cascade damping={0.1}>
-          <h2 className="text-center mb-4 docs-title">Documentation</h2>
-          <p className="text-center mb-4 docs-text">
-            Explore our documentation to learn more about FLAME and how to get started.
-          </p>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
+              Documentation
+            </h2>
+            <p className="text-xl text-white/80 max-w-2xl mx-auto">
+              Explore our comprehensive documentation to learn more about FLAME and how to get started.
+            </p>
+          </div>
         </Fade>
 
-        <Row className="mb-5">
-          <Col md={4}>
-            <Fade direction="left">
-              <Card className="mb-3 shadow-sm">
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          {docSections.map((section, index) => (
+            <Fade 
+              key={index}
+              direction={index === 0 ? 'left' : index === 1 ? 'up' : 'right'} 
+              delay={section.delay}
+            >
+              <Card variant="glass" className="p-6 h-full">
                 <Card.Body>
-                  <Card.Title className="docs-subtitle">Getting Started</Card.Title>
-                  <Card.Text>
-                    Learn how to set up your profile, start coding, and use the editor effectively.
-                  </Card.Text>
+                  <h3 className="text-2xl font-bold text-white mb-4">
+                    {section.title}
+                  </h3>
+                  <p className="text-white/80 leading-relaxed">
+                    {section.description}
+                  </p>
                 </Card.Body>
               </Card>
             </Fade>
-          </Col>
-          <Col md={4}>
-            <Fade direction="up" delay={100}>
-              <Card className="mb-3 shadow-sm">
-                <Card.Body>
-                  <Card.Title className="docs-subtitle">Features</Card.Title>
-                  <Card.Text>
-                    Discover key features like real-time test cases, language support, and solution history.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Fade>
-          </Col>
-          <Col md={4}>
-            <Fade direction="right" delay={200}>
-              <Card className="mb-3 shadow-sm">
-                <Card.Body>
-                  <Card.Title className="docs-subtitle">FAQs</Card.Title>
-                  <Card.Text>
-                    Get answers to common questions about account setup, usage, and troubleshooting.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Fade>
-          </Col>
-        </Row>
+          ))}
+        </div>
 
         <Zoom delay={300}>
           <div className="text-center">
             <Button
-              variant="warning"
-              size="lg"
               onClick={() => navigate('/docs')}
-              className="hover-button"
+              icon={FaBook}
+              size="lg"
+              className="shadow-xl"
             >
-              <FaBook className="mr-2" /> View Full Documentation
+              View Full Documentation
             </Button>
           </div>
         </Zoom>

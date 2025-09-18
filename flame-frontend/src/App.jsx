@@ -1,7 +1,5 @@
-import React,{useState} from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from 'react';
 import 'tachyons';
-// import ParticlesBg from 'particles-bg'; // now we are not using it may be we'll use it later
 import './App.css';
 import Toaster from './assets/Toaster';
 import Routes from './Routes';
