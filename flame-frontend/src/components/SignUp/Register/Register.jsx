@@ -1,9 +1,23 @@
 import React, { useState } from 'react';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import {
+  Box,
+  Container,
+  VStack,
+  Heading,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  Button,
+  Alert,
+  AlertIcon,
+  useToast,
+} from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../../actions/authActions';
 import '../Login/Login.css';
+import Skeleton from 'react-loading-skeleton';
 
 const Registration = () => {
   const [userType, setUserType] = useState('student');

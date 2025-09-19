@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, SimpleGrid, Box, Heading, Text, VStack, HStack, Icon } from '@chakra-ui/react';
 import './About.css';
 import { Link } from 'react-router-dom';
 import { GiFlame } from "react-icons/gi";
