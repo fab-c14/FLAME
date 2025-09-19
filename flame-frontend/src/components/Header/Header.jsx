@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Box, Container, Heading, Text, Button, Flex, Divider } from '@chakra-ui/react';
 import { FaRocket } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { Slide, Fade, Zoom } from 'react-awesome-reveal';
@@ -17,59 +17,80 @@ function Header({ isLoggedIn }) {
   };
 
   return (
-    <header className="shadow-2 py-5 ma3 br2 bw1 bt bb b--dark-pink header-background">
-      <Container>
-        <Row className="align-items-center">
-          <Col md={6} className="mb-4 mb-md-0">
-
-            <Slide direction="left" >
-              <h1 className="display-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+    <Box 
+      as="header" 
+      className="shadow-2 py-5 ma3 br2 bw1 bt bb b--dark-pink header-background"
+    >
+      <Container maxW="container.xl">
+        <Flex align="center" justify="space-between" className="mb-4">
+          <Box flex="1" maxW="lg">
+            <Slide direction="left">
+              <Heading 
+                as="h1" 
+                size="2xl" 
+                fontFamily="'Montserrat', sans-serif"
+                className="mb-4"
+              >
                 Welcome to FLAME
-              </h1>
+              </Heading>
             </Slide>
 
-            <Fade delay={200} >
-              <p className="lead">Your platform for interactive learning</p>
+            <Fade delay={200}>
+              <Text fontSize="xl" className="mb-6 text-gray-600">
+                Your platform for interactive learning
+              </Text>
             </Fade>
 
-            {/* Flexbox container for buttons */}
-            <div className="d-flex mt-3 gap-3">
-              <Zoom direction="bottom" delay={400} >
-                <Button variant="warning" className="hover-button b" onClick={handleClick}>
-                  <FaRocket className="mr-2" /> Get Started
+            <Flex gap={4} className="flex-wrap">
+              <Zoom direction="bottom" delay={400}>
+                <Button
+                  colorScheme="yellow"
+                  size="lg"
+                  className="hover-button font-bold"
+                  onClick={handleClick}
+                  leftIcon={<FaRocket />}
+                >
+                  Get Started
                 </Button>
               </Zoom>
 
-              <Zoom direction="right" delay={400} >
-                <Button variant="outline-light bg-washed-red black" className="b" onClick={goToDocs}>
+              <Zoom direction="right" delay={400}>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="font-bold bg-washed-red"
+                  colorScheme="gray"
+                  color="black"
+                  onClick={goToDocs}
+                >
                   Learn More
                 </Button>
               </Zoom>
-            </div>
-          </Col>
-        </Row>
+            </Flex>
+          </Box>
+        </Flex>
       </Container>
 
-      <Fade delay={700} >
-        <hr className="mt-5 mb-4" />
+      <Fade delay={700}>
+        <Divider className="mt-5 mb-4" />
       </Fade>
 
-      <Container>
-        <Row>
-          <Col>
-            <Slide direction="up" delay={800} >
-              <h2>Discover the Possibilities</h2>
-            </Slide>
-            <Fade delay={1000} >
-              <p>
-                Explore our interactive coding labs, access a wide range of coding choices,
-                and solve questions with testcases and sharpen your skills.
-              </p>
-            </Fade>
-          </Col>
-        </Row>
+      <Container maxW="container.xl">
+        <Box>
+          <Slide direction="up" delay={800}>
+            <Heading as="h2" size="xl" className="mb-4">
+              Discover the Possibilities
+            </Heading>
+          </Slide>
+          <Fade delay={1000}>
+            <Text fontSize="lg" className="text-gray-600">
+              Explore our interactive coding labs, access a wide range of coding choices,
+              and solve questions with testcases and sharpen your skills.
+            </Text>
+          </Fade>
+        </Box>
       </Container>
-    </header>
+    </Box>
   );
 }
 

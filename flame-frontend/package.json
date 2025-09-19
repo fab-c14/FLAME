@@ -11,12 +11,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.2.4",
     "@chakra-ui/react": "^2.8.2",
     "@cometchat-pro/chat": "^3.0.13",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@monaco-editor/react": "^4.6.0",
     "@reduxjs/toolkit": "^2.2.5",
+    "@tailwindcss/postcss": "^4.1.13",
     "@tailwindcss/typography": "^0.5.18",
     "autoprefixer": "^10.4.21",
     "axios": "^1.7.4",
