@@ -1,47 +1,83 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, SimpleGrid, Box, Heading, Text, VStack, Icon } from '@chakra-ui/react';
 import { FaCode, FaChalkboardTeacher, FaChartBar } from 'react-icons/fa';
 import { Fade } from 'react-awesome-reveal';
-import './Features.css'; // Optional external styling
+import './Features.css';
 
 function Features() {
+    const features = [
+        {
+            icon: FaCode,
+            title: "Interactive Coding Labs",
+            description: "Practice coding skills with hands-on labs covering various programming languages and topics."
+        },
+        {
+            icon: FaChalkboardTeacher,
+            title: "Solve Questions",
+            description: "Access expert-led batches, where you/others can solve questions posted by batch instructors."
+        },
+        {
+            icon: FaChartBar,
+            title: "Performance Tracking",
+            description: "Monitor student performance and progress using our detailed tracking system."
+        }
+    ];
+
     return (
-        <section className="py-5 shadow-3 ma3 pa2 bb bt b--black-20 features-background">
-            <Container>
-                <Fade direction="up" cascade damping={0.15} >
-                    <h2 className="text-center mb-5 feature-title">Key Features</h2>
-                    <Row>
-                        <Col md={4} className="mb-4">
-                            <div className="text-center">
-                                <FaCode size={60} className="mb-3 text-primary" />
-                                <h3 className="feature-subtitle">Interactive Coding Labs</h3>
-                                <p className="feature-text">
-                                    Practice coding skills with hands-on labs covering various programming languages and topics.
-                                </p>
-                            </div>
-                        </Col>
-                        <Col md={4} className="mb-4">
-                            <div className="text-center">
-                                <FaChalkboardTeacher size={60} className="mb-3 text-primary" />
-                                <h3 className="feature-subtitle">Solve Questions</h3>
-                                <p className="feature-text">
-                                    Access expert-led batches, where you/others can solve questions posted by batch instructors.
-                                </p>
-                            </div>
-                        </Col>
-                        <Col md={4} className="mb-4">
-                            <div className="text-center">
-                                <FaChartBar size={60} className="mb-3 text-primary" />
-                                <h3 className="feature-subtitle">Performance Tracking</h3>
-                                <p className="feature-text">
-                                    Monitor student performance and progress using our detailed tracking system.
-                                </p>
-                            </div>
-                        </Col>
-                    </Row>
+        <Box
+            as="section"
+            className="py-5 shadow-3 ma3 pa2 bb bt b--black-20 features-background"
+        >
+            <Container maxW="container.xl">
+                <Fade direction="up" cascade damping={0.15}>
+                    <VStack spacing={12}>
+                        <Heading 
+                            size="xl" 
+                            textAlign="center" 
+                            className="feature-title"
+                            fontFamily="'Poppins', sans-serif"
+                        >
+                            Key Features
+                        </Heading>
+                        
+                        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} w="full">
+                            {features.map((feature, index) => (
+                                <VStack 
+                                    key={index}
+                                    spacing={4} 
+                                    textAlign="center"
+                                    p={6}
+                                    borderRadius="lg"
+                                    transition="transform 0.3s"
+                                    _hover={{ transform: "translateY(-5px)" }}
+                                >
+                                    <Icon 
+                                        as={feature.icon} 
+                                        boxSize={16} 
+                                        color="blue.500"
+                                        className="mb-3"
+                                    />
+                                    <Heading 
+                                        size="md" 
+                                        className="feature-subtitle"
+                                        fontFamily="'Poppins', sans-serif"
+                                    >
+                                        {feature.title}
+                                    </Heading>
+                                    <Text 
+                                        className="feature-text"
+                                        color="gray.600"
+                                        fontFamily="'Roboto', sans-serif"
+                                    >
+                                        {feature.description}
+                                    </Text>
+                                </VStack>
+                            ))}
+                        </SimpleGrid>
+                    </VStack>
                 </Fade>
             </Container>
-        </section>
+        </Box>
     );
 }
 

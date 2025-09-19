@@ -1,41 +1,66 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa'; // Importing icons from React Icons
-import { Fade, Zoom } from 'react-awesome-reveal'; // Importing animations from react-awesome-reveal
+import { Container, VStack, HStack, Text, Link, Icon, Divider, Box } from '@chakra-ui/react';
+import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
+import { Fade, Zoom } from 'react-awesome-reveal';
 
 const Footer = () => {
     return (
-        <footer className="bg-dark text-light py-4 shadow-3 bg-green ma3 pa2 br3 bw2 b--red">
-            <Container>
-                <hr className="bg-light-gray mw-100" />
-                <Row className="justify-content-center align-items-center">
+        <Box 
+            as="footer" 
+            className="shadow-3 bg-green ma3 pa2 br3 bw2 b--red"
+            bg="gray.800"
+            color="white"
+            py={8}
+        >
+            <Container maxW="container.xl">
+                <VStack spacing={6}>
+                    <Divider borderColor="gray.300" />
+                    
                     {/* Footer Text with Fade animation */}
-                    <Col xs={12} className="text-center mb-3 mb-md-0">
-                        <Fade direction="up" cascade>
-                            <p className="mb-3">© {new Date().getFullYear()} FLAME. All rights reserved.</p>
-                        </Fade>
-                    </Col>
+                    <Fade direction="up" cascade>
+                        <Text 
+                            textAlign="center" 
+                            fontFamily="'Roboto', sans-serif"
+                            fontSize="sm"
+                        >
+                            © {new Date().getFullYear()} FLAME. All rights reserved.
+                        </Text>
+                    </Fade>
 
                     {/* Social Media Links with Zoom animation */}
-                    <Col xs={12} className="text-center">
-                        <Zoom delay={300}>
-                            <div>
-                                <a href="https://github.com/fab-c14" className="text-light mr3" target="_blank" rel="noopener noreferrer">
-                                    <FaGithub size={32} className="icon grow" />
-                                </a>
-                                <a href="https://twitter.com/fab14c" className="text-light mr3" target="_blank" rel="noopener noreferrer">
-                                    <FaTwitter size={32} className="icon grow" />
-                                </a>
-                                <a href="https://www.linkedin.com/in/faisal-ahmad-bhat-aaba29229/" className="text-light" target="_blank" rel="noopener noreferrer">
-                                    <FaLinkedin size={32} className="icon grow" />
-                                </a>
-                            </div>
-                        </Zoom>
-                        <hr className="bg-light-gray mw-100" />
-                    </Col>
-                </Row>
+                    <Zoom delay={300}>
+                        <HStack spacing={6}>
+                            <Link 
+                                href="https://github.com/fab-c14" 
+                                isExternal
+                                _hover={{ transform: 'scale(1.1)' }}
+                                transition="transform 0.2s"
+                            >
+                                <Icon as={FaGithub} boxSize={8} className="grow" />
+                            </Link>
+                            <Link 
+                                href="https://twitter.com/fab14c" 
+                                isExternal
+                                _hover={{ transform: 'scale(1.1)' }}
+                                transition="transform 0.2s"
+                            >
+                                <Icon as={FaTwitter} boxSize={8} className="grow" />
+                            </Link>
+                            <Link 
+                                href="https://www.linkedin.com/in/faisal-ahmad-bhat-aaba29229/" 
+                                isExternal
+                                _hover={{ transform: 'scale(1.1)' }}
+                                transition="transform 0.2s"
+                            >
+                                <Icon as={FaLinkedin} boxSize={8} className="grow" />
+                            </Link>
+                        </HStack>
+                    </Zoom>
+                    
+                    <Divider borderColor="gray.300" />
+                </VStack>
             </Container>
-        </footer>
+        </Box>
     );
 }
 

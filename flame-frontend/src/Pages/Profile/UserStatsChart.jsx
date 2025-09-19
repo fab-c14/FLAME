@@ -1,15 +1,36 @@
 import React, { useEffect } from 'react';
-import { Card, ListGroup, ListGroupItem, Dropdown, DropdownButton } from 'react-bootstrap';
+import {
+  Box,
+  Card,
+  CardHeader,
+  CardBody,
+  Heading,
+  Text,
+  VStack,
+  HStack,
+  Badge,
+  Divider,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button,
+  Code,
+} from '@chakra-ui/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAnswers,clearAnswers } from '../../actions/answerActions';
+import { getAnswers, clearAnswers } from '../../actions/answerActions';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const UserStatsChart = ({ selectedStudent }) => {
   const dispatch = useDispatch();
   const solvedQuestions = useSelector(state => state.submissions.answers);
+  const { loading, error } = useSelector(state => state.submissions);
 
   useEffect(() => {
     if (selectedStudent) {
@@ -21,21 +42,50 @@ const UserStatsChart = ({ selectedStudent }) => {
   if (!selectedStudent) {
     return (
       <Card className="br3 shadow-2 mt4">
-        <Card.Body>
-          <Card.Title className="tc">No Student Selected</Card.Title>
-        </Card.Body>
+        <CardBody>
+          <Heading size="md" textAlign="center">
+            No Student Selected
+          </Heading>
+        </CardBody>
       </Card>
     );
   }
 
-  const sampleSolvedQuestions = [
-    { date: '2023-01-01', count: 1 },
-    { date: '2023-02-01', count: 2 },
-    { date: '2023-03-01', count: 3 },
-  ];
+  if (loading) {
+    return (
+      <Card className="br3 shadow-2 mt2">
+        <CardHeader>
+          <Skeleton height={24} />
+        </CardHeader>
+        <CardBody>
+          <VStack spacing={4}>
+            <Skeleton height={200} />
+            <VStack w="full" spacing={2}>
+              {[...Array(4)].map((_, i) => (
+                <Skeleton key={i} height={40} />
+              ))}
+            </VStack>
+          </VStack>
+        </CardBody>
+      </Card>
+    );
+  }
 
-  // const questionsData = Array.isArray(solvedQuestions) && solvedQuestions.length > 0 ? solvedQuestions : sampleSolvedQuestions;//here we are putting the sample question but now we don't need it 
+  if (error) {
+    return (
+      <Card className="br3 shadow-2 mt2">
+        <CardBody>
+          <Text color="red.500" textAlign="center">
+            Error loading student data: {error}
+          </Text>
+        </CardBody>
+      </Card>
+    );
+  }
+
+  // Remove the sampleSolvedQuestions as mentioned in the comment
   const questionsData = solvedQuestions;
+  
   const barData = {
     labels: ['Total Runs', 'Successful Runs', 'Failed Runs'],
     datasets: [
@@ -46,18 +96,25 @@ const UserStatsChart = ({ selectedStudent }) => {
           selectedStudent.stats.successfulRuns || 0,
           selectedStudent.stats.failedRuns || 0,
         ],
-        backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)'],
-        borderColor: ['rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(255, 99, 132)'],
+        backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(75, 192, 192, 0.6)', 'rgba(255, 99, 132, 0.6)'],
+        borderColor: ['rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
         borderWidth: 1,
       },
     ],
   };
 
   const barOptions = {
-    scales: {
-      x: {
-        beginAtZero: true,
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
       },
+      title: {
+        display: true,
+        text: `${selectedStudent.name} Performance Chart`,
+      },
+    },
+    scales: {
       y: {
         beginAtZero: true,
       },
@@ -66,51 +123,116 @@ const UserStatsChart = ({ selectedStudent }) => {
 
   return (
     <Card className="br3 shadow-2 mt2">
-      <Card.Header className="bg-light-gray">{selectedStudent.name} Statistics</Card.Header>
-      <Card.Body>
-        <Card.Title className="tc">Progress of {selectedStudent.name}</Card.Title>
+      <CardHeader className="bg-light-gray">
+        <Heading size="md">{selectedStudent.name} Statistics</Heading>
+      </CardHeader>
       
-        <ListGroup variant="flush" className="mt3">
-          <ListGroupItem>
-            <strong>Total Codes Run:</strong> {selectedStudent.stats.totalRuns || 0}
-          </ListGroupItem>
-          <ListGroupItem>
-            <strong>Successful Runs:</strong> {selectedStudent.stats.successfulRuns || 0}
-          </ListGroupItem>
-          <ListGroupItem>
-            <strong>Failed Runs:</strong> {selectedStudent.stats.failedRuns || 0}
-          </ListGroupItem>
-          <ListGroupItem>
-            <strong>Last Active:</strong> {selectedStudent.stats.lastActive ? new Date(selectedStudent.stats.lastActive).toLocaleString() : 'N/A'}
-          </ListGroupItem>
-        </ListGroup>
-        <hr/>
-        <Bar data={barData} options={barOptions} />
-        <hr/>
-        <ListGroup className="ma2 pa2">
-          {Array.isArray(questionsData) && questionsData.length > 0 ? (
-            questionsData.map((answer, index) => (
-              <ListGroupItem key={answer.questionId} className='mt2 bg-near-black white'>
-                <strong>Question ID: </strong> {answer.questionId} <br />
-                <strong>Title: </strong> {answer.questionTitle} <br />
-                <strong>Language : {answer.language}</strong> <br />
-                <hr/>
-                <DropdownButton id={`dropdown-${index}`} title="View Answer" className='tr'>
-                  <Dropdown.Item as="div" className='f4 shadow-2 bg-washed-blue'>
-                    <code className='bg-dark f4 dib pa2 ma-1 br2'>
-                      <pre>
-                        {answer.code || 'No code available'}
-                      </pre>
-                    </code>
-                  </Dropdown.Item>
-                </DropdownButton>
-              </ListGroupItem>
-            ))
-          ) : (
-            <ListGroupItem>No solved questions available.</ListGroupItem>
-          )}
-        </ListGroup>
-      </Card.Body>
+      <CardBody>
+        <VStack spacing={6}>
+          <Heading size="md" textAlign="center">
+            Progress of {selectedStudent.name}
+          </Heading>
+          
+          {/* Statistics Cards */}
+          <VStack w="full" spacing={3}>
+            <HStack w="full" justify="space-between" p={3} bg="gray.50" borderRadius="md">
+              <Text fontWeight="bold">Total Codes Run:</Text>
+              <Badge colorScheme="blue" fontSize="sm">
+                {selectedStudent.stats.totalRuns || 0}
+              </Badge>
+            </HStack>
+            
+            <HStack w="full" justify="space-between" p={3} bg="gray.50" borderRadius="md">
+              <Text fontWeight="bold">Successful Runs:</Text>
+              <Badge colorScheme="green" fontSize="sm">
+                {selectedStudent.stats.successfulRuns || 0}
+              </Badge>
+            </HStack>
+            
+            <HStack w="full" justify="space-between" p={3} bg="gray.50" borderRadius="md">
+              <Text fontWeight="bold">Failed Runs:</Text>
+              <Badge colorScheme="red" fontSize="sm">
+                {selectedStudent.stats.failedRuns || 0}
+              </Badge>
+            </HStack>
+            
+            <HStack w="full" justify="space-between" p={3} bg="gray.50" borderRadius="md">
+              <Text fontWeight="bold">Last Active:</Text>
+              <Text fontSize="sm">
+                {selectedStudent.stats.lastActive 
+                  ? new Date(selectedStudent.stats.lastActive).toLocaleString() 
+                  : 'N/A'}
+              </Text>
+            </HStack>
+          </VStack>
+          
+          <Divider />
+          
+          {/* Chart */}
+          <Box w="full">
+            <Bar data={barData} options={barOptions} />
+          </Box>
+          
+          <Divider />
+          
+          {/* Solved Questions */}
+          <VStack w="full" spacing={4} className="ma2 pa2">
+            <Heading size="md">Solved Questions</Heading>
+            
+            {Array.isArray(questionsData) && questionsData.length > 0 ? (
+              questionsData.map((answer, index) => (
+                <Box 
+                  key={answer.questionId} 
+                  w="full" 
+                  p={4} 
+                  bg="gray.800" 
+                  color="white" 
+                  borderRadius="md"
+                  className="mt2"
+                >
+                  <VStack align="start" spacing={2}>
+                    <Text><strong>Question ID:</strong> {answer.questionId}</Text>
+                    <Text><strong>Title:</strong> {answer.questionTitle}</Text>
+                    <Text><strong>Language:</strong> {answer.language}</Text>
+                    
+                    <Divider />
+                    
+                    <Menu>
+                      <MenuButton 
+                        as={Button} 
+                        rightIcon={<ChevronDownIcon />}
+                        colorScheme="teal"
+                        size="sm"
+                      >
+                        View Answer
+                      </MenuButton>
+                      <MenuList bg="blue.50" maxW="400px" p={4}>
+                        <MenuItem bg="transparent" _hover={{ bg: 'transparent' }}>
+                          <Code 
+                            p={4} 
+                            bg="gray.800" 
+                            color="green.300" 
+                            borderRadius="md" 
+                            w="full"
+                            whiteSpace="pre-wrap"
+                            fontSize="sm"
+                          >
+                            {answer.code || 'No code available'}
+                          </Code>
+                        </MenuItem>
+                      </MenuList>
+                    </Menu>
+                  </VStack>
+                </Box>
+              ))
+            ) : (
+              <Box p={4} bg="gray.100" borderRadius="md" w="full" textAlign="center">
+                <Text>No solved questions available.</Text>
+              </Box>
+            )}
+          </VStack>
+        </VStack>
+      </CardBody>
     </Card> 
   );
 };
