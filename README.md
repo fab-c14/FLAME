@@ -95,7 +95,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contact
 
-For questions or support, please open an issue in the repository or contact us directly at plesim18@gmail.com
+For questions or support, please open an issue in the repository or contact us directly at fabs-folio-3.vercel.app
 ---
 
 Thank you for using FLAME! We hope it helps you create a better learning environment.
