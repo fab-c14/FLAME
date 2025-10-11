@@ -1,51 +1,102 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import './About.css';
-import { Link } from 'react-router-dom';
-import { GiFlame } from "react-icons/gi";
-import { Slide, Fade, Zoom } from 'react-awesome-reveal';
+import {
+  Box,
+  Container,
+  SimpleGrid,
+  Stack,
+  Heading,
+  Text,
+  Button,
+  Icon,
+  List,
+  ListItem,
+  ListIcon,
+} from '@chakra-ui/react';
+import { Link as RouterLink } from 'react-router-dom';
+import { FaCheckCircle, FaBookOpen } from 'react-icons/fa';
+import { GiLaurelsTrophy } from 'react-icons/gi';
+import { GiPencilBrush } from 'react-icons/gi';
+import { motion } from 'framer-motion';
 
 const About = ({ isLoggedIn }) => {
   return (
-    <section className="shadow-2 py-5 ma3 br2 bw1 bt bb b--dark-pink about-background hover-about">
-      <Container>
-        <Row>
-          {/* Left Icon */}
-          <Col md={6} className="d-flex flex-column align-items-center justify-content-center">
-            <Slide direction="left">
-              <GiFlame size={400} color='red' />
-            </Slide>
-          </Col>
+    <Box as="section" py={{ base: 8, md: 14 }} px={4}>
+      <Container maxW="container.lg">
+        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10} alignItems="center">
+            <motion.div initial={{ scale: 0.98, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.6 }}>
+            <Box bg="rgba(255,255,255,0.8)" p={8} borderRadius="md" shadow="md">
+              <Stack spacing={4}>
+                <Heading as="h2" size="xl">FLAME — Learn by Doing</Heading>
+                <Text fontSize="lg" color="gray.700">
+                  FLAME is a lightweight learning platform designed for college and university courses.
+                  Practice with auto-graded labs, track your progress, and build confidence with hands-on
+                  programming exercises.
+                </Text>
 
-          {/* Right Text */}
-          <Col md={6} className="black">
-            <Fade direction="down" cascade damping={0.1}>
-              <h2 className="f2 mb3" id="about" style={{ fontFamily: 'Nunito Sans, sans-serif' }}>About FLAME</h2>
-              <p className="f4" style={{ fontFamily: 'Nunito Sans, sans-serif' }}>
-                Welcome to FLAME (Foundation for Learning Assistance and Management Environment), your platform for interactive learning. Our mission is to empower students with the tools and resources they need to excel in their academic journey.
-              </p>
-              <p className="f4" style={{ fontFamily: 'Nunito Sans, sans-serif' }}>
-                At FLAME, we believe in the power of hands-on learning. Our platform provides a rich environment for students to practice coding, experiment with different programming languages, and collaborate with peers on exciting projects.
-              </p>
-            </Fade>
+                <List spacing={3}>
+                  <ListItem>
+                    <ListIcon as={FaCheckCircle} color="green.400" /> Auto-graded testcases for immediate feedback
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={FaCheckCircle} color="green.400" /> Versioned submissions & progress history
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={FaCheckCircle} color="green.400" /> Multi-language support and starter templates
+                  </ListItem>
+                </List>
 
-            {/* Buttons with animation */}
-            <Zoom delay={600}>
-              <div className="d-flex gap-3 mt-3 flex-wrap">
-                <Link to={isLoggedIn ? '/profile' : '/login'} className="f4 bg-light-green link dim ba bw1 ph3 pv2 mb2 br4 dib dark-red b">
-                  {isLoggedIn ? "Go To Profile" : "Login"}
-                </Link>
+                <Text fontSize="sm" color="gray.500">
+                  FLAME helps students focus on learning concepts while giving instructors
+                  simple tools for assignment distribution and grading.
+                </Text>
+              </Stack>
+            </Box>
+          </motion.div>
 
-                <Link to={isLoggedIn ? "/editor" : "/register"} className="f4 bg-dark-red br4 link dim ba bw1 ph3 pv2 mb2 dib light-gray b">
-                  {isLoggedIn ? "Start Coding" : "Register"}
-                </Link>
-              </div>
-            </Zoom>
-          </Col>
-        </Row>
+            <motion.div initial={{ x: 30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.6 }}>
+            <Box p={6} borderRadius="md">
+              <Stack spacing={6}>
+                <Box bg="rgba(255,255,255,0.85)" p={6} borderRadius="md" shadow="sm">
+                  <Heading as="h3" size="md" mb={3} display="flex" alignItems="center" gap={3}>
+                    <Icon as={GiLaurelsTrophy} boxSize={6} color="orange.400" /> For Instructors
+                  </Heading>
+                  <Text color="gray.700">
+                    Create batches, share assignments, and review submissions with private testcases. Export grade
+                    reports in CSV for LMS import.
+                  </Text>
+                </Box>
+
+                 <Box bg="rgba(255,255,255,0.85)" p={6} borderRadius="md" shadow="sm">
+                  <Heading as="h3" size="md" mb={3} display="flex" alignItems="center" gap={3}>
+                    <Icon as={GiPencilBrush} boxSize={6} color="orange.400" /> For Students
+                  </Heading>
+                  <Text color="gray.700">
+                    Join batches, Solve Questions, Submit and run test cases on Code.
+                    Explore variety of language.
+                  </Text>
+                </Box>
+
+                <Box bg="rgba(255,255,255,0.85)" p={6} borderRadius="md" shadow="sm">
+                  <Heading as="h3" size="md" mb={3} display="flex" alignItems="center" gap={3}>
+                    <Icon as={FaBookOpen} boxSize={5} color="teal.400" /> How to Start
+                  </Heading>
+                  <Text color="gray.700" mb={3}>
+                    Join a batch from your instructor, open an assignment in the Editor, run testcases locally and submit when ready.
+                  </Text>
+
+                  <Stack direction={{ base: 'column', sm: 'row' }} spacing={3}>
+                    <Button as={RouterLink} to={isLoggedIn ? '/profile' : '/login'} colorScheme="green">{isLoggedIn ? 'Go To Profile' : 'Login'}</Button>
+                    <Button as={RouterLink} to={isLoggedIn ? '/editor' : '/register'} colorScheme="orange" variant="outline">{isLoggedIn ? 'Start Coding' : 'Register'}</Button>
+                  </Stack>
+                </Box>
+              </Stack>
+            </Box>
+          </motion.div>
+        </SimpleGrid>
       </Container>
-    </section>
+    </Box>
   );
 };
 
 export default About;
+//

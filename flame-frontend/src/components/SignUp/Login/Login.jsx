@@ -1,90 +1,102 @@
-import React, { useState } from 'react';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../../actions/authActions';
-import './Login.css';
-import Toaster from '../../../assets/Toaster';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../../actions/authActions";
+import {
+  Box,
+  Heading,
+  FormControl,
+  FormLabel,
+  Select,
+  Input,
+  Button,
+  Stack,
+} from "@chakra-ui/react";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoading, error } = useSelector(state => state.auth); 
-
-
+  const { isLoading, error } = useSelector((state) => state.auth);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const email = formData.get('email');
-    const password = formData.get('password');
-    const userType = formData.get('userType');
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const userType = formData.get("userType");
 
-    dispatch(loginUser(email, password, userType)).then(() => {
-      if(!error){
-        navigate('/');
-      }
-    }).catch((error) => {
-      console.error('Login failed:', error);
-      // Show an error toast using your custom Toaster component
-      setToastProps({
-        type: 'error',
-        message: 'There was an error logging you in. Please check your credentials.',
+    dispatch(loginUser(email, password, userType))
+      .then(() => {
+        if (!error) {
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.error("Login failed:", error);
+        // Show an error toast using your custom Toaster component
+        setToastProps({
+          type: "error",
+          message:
+            "There was an error logging you in. Please check your credentials.",
+        });
       });
-    });
-
-   
-
-    
   };
 
- 
-
-  const [userType, setUserType] = useState('student');
+  const [userType, setUserType] = useState("student");
 
   const handleUserTypeChange = (type) => {
     setUserType(type);
   };
 
   return (
-    <section className='ma3 pa2 py-3 b br4 center '>
-      <Container className='mb-3 cardLogin'>
-        <Row className="justify-content-center align-items-center">
-          <Col md={6}>
-            <h2 className="text-center mb-4">Login</h2>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group controlId="formUserType">
-                <Form.Label>User Type</Form.Label>
-                <Form.Control
-                  as="select"
-                  name="userType"
-                  onChange={(e) => handleUserTypeChange(e.target.value)}
-                >
-                  <option value="student">Student</option>
-                  <option value="teacher">Teacher</option>
-                </Form.Control>
-              </Form.Group>
-              <Form.Group controlId="formEmail">
-                <Form.Label>Email</Form.Label>
-                <Form.Control type="email" name="email" placeholder="Enter email" className="mb-3" />
-              </Form.Group>
-              <Form.Group controlId="formPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" name="password" placeholder="Password" className="mb-3" />
-              </Form.Group>
-              <Button variant="primary" type="submit" className="w-100 mb-4" disabled={isLoading}>
-                {isLoading ? 'Loading...' : 'Login'}
-              </Button>
-              {/* display the toast here if there is an error */}
-              <Link to="/register">
-                <Button variant='warning' className='w-100 mb-3'>Register</Button>
-              </Link>
-            </Form>
-          </Col>
-     
-        </Row>
-      </Container>
-    </section>
+    <Box maxW="md" mx="auto" mt={8} p={6} borderWidth={1} borderRadius="md">
+      <Heading as="h2" size="lg" textAlign="center" mb={6}>
+        Login
+      </Heading>
+      <form onSubmit={handleSubmit}>
+        <Stack spacing={4}>
+          <FormControl>
+            <FormLabel>User Type</FormLabel>
+            <Select
+              name="userType"
+              onChange={(e) => handleUserTypeChange(e.target.value)}
+              defaultValue={userType}
+            >
+              <option value="student">Student</option>
+              <option value="teacher">Teacher</option>
+            </Select>
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>Email</FormLabel>
+            <Input type="email" name="email" placeholder="Enter email" />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>Password</FormLabel>
+            <Input type="password" name="password" placeholder="Password" />
+          </FormControl>
+
+          <Button
+            colorScheme="blue"
+            type="submit"
+            isLoading={isLoading}
+            loadingText="Loading..."
+          >
+            Login
+          </Button>
+
+          <Button
+            as={Link}
+            to="/register"
+            colorScheme="orange"
+            variant="outline"
+          >
+            Register
+          </Button>
+        </Stack>
+      </form>
+    </Box>
   );
 };
 

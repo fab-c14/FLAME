@@ -1,42 +1,55 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa'; // Importing icons from React Icons
-import { Fade, Zoom } from 'react-awesome-reveal'; // Importing animations from react-awesome-reveal
+import {
+  Box,
+  Container,
+  HStack,
+  Text,
+  Link,
+  Icon,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import { FaGithub, FaTwitter, FaLinkedin } from "react-icons/fa";
 
-const Footer = () => {
-    return (
-        <footer className="bg-dark text-light py-4 shadow-3 bg-green ma3 pa2 br3 bw2 b--red">
-            <Container>
-                <hr className="bg-light-gray mw-100" />
-                <Row className="justify-content-center align-items-center">
-                    {/* Footer Text with Fade animation */}
-                    <Col xs={12} className="text-center mb-3 mb-md-0">
-                        <Fade direction="up" cascade>
-                            <p className="mb-3">© {new Date().getFullYear()} FLAME. All rights reserved.</p>
-                        </Fade>
-                    </Col>
+export function Footer() {
+  const border = useColorModeValue("gray.100", "gray.700");
 
-                    {/* Social Media Links with Zoom animation */}
-                    <Col xs={12} className="text-center">
-                        <Zoom delay={300}>
-                            <div>
-                                <a href="https://github.com/fab-c14" className="text-light mr3" target="_blank" rel="noopener noreferrer">
-                                    <FaGithub size={32} className="icon grow" />
-                                </a>
-                                <a href="https://twitter.com/fab14c" className="text-light mr3" target="_blank" rel="noopener noreferrer">
-                                    <FaTwitter size={32} className="icon grow" />
-                                </a>
-                                <a href="https://www.linkedin.com/in/faisal-ahmad-bhat-aaba29229/" className="text-light" target="_blank" rel="noopener noreferrer">
-                                    <FaLinkedin size={32} className="icon grow" />
-                                </a>
-                            </div>
-                        </Zoom>
-                        <hr className="bg-light-gray mw-100" />
-                    </Col>
-                </Row>
-            </Container>
-        </footer>
-    );
+  return (
+    <Box as="footer" py={4} borderTopWidth={1} borderColor={border}>
+      <Container maxW="container.lg">
+        <HStack justify="space-between" align="center">
+          <Text fontSize="sm" color="gray.600">
+            © {new Date().getFullYear()} FLAME
+          </Text>
+
+          <HStack spacing={4}>
+            <Link href="/docs" color="gray.600">
+              Docs
+            </Link>
+            <Link href="/features" color="gray.600">
+              Features
+            </Link>
+            <Link href="mailto:hello@flame.example" color="gray.600">
+              Contact
+            </Link>
+          </HStack>
+
+          <HStack spacing={3}>
+            <Link href="https://github.com/fab-c14" isExternal>
+              <Icon as={FaGithub} />
+            </Link>
+            <Link href="https://twitter.com/fab14c" isExternal>
+              <Icon as={FaTwitter} />
+            </Link>
+            <Link
+              href="https://www.linkedin.com/in/faisal-ahmad-bhat-aaba29229/"
+              isExternal
+            >
+              <Icon as={FaLinkedin} />
+            </Link>
+          </HStack>
+        </HStack>
+      </Container>
+    </Box>
+  );
 }
-
 export default Footer;

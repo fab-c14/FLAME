@@ -1,76 +1,89 @@
 import React from 'react';
-import { Button, Container, Row, Col, Card } from 'react-bootstrap';
-import { FaBook } from 'react-icons/fa';
-import { useNavigate } from 'react-router';
-import { Fade, Zoom } from 'react-awesome-reveal';
-import './Docs.css'; // Update your CSS file for fonts
+import {
+  Container,
+  SimpleGrid,
+  Box,
+  Heading,
+  Text,
+  Button as ChakraButton,
+  Stack,
+} from "@chakra-ui/react";
+import { FaBook } from "react-icons/fa";
+import { useNavigate } from "react-router";
+import { motion } from "framer-motion";
 
 const Docs = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="py-5 shadow-2 br3 ma3 pa2 b--black bw2 ba docs-background">
-      <Container>
-        <Fade direction="down" cascade damping={0.1}>
-          <h2 className="text-center mb-4 docs-title">Documentation</h2>
-          <p className="text-center mb-4 docs-text">
-            Explore our documentation to learn more about FLAME and how to get started.
-          </p>
-        </Fade>
+    <Box as="section" py={10} px={4}>
+      <Container maxW="container.lg">
+        <motion.div
+          initial={{ y: -10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Heading as="h2" size="xl" textAlign="center" mb={4}>
+            Documentation
+          </Heading>
+          <Text textAlign="center" mb={8}>
+            Guides for students and instructors: quick start, assignments, and
+            integration tips for coursework.
+          </Text>
+        </motion.div>
 
-        <Row className="mb-5">
-          <Col md={4}>
-            <Fade direction="left">
-              <Card className="mb-3 shadow-sm">
-                <Card.Body>
-                  <Card.Title className="docs-subtitle">Getting Started</Card.Title>
-                  <Card.Text>
-                    Learn how to set up your profile, start coding, and use the editor effectively.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Fade>
-          </Col>
-          <Col md={4}>
-            <Fade direction="up" delay={100}>
-              <Card className="mb-3 shadow-sm">
-                <Card.Body>
-                  <Card.Title className="docs-subtitle">Features</Card.Title>
-                  <Card.Text>
-                    Discover key features like real-time test cases, language support, and solution history.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Fade>
-          </Col>
-          <Col md={4}>
-            <Fade direction="right" delay={200}>
-              <Card className="mb-3 shadow-sm">
-                <Card.Body>
-                  <Card.Title className="docs-subtitle">FAQs</Card.Title>
-                  <Card.Text>
-                    Get answers to common questions about account setup, usage, and troubleshooting.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Fade>
-          </Col>
-        </Row>
+        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mb={8}>
+          <motion.div whileHover={{ scale: 1.02 }}>
+            <Box p={4} shadow="sm" borderWidth="1px" borderRadius="md">
+              <Heading as="h3" size="md" mb={2}>
+                Getting Started
+              </Heading>
+              <Text>
+                Setup guides for students & instructors, plus sample assignments
+                and grading workflows.
+              </Text>
+            </Box>
+          </motion.div>
 
-        <Zoom delay={300}>
-          <div className="text-center">
-            <Button
-              variant="warning"
-              size="lg"
-              onClick={() => navigate('/docs')}
-              className="hover-button"
-            >
-              <FaBook className="mr-2" /> View Full Documentation
-            </Button>
-          </div>
-        </Zoom>
+          <motion.div whileHover={{ scale: 1.02 }}>
+            <Box p={4} shadow="sm" borderWidth="1px" borderRadius="md">
+              <Heading as="h3" size="md" mb={2}>
+                Features
+              </Heading>
+              <Text>
+                Real-time testcases, language support, versioned submissions and
+                solution history.
+              </Text>
+            </Box>
+          </motion.div>
+
+          <motion.div whileHover={{ scale: 1.02 }}>
+            <Box p={4} shadow="sm" borderWidth="1px" borderRadius="md">
+              <Heading as="h3" size="md" mb={2}>
+                FAQs
+              </Heading>
+              <Text>
+                Answers for common questions about using FLAME in coursework and
+                labs.
+              </Text>
+            </Box>
+          </motion.div>
+        </SimpleGrid>
+
+        {/* <Zoom delay={300}> */}
+        <Stack align="center">
+          <ChakraButton
+            colorScheme="orange"
+            size="lg"
+            onClick={() => navigate("/docs")}
+            leftIcon={<FaBook />}
+          >
+            View Full Documentation
+          </ChakraButton>
+        </Stack>
+        {/* </Zoom> */}
       </Container>
-    </section>
+    </Box>
   );
 };
 

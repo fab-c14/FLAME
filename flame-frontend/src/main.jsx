@@ -3,14 +3,20 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { HashRouter } from 'react-router-dom'
-import {Provider} from 'react-redux'
-import store from './store.js'
-ReactDOM.createRoot(document.getElementById('root')).render(
+import { Provider } from "react-redux";
+import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
+import store from "./store.js";
+import theme from "./theme";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <HashRouter>
-    <Provider store={store} >
-      <App />
-    </Provider>
+      <ChakraProvider theme={theme}>
+        <ColorModeScript initialColorMode={theme.config?.initialColorMode} />
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </ChakraProvider>
     </HashRouter>
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);

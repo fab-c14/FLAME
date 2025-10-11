@@ -1,75 +1,113 @@
 import React from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
-import { FaRocket } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import { Slide, Fade, Zoom } from 'react-awesome-reveal';
-import './Header.css';
+import {
+  Box,
+  Container,
+  Heading,
+  Text,
+  Button as ChakraButton,
+  HStack,
+} from "@chakra-ui/react";
+import { FaRocket } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import "./Header.css";
 
 function Header({ isLoggedIn }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(isLoggedIn ? '/editor' : '/login');
+    navigate(isLoggedIn ? "/editor" : "/login");
   };
 
   const goToDocs = () => {
-    navigate('/Docs');
+    navigate("/Docs");
   };
 
   return (
-    <header className="shadow-2 py-5 ma3 br2 bw1 bt bb b--dark-pink header-background">
-      <Container>
-        <Row className="align-items-center">
-          <Col md={6} className="mb-4 mb-md-0">
+    <Box
+      as="header"
+      className="header-background"
+      py={{ base: 8, md: 16 }}
+      px={4}
+    >
+      <Container maxW="container.lg">
+        <motion.div
+          initial={{ x: -50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Heading as="h1" size="2xl" fontFamily="Montserrat, sans-serif">
+            FLAME — Interactive Coding Labs for University Students
+          </Heading>
+        </motion.div>
 
-            <Slide direction="left" >
-              <h1 className="display-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Welcome to FLAME
-              </h1>
-            </Slide>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          <Text fontSize="lg" mt={4}>
+            Build projects, practice algorithms, and prepare for technical
+            interviews — designed for college coursework and lab assignments.
+          </Text>
+        </motion.div>
 
-            <Fade delay={200} >
-              <p className="lead">Your platform for interactive learning</p>
-            </Fade>
+        <HStack spacing={4} mt={6}>
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
+            <ChakraButton
+              colorScheme="orange"
+              onClick={handleClick}
+              leftIcon={<FaRocket />}
+            >
+              Get Started
+            </ChakraButton>
+          </motion.div>
 
-            {/* Flexbox container for buttons */}
-            <div className="d-flex mt-3 gap-3">
-              <Zoom direction="bottom" delay={400} >
-                <Button variant="warning" className="hover-button b" onClick={handleClick}>
-                  <FaRocket className="mr-2" /> Get Started
-                </Button>
-              </Zoom>
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.45 }}
+          >
+            <ChakraButton variant="outline" onClick={goToDocs}>
+              Learn More
+            </ChakraButton>
+          </motion.div>
+        </HStack>
 
-              <Zoom direction="right" delay={400} >
-                <Button variant="outline-light bg-washed-red black" className="b" onClick={goToDocs}>
-                  Learn More
-                </Button>
-              </Zoom>
-            </div>
-          </Col>
-        </Row>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7 }}
+        >
+          <Box as="hr" my={8} />
+        </motion.div>
+
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.8 }}
+        >
+          <Heading as="h2" size="lg">
+            Tools for Coursework, Labs & Interviews
+          </Heading>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.0 }}
+        >
+          <Text mt={3}>
+            Use curated practice problems, auto-graded testcases, and
+            collaborative features to learn faster and stay organized.
+          </Text>
+        </motion.div>
       </Container>
-
-      <Fade delay={700} >
-        <hr className="mt-5 mb-4" />
-      </Fade>
-
-      <Container>
-        <Row>
-          <Col>
-            <Slide direction="up" delay={800} >
-              <h2>Discover the Possibilities</h2>
-            </Slide>
-            <Fade delay={1000} >
-              <p>
-                Explore our interactive coding labs, access a wide range of coding choices,
-                and solve questions with testcases and sharpen your skills.
-              </p>
-            </Fade>
-          </Col>
-        </Row>
-      </Container>
-    </header>
+    </Box>
   );
 }
 
