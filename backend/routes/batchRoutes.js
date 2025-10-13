@@ -1,6 +1,7 @@
 import express from 'express';
 import Batch from '../models/Batch.js';
 import User from '../models/User.js';
+import Question from '../models/Question.js';
 const router = express.Router();
 
 // Create a new batch
@@ -98,4 +99,26 @@ router.post('/joined', async (req, res) => {
   }
 });
 
+// Delete a batch and its associated questions
+router.delete('/:batchId', async (req, res) => {
+  const { batchId } = req.params;
+  try {
+    // Remove questions associated with this batch
+    await Question.deleteMany({ batchId });
+
+    // Remove the batch itself
+    const deleted = await Batch.findByIdAndDelete(batchId);
+    if (!deleted) return res.status(404).json({ msg: 'Batch not found' });
+
+    // Optionally, remove batch references from users
+    await User.updateMany({ batches: batchId }, { $pull: { batches: batchId } });
+
+    res.json({ msg: 'Batch and its questions deleted' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+});
+
 export default router;
+

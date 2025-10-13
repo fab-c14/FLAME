@@ -1,16 +1,18 @@
-// Community.jsx
-import React,{useState} from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import Chatbox from './ChatBox';
+import React from "react";
+import { Box, Container } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
+import ChatBox from "./ChatBox";
 
-
-const Community = ({ user }) => {
-
+const Community = () => {
+  const user = useSelector((s) => s.auth.user);
 
   return (
-    <Container className="mt5">
-      <Chatbox userType={user.role} user={user} />
-    </Container> )
+    <Container maxW="container.lg" py={6}>
+      <Box>
+        <ChatBox />
+      </Box>
+    </Container>
+  );
 };
 
 export default Community;

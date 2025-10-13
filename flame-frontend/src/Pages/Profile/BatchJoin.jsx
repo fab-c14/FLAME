@@ -1,55 +1,63 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import axios from 'axios';
-import { BACKEND_URL } from '../../config';
-import { fetchJoinedBatches, joinBatch } from '../../actions/batchActions';
+import {
+  Box,
+  Heading,
+  Input,
+  Button,
+  VStack,
+  useToast,
+} from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { BACKEND_URL } from "../../config";
+import { fetchJoinedBatches, joinBatch } from "../../actions/batchActions";
 
-const BatchJoin = ({onJoinBatch,  user }) => {
-  const [batchCode, setBatchCode] = useState('');
+const BatchJoin = ({ onJoinBatch, user: propUser }) => {
+  const [batchCode, setBatchCode] = useState("");
   const dispatch = useDispatch();
+  const toast = useToast();
+  const reduxUser = useSelector((s) => s.auth.user);
+  const user = propUser || reduxUser;
 
   const handleJoin = async () => {
+    if (!batchCode)
+      return toast({ title: "Enter a batch code", status: "warning" });
     try {
-      const studentId = user.id; 
-
-      // Validate batch code (e.g., check if it exists in the database)
-      const response = await axios.get(`${BACKEND_URL}/api/batches/check/${batchCode}`);
+      const studentId = user?.id || user?._id;
+      const response = await axios.get(
+        `${BACKEND_URL}/api/batches/check/${batchCode}`
+      );
       const data = response.data;
 
       if (data.exists) {
-        // If batch exists, join the batch
-        dispatch(joinBatch(batchCode, studentId));
-        dispatch(fetchJoinedBatches(studentId));
-        
+        await dispatch(joinBatch(batchCode, studentId));
+        await dispatch(fetchJoinedBatches(studentId));
+        toast({ title: "Joined batch", status: "success" });
       } else {
-        // Batch code does not exist
-        alert('Invalid batch code. Please check and try again.');
+        toast({ title: "Invalid batch code", status: "error" });
       }
     } catch (error) {
-      console.error('Error checking batch code:', error);
-      alert('An error occurred while checking the batch code. Please try again later.');
+      console.error("Error checking batch code:", error);
+      toast({ title: "An error occurred", status: "error" });
     }
   };
 
   return (
-    <div>
-      <h3>Join a Batch</h3>
-      <Form>
-        <Form.Group controlId="batchCode">
-          <Form.Label>Enter Batch Code:</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Batch Code"
-            value={batchCode}
-            onChange={(e) => setBatchCode(e.target.value)}
-          />
-        </Form.Group>
-        <Button className='mt-2' variant="primary" onClick={handleJoin}>
+    <Box>
+      <Heading size="sm" mb={2}>
+        Join a Batch
+      </Heading>
+      <VStack align="start">
+        <Input
+          placeholder="Batch Code"
+          value={batchCode}
+          onChange={(e) => setBatchCode(e.target.value)}
+        />
+        <Button colorScheme="blue" onClick={handleJoin}>
           Join
         </Button>
-      </Form>
-    </div>
+      </VStack>
+    </Box>
   );
 };
 

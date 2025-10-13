@@ -48,5 +48,21 @@ export const fetchQuestions = (batchId) => async (dispatch) => {
     }
 };
 
+// Action creator for deleting a question
+export const deleteQuestion = (questionId) => async (dispatch) => {
+    dispatch({ type: 'DELETE_QUESTION_REQUEST' });
+    try {
+        await axios.delete(`${BACKEND_URL}/api/questions/${questionId}`);
+        dispatch({ type: 'DELETE_QUESTION_SUCCESS', payload: questionId });
+    } catch (error) {
+        dispatch({ type: 'DELETE_QUESTION_FAILURE', error: error.message });
+    }
+};
+
+// Select a question in UI (local Redux selection)
+export const selectQuestion = (question) => (dispatch) => {
+  dispatch({ type: 'SELECT_QUESTION', payload: question });
+};
+
 
 

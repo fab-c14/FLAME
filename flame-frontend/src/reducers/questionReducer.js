@@ -16,12 +16,14 @@ const initialState = {
     questions: [],
     loading: false,
     error: null,
+    selectedQuestion: null,
 };
 
 const questionReducer = (state = initialState, action) => {
     switch (action.type) {
         case CREATE_QUESTION_REQUEST:
         case GET_QUESTIONS_REQUEST:
+        case 'DELETE_QUESTION_REQUEST':
             return {
                 ...state,
                 loading: true,
@@ -39,6 +41,18 @@ const questionReducer = (state = initialState, action) => {
                 loading: false,
                 questions: action.payload,
             };
+        case 'DELETE_QUESTION_SUCCESS':
+            return {
+                ...state,
+                loading: false,
+                questions: state.questions.filter((q) => q._id !== action.payload),
+            };
+        case 'DELETE_QUESTION_FAILURE':
+            return {
+                ...state,
+                loading: false,
+                error: action.error,
+            };
         case CREATE_QUESTION_FAILURE:
         case GET_QUESTIONS_FAILURE:
             return {
@@ -51,5 +65,7 @@ const questionReducer = (state = initialState, action) => {
             return state;
     }
 };
+
+export const getSelectedQuestion = (state) => state.questions.selectedQuestion;
 
 export default questionReducer;

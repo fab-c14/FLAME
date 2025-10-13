@@ -28,6 +28,10 @@ const batchReducer = (state = initialState, action) => {
       return { ...state, joinedBatches: action.payload };
     case FETCH_JOINED_BATCHES_SUCCESS:
       return { ...state, joinedBatches: action.payload };
+    case 'DELETE_BATCH_SUCCESS':
+      return { ...state, batches: state.batches.filter(b => b._id !== action.payload), joinedBatches: state.joinedBatches.filter(b => b._id !== action.payload) };
+    case 'DELETE_BATCH_FAILURE':
+      return { ...state, error: action.error };
     default:
       return state;
   }

@@ -1,17 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { Card, ListGroup, ListGroupItem, Button, Form, Modal } from 'react-bootstrap';
-import { FaPlus, FaUser } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { createBatch, fetchBatches } from '../../actions/batchActions';
+import {
+  Box,
+  Button,
+  Input,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  VStack,
+  HStack,
+  Heading,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import { FaPlus, FaUser, FaTrash } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createBatch,
+  fetchBatches,
+  deleteBatch,
+} from "../../actions/batchActions";
+import useUserRole from "../../hooks/useUserRole";
 
 const BatchManager = ({ setSelectedStudent, createdBy }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [batchName, setBatchName] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+  const [batchName, setBatchName] = useState("");
   const [selectedBatch, setSelectedBatch] = useState(null);
   const dispatch = useDispatch();
 
-  const batches = useSelector(state => state.batches.batches);
+  const batchesState = useSelector((state) => state.batches || {});
+  const batches = batchesState.batches || [];
+  const { user, isStudent, isTeacher } = useUserRole();
 
   useEffect(() => {
     dispatch(fetchBatches(createdBy));
@@ -20,15 +43,15 @@ const BatchManager = ({ setSelectedStudent, createdBy }) => {
   const handleBatchCreation = async () => {
     try {
       await dispatch(createBatch(batchName, createdBy));
-      setBatchName('');
-      setShowModal(false);
+      setBatchName("");
+      setIsOpen(false);
     } catch (error) {
-      console.error('Error creating batch:', error);
+      console.error("Error creating batch:", error);
     }
   };
 
   const handleBatchClick = (batch) => {
-    localStorage.setItem('selectedBatch', JSON.stringify(batch));
+    localStorage.setItem("selectedBatch", JSON.stringify(batch));
     setSelectedBatch(batch);
   };
 
@@ -36,64 +59,110 @@ const BatchManager = ({ setSelectedStudent, createdBy }) => {
     setSelectedStudent(student);
   };
 
+  const handleDeleteBatch = (id) => {
+    if (!isTeacher) {
+      alert("You are not authorized to delete batches.");
+      return;
+    }
+    if (!confirm("Delete this batch and all its questions?")) return;
+    dispatch(deleteBatch(id));
+  };
+
+  const cardBg = useColorModeValue("gray.50", "gray.700");
+  const innerBg = useColorModeValue("white", "gray.600");
+
   return (
-    <Card className="br3 shadow-3 mt4">
-      <Card.Header className="bg-light-gray d-flex align-items-center">
-        <span>Manage Batches</span>
-        <Button variant="success" className="ml-auto" onClick={() => setShowModal(true)}>
-          <FaPlus className="mr2" /> Create Batch
-        </Button>
-      </Card.Header>
-      <ListGroup variant="flush br2">
+    <Box>
+      <HStack justify="space-between" mb={3}>
+        <Heading size="md">Manage Batches</Heading>
+        {isTeacher && (
+          <Button
+            leftIcon={<FaPlus />}
+            colorScheme="green"
+            onClick={() => setIsOpen(true)}
+          >
+            Create Batch
+          </Button>
+        )}
+      </HStack>
+
+      <VStack align="stretch" spacing={2}>
         {batches && batches.length > 0 ? (
           batches.map((batch) => (
-            <ListGroupItem className='tc ma2 pa2 dim pointer b shadow-2 bg-light-green' key={batch._id} onClick={() => handleBatchClick(batch)}>
-              <FaUser className="mr2" /> {batch.name} ({batch._id}){' '}
-              <Link to="/community" className='tc ma2 pa2 dib btn btn-warning'>
-                Community
-              </Link>
-            </ListGroupItem>
+            <HStack
+              key={batch._id}
+              justify="space-between"
+              p={3}
+              bg={cardBg}
+              borderRadius="md"
+            >
+              <Box onClick={() => handleBatchClick(batch)} cursor="pointer">
+                <Text fontWeight="bold">{batch.name}</Text>
+                <Text fontSize="sm">{batch._id}</Text>
+              </Box>
+              <HStack>
+                <Link to="/community">
+                  <Button onClick={() => handleBatchClick(batch)}>
+                    Questions
+                  </Button>
+                </Link>
+                {isTeacher && (
+                  <Button
+                    colorScheme="red"
+                    leftIcon={<FaTrash />}
+                    onClick={() => handleDeleteBatch(batch._id)}
+                  >
+                    Delete
+                  </Button>
+                )}
+              </HStack>
+            </HStack>
           ))
         ) : (
-          <ListGroupItem>No batches available.</ListGroupItem>
+          <Text>No batches available.</Text>
         )}
-      </ListGroup>
+      </VStack>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Create a new batch</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="batchName">
-              <Form.Label>Batch Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter batch name"
-                value={batchName}
-                onChange={(e) => setBatchName(e.target.value)}
-              />
-            </Form.Group>
-            <Button variant="primary" className="mt-2" onClick={handleBatchCreation}>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create a new batch</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Input
+              placeholder="Batch name"
+              value={batchName}
+              onChange={(e) => setBatchName(e.target.value)}
+            />
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={handleBatchCreation}>
               Create Batch
             </Button>
-          </Form>
-        </Modal.Body>
+            <Button variant="ghost" onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
       </Modal>
 
       {selectedBatch && (
-        <Card.Body>
-          <h3 className="tc pa1 bg-moon-gray br3">Batch: {selectedBatch.name}</h3>
-          <ListGroup className='bg-blue light-gray'>
-            {selectedBatch.students.map((student) => (
-              <ListGroupItem className="yellow tc pa2 ma3  ba bg-navy br2 shadow3 pointer grow" key={student._id} onClick={() => handleStudentClick(student)}>
+        <Box mt={4} p={3} bg={cardBg} borderRadius="md">
+          <Heading size="sm">Batch: {selectedBatch.name}</Heading>
+          <VStack mt={2} align="stretch">
+            {selectedBatch.students?.map((student) => (
+              <Button
+                key={student._id}
+                onClick={() => handleStudentClick(student)}
+              >
                 {student.name} (ID: {student._id})
-              </ListGroupItem>
+              </Button>
             ))}
-          </ListGroup>
-        </Card.Body>
+          </VStack>
+        </Box>
       )}
-    </Card>
+    </Box>
   );
 };
 

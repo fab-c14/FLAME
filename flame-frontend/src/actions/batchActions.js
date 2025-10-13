@@ -48,3 +48,14 @@ export const fetchJoinedBatches = (studentId) => async (dispatch) => {
     console.error('Error fetching joined batches:', error);
   }
 };
+
+// Delete a batch
+export const deleteBatch = (batchId) => async (dispatch) => {
+  try {
+    await axios.delete(`${BACKEND_URL}/api/batches/${batchId}`);
+    dispatch({ type: 'DELETE_BATCH_SUCCESS', payload: batchId });
+  } catch (error) {
+    console.error('Error deleting batch:', error);
+    dispatch({ type: 'DELETE_BATCH_FAILURE', error: error.message });
+  }
+};

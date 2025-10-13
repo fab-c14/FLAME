@@ -1,57 +1,92 @@
-import React, { useEffect, useState } from 'react';
-import { Card } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchBatches } from '../../actions/batchActions';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from "react";
+import {
+  Box,
+  Heading,
+  Text,
+  Button,
+  VStack,
+  HStack,
+  IconButton,
+  Spinner,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBatches, deleteBatch } from "../../actions/batchActions";
+import { Link } from "react-router-dom";
+import { FaTrash } from "react-icons/fa";
+import useUserRole from "../../hooks/useUserRole";
 
 const ShowBatches = () => {
   const dispatch = useDispatch();
-  const { batches, loading, error } = useSelector((state) => state.batches);
-  const [storedBatches, setStoredBatches] = useState([]);
+  const { batches, loading, error, joinedBatches } = useSelector(
+    (state) => state.batches || {}
+  );
+  const { user, isTeacher } = useUserRole();
+  const bg = useColorModeValue("gray.50", "gray.800");
+  const cardInnerBg = useColorModeValue("white", "gray.700");
 
-  const joinedBatches = useSelector(state => state.batches.joinedBatches);
   useEffect(() => {
     dispatch(fetchBatches());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (batches.length > 0 && joinedBatches) {
-      const matchedBatches = Array.isArray(joinedBatches)
-        ? batches.filter(batch => joinedBatches.includes(batch._id))
-        : batches.filter(batch => joinedBatches._id === batch._id);
-    }
-  }, [batches, joinedBatches]);
-
   const handleBatchClick = (batch) => {
-    localStorage.setItem('selectedBatch', JSON.stringify(batch));
+    localStorage.setItem("selectedBatch", JSON.stringify(batch));
+  };
+
+  const handleDelete = (batchId) => {
+    if (!isTeacher) {
+      alert("You are not authorized to delete batches.");
+      return;
+    }
+    if (!confirm("Delete this community/batch and its questions?")) return;
+    dispatch(deleteBatch(batchId));
   };
 
   return (
-    <Card className="br3 shadow-3 mt4 ba2 br3 b--black">
-      <Card.Body>
-        <Card.Title className="f4">Your Joined Batches</Card.Title>
-        {loading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p>Error: {error}</p>
-        ) : joinedBatches.length > 0 ? (
-          <ul className="list pl0 mt3">
-            {joinedBatches.map((batch) => (
-              <li key={batch._id} className="flex items-center justify-between pa3 bg-light-gray mb2 ba2 b--green b3" onClick={() => handleBatchClick(batch)}>
-                <div className="batch-info p-3 br3 bg-yellow">
-                  <h5 className="f5 ma0">{batch.name}</h5>
-                  <p className="ma0"><strong>ID:</strong> {batch._id}</p>
-                  <p className="ma0"><strong>Created By:</strong> {batch.createdBy}</p>
-                </div>
-                <Link to="/community" className="pa2 bg-blue white dib ml3 br2">Community</Link>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>You haven't joined any batches yet.</p>
-        )}
-      </Card.Body>
-    </Card>
+    <Box p={4} bg={bg} borderRadius="md">
+      <Heading size="md" mb={4}>
+        Your Joined Batches
+      </Heading>
+      {loading && <Spinner />}
+      {error && <Text color="red.500">Error: {error}</Text>}
+      {!loading && joinedBatches && joinedBatches.length > 0 ? (
+        <VStack spacing={3} align="stretch">
+          {joinedBatches.map((batch) => (
+            <HStack
+              key={batch._id}
+              justify="space-between"
+              p={3}
+              bg={cardInnerBg}
+              borderRadius="md"
+              shadow="sm"
+            >
+              <Box onClick={() => handleBatchClick(batch)} cursor="pointer">
+                <Heading size="sm">{batch.name}</Heading>
+                <Text fontSize="sm">ID: {batch._id}</Text>
+                <Text fontSize="sm">Created By: {batch.createdBy}</Text>
+              </Box>
+              <HStack>
+                <Link to="/community">
+                  <Button onClick={() => handleBatchClick(batch)}>
+                    Questions
+                  </Button>
+                </Link>
+                {isTeacher && (
+                  <IconButton
+                    aria-label="delete-batch"
+                    colorScheme="red"
+                    icon={<FaTrash />}
+                    onClick={() => handleDelete(batch._id)}
+                  />
+                )}
+              </HStack>
+            </HStack>
+          ))}
+        </VStack>
+      ) : (
+        <Text>You haven't joined any batches yet.</Text>
+      )}
+    </Box>
   );
 };
 

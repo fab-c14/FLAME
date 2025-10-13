@@ -1,12 +1,11 @@
-import { jwtDecode } from 'jwt-decode';
-
-import { LOGIN_REQUEST,
- LOGIN_SUCCESS ,
- LOGIN_FAILURE, 
- REGISTER_REQUEST,
- REGISTER_SUCCESS,
- REGISTER_FAILURE,
-  } from "../actions/actionTypes";
+import {
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  REGISTER_REQUEST,
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE,
+} from "../actions/actionTypes";
 
 const initialState = {
   user: null,

@@ -28,8 +28,9 @@ router.post('/login', async (req, res) => {
 
       jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '3d' }, (err, token) => {
         if (err) throw err;
-        // Send additional user data along with the token
-        res.json({token});
+        // Set token as HttpOnly cookie for secure persistence
+        res.cookie('token', token, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000 });
+        res.json({ token });
       });
     } else {
       res.status(401).json("Invalid Username or Password");
@@ -75,12 +76,40 @@ router.post('/register', async (req, res) => {
 
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '3d' }, (err, token) => {
       if (err) throw err;
-      // Send additional user data along with the token
-      res.status(201).json({token});
+      // Set token cookie
+      res.cookie('token', token, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000 });
+      res.status(201).json({ token });
     });
   } catch (error) {
     console.error('Error during registration:', error);
     res.status(500).json('Server error');
+  }
+});
+
+// Return current user by verifying token (supports Authorization header Bearer <token>)
+router.get('/me', (req, res) => {
+  try {
+    // Try Authorization header first
+    const authHeader = req.headers.authorization;
+    let token = null;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.split(' ')[1];
+    }
+    // If no token, check cookies (optional)
+    if (!token && req.cookies && req.cookies.token) {
+      token = req.cookies.token;
+    }
+    if (!token) return res.status(401).json({ msg: 'No token provided' });
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) return res.status(401).json({ msg: 'Invalid token' });
+      // decoded may be { user: { ... } } or the user object directly
+      const user = decoded.user ? decoded.user : decoded;
+      return res.json(user);
+    });
+  } catch (err) {
+    console.error('Error in /me:', err);
+    return res.status(500).json({ msg: 'Server error' });
   }
 });
 

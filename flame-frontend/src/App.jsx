@@ -29,7 +29,7 @@ function App() {
       {/* Persistent background shown on most pages; exclude when on auth/editor/community pages */}
       {(() => {
         const path = location.pathname.toLowerCase();
-        const excluded = ["/login", "/register", "/editor", "/community"];
+  const excluded = ["/login", "/register", "/editor", "/community", "/profile"];
         const isExcluded = excluded.some((e) => path.startsWith(e));
         return !isExcluded ? <PersistentBackground /> : null;
       })()}

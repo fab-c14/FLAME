@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { BACKEND_URL } from '../config';
-import { jwtDecode } from 'jwt-decode';
 import {  LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_USER, REGISTER_FAILURE, REGISTER_SUCCESS,REGISTER_REQUEST } from './actionTypes';
 
 
@@ -10,8 +9,21 @@ export const loginUser = (email, password, userType) => async (dispatch) => {
     const response = await axios.post(`${BACKEND_URL}/api/users/login`, { email, password, userType });
     const { token } = response.data;
     localStorage.setItem('token', token);
-    const decoded = jwtDecode(token);
-    dispatch({ type: LOGIN_SUCCESS, payload: decoded });
+    // Fetch normalized user from server to avoid client-side token decoding
+    try {
+      const meResp = await axios.get(`${BACKEND_URL}/api/users/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (meResp?.data) {
+        dispatch({ type: LOGIN_SUCCESS, payload: meResp.data });
+      } else {
+        // fallback: dispatch success without user (edge case)
+        dispatch({ type: LOGIN_SUCCESS, payload: null });
+      }
+    } catch (err) {
+      console.error('Could not fetch /me after login', err);
+      dispatch({ type: LOGIN_SUCCESS, payload: null });
+    }
   } catch (error) {
     dispatch({ type:LOGIN_FAILURE, error: error.message });
   }
